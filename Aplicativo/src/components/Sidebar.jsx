@@ -8,10 +8,11 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 import { MdOutlineAnalytics, MdLogout } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../App";
-export function Sidebar({ sidebarOpen, setSidebarOpen }) {
+
+export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
   const ModSidebaropen = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -19,6 +20,13 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const CambiarTheme = () => {
     setTheme((theme) => (theme === "light" ? "dark" : "light"));
   };
+
+  const navigate = useNavigate(); 
+
+  const handleLogout = () => {
+    handleAuthentication(false);
+  };
+
 
   return (
     <Container isOpen={sidebarOpen} themeUse={theme}>
@@ -43,17 +51,14 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </div>
       ))}
       <Divider />
-      {secondarylinksArray.map(({ icon, label, to }) => (
-        <div className="LinkContainer" key={label}>
-          <NavLink
-            to={to}
-            className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
-          >
-            <div className="Linkicon">{icon}</div>
-            {sidebarOpen && <span>{label}</span>}
-          </NavLink>
+      <div className="LinkContainer" onClick={handleLogout}>
+      <div className="Links">
+        <div className="Linkicon">
+          <MdLogout />
         </div>
-      ))}
+        {sidebarOpen && <span>Salir</span>}
+      </div>
+    </div>
       <Divider />
       <div className="Themecontent">
         {sidebarOpen && <span className="titletheme">Dark mode</span>}
@@ -83,7 +88,7 @@ const linksArray = [
   {
     label: "Inicio",
     icon: <AiOutlineHome />,
-    to: "/",
+    to: "/home",
   },
   {
     label: "Postulacion",
@@ -101,18 +106,6 @@ const linksArray = [
     to: "/info",
   },
  
-];
-const secondarylinksArray = [
-  {
-    label: "Configuración",
-    icon: <AiOutlineSetting />,
-    to: "/null",
-  },
-  {
-    label: "Salir",
-    icon: <MdLogout />,
-    to: "/null",
-  },
 ];
 //#endregion
 

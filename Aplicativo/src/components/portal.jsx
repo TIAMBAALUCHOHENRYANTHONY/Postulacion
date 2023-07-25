@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { Children } from 'react';
 import ReactDom from 'react-dom';
 
 const portalRoot = document.getElementById('portal');

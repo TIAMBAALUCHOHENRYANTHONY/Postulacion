@@ -7,12 +7,12 @@
   }
   
   .ImagenInicio {
-    height: 60vh; /* Establecemos la altura de la imagen al 60% del viewport height */
+    height: 60vh; 
     background-image: url('../images/Espe-inicio.jpg');
     background-size: cover;
     background-position: center;
-    position: relative; /* Agregamos esta propiedad para poder usar z-index */
-    z-index: 1; /* Definimos un z-index mayor que 0 para que la imagen esté por debajo del rectángulo */
+    position: relative; 
+    z-index: 1; 
   }
   
   .white-section {
@@ -61,7 +61,7 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    margin-top: 20px; /* Modificamos el valor del margen para separar la flecha del botón */
+    margin-top: 20px; 
     border-top: solid 5px;
     border-right: solid 5px;
     cursor: pointer;
@@ -73,7 +73,7 @@
   
   .container-documents {
     position: absolute;
-    bottom: 20px; /* Ajustamos la distancia del botón desde la parte inferior */
+    bottom: 20px; 
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -89,31 +89,31 @@
     color: #235a28;
     cursor: pointer;
     margin: 10px;
-    padding: 5px 50px; /* Añadimos padding para aumentar el tamaño del botón */
+    padding: 5px 50px; 
   }
 
   .LogoEspe {
     position: absolute;
-    top: 55%; /* Centramos verticalmente */
-    left: 50%; /* Centramos horizontalmente */
-    width: 60%; /* Ancho del rectángulo */
-    height: 30%; /* Altura del rectángulo */
-    background-color: rgba(255, 255, 255, 0.729); /* Color gris con opacidad del 50% */
-    transform: translate(-50%, -50%); /* Centramos el rectángulo */
-     z-index: 2; /* Lo enviamos detrás de los otros elementos */
+    top: 55%;
+    left: 50%; 
+    width: 60%; 
+    height: 30%;
+    background-color: rgba(255, 255, 255, 0.729);
+    transform: translate(-50%, -50%);
     background-image: url('../images/LogoEspe.png');
-    background-size: contain; /* Cambiamos a "contain" para que la imagen se ajuste dentro del rectángulo */
-    background-repeat: no-repeat; /* Evitamos que la imagen se repita */
+    background-size: contain;
+    background-repeat: no-repeat; 
     background-position: center;
+    z-index: 2;
   }
 
   .text-container {
     position: absolute;
-    top: 80%; /* Ajusta la posición vertical del texto */
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center; /* Centra el texto horizontalmente */
-    z-index: 3; /* Asegura que esté por encima del rectángulo gris y el botón */
+    text-align: center;
+    z-index: 3;
   }
 
   .text-container h1 {
@@ -121,4 +121,38 @@
     color: #235a28;
     margin: 0;
     padding: 5px;
+  }
+
+  /*CSS Modal*/
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .modal-image {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    background-image: url('../images/Espe-inicio.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .modal-buttons-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .modal-login-button {
+    margin-right: 10px;
   }

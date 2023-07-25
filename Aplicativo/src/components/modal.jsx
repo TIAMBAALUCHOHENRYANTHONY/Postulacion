@@ -10,9 +10,10 @@ export default class Modal extends Component {
         {active && (
           <div style={styles.wrapper}>
             <div style={styles.window}>
-              <button style={styles.closeBtn} onclick={toggle}>
+              <button style={styles.closeBtn} onClick={toggle}>
                 X
               </button>
+              <div>{children}</div>
             </div>
           </div>
         )}
@@ -27,7 +28,7 @@ const styles = {
     top: 0,
     left: 0,
     width: "100%",
-    heigh: "100%",
+    height: "100%", // Corrected 'heigh' to 'height'
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -38,7 +39,7 @@ const styles = {
     borderRadius: 5,
     padding: 15,
     boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",
-    zindex: 10,
+    zIndex: 10, // Corrected 'zindex' to 'zIndex'
     minWidth: 320,
   },
   closeBtn: {

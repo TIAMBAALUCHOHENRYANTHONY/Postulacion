@@ -1,4 +1,6 @@
-###### PANTALLAZO DEL PROYECTO
-![](https://i.ibb.co/h1njR4f/presenta.png)
-###### TUTORIAL PASO A PASO EN https://codigo369.com/
-![](https://i.ibb.co/mS7Thyx/rfgwe4werwer.png)
+Requisitos: 
+-yarn intalado
+	-npm intall --global yarn 
+Comandos para iniciar el aplicativo: 
+yarn -i
+yarn dev

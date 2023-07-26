@@ -1,0 +1,66 @@
+/* DatosPersonales.css */
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dividir la pantalla en dos columnas iguales */
+    height: 100vh;
+  }
+  
+  .left-section {
+    background-color: #f0f0f0; /* Puedes ajustar el color de fondo si lo deseas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .left-section img {
+    width: 100%; /* La imagen ocupará todo el ancho disponible en la zona izquierda */
+    height: 100%; /* La altura ocupará todo el espacio disponible en la zona izquierda */
+    object-fit: cover; /* Ajusta el tamaño de la imagen sin distorsionarla */
+  }
+  
+  .right-section {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinear los elementos al inicio del contenedor */
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .logo {
+    margin-top: 20px; /* Ajusta el margen superior del logo según lo desees */
+  }
+  
+  .logo img {
+    width: 80%; /* Tamaño del logo */
+    height: auto;
+    border-left: 100px;
+  }
+  
+  .form {
+    margin-top: 40px; /* Ajusta el margen superior del formulario según lo desees */
+    width: 100%;
+    max-width: 300px;
+    text-align: center; /* Centrar el contenido del formulario */
+  }
+  
+  .form-datos label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .form-datos input,
+  .form-datos select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .form-datos select {
+    margin-bottom: 20px;
+  }
+  
+  .submit-button {
+    margin-top: 20px; /* Ajusta el margen superior del botón según lo desees */
+  }
+  

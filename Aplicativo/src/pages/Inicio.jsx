@@ -4,6 +4,7 @@ import { AiOutlineArrowDown } from 'react-icons/ai';
 import '../styles/Inicio.css';
 import Modal from "../components/modal"
 import styled from 'styled-components'
+import ImagenInicio from "../images/LogoEspe.png"
 
 function Inicio({ handleAuthentication }) {
   const handleLogin = () => {
@@ -43,7 +44,9 @@ function Inicio({ handleAuthentication }) {
         <h1>Concurso de mérito y oposición 2023</h1>
         <Modal active={active} toggle={toggle}>
         <div className="modal-content">
-            <div
+            <img
+              src={ImagenInicio}
+              alt="Imagen Logo"
               className="modal-image"
             />
             <form className="modal-form">

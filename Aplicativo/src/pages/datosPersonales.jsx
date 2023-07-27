@@ -3,7 +3,7 @@ import '../styles/datosPersonales.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
 
-function DatosPersonales({ handleAuthentication }) {
+export function DatosPersonales({ handleAuthentication }) {
   const handleLogin = () => {
     // lógica de autenticación
     handleAuthentication(true);

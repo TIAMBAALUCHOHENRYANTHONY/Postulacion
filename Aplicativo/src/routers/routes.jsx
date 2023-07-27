@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
 import { Inicio } from "../pages/Inicio";
-import { Cedula } from "../pages/cedula";
+import { Cedula } from "../pages/Cedula.jsx";
 import { Documentos } from "../pages/Documentos";
 import {Info} from "../pages/Informacion";
 import { Postulacion } from "../pages/Postulacion";
+import { DatosPersonales } from "../pages/datosPersonales";
 export function MyRoutes() {
   return (
    
@@ -16,6 +17,7 @@ export function MyRoutes() {
         <Route path="/postulacion" element={<Postulacion />} />
         <Route path="/info" element={<Info/>} />
         <Route path="/cedula" element={<Cedula/>} />
+        <Route path="/datosPersonales" element={<DatosPersonales />} />
       </Routes>
     
   );

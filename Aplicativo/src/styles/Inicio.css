@@ -94,6 +94,7 @@
 
   .LogoEspe {
     position: absolute;
+    background-size: cover;
     top: 55%;
     left: 50%; 
     width: 60%; 
@@ -163,6 +164,7 @@
   display: flex;
   justify-content: center;
 }
+
 
 .modal-buttons-container button {
   padding: 10px 20px;

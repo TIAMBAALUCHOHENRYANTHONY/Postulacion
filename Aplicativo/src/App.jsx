@@ -31,7 +31,7 @@ function App() {
         <ThemeProvider theme={themeStyle}>
           <BrowserRouter>
             {!isAuthenticated ? (
-              <DatosPersonales handleAuthentication={handleAuthentication} />
+              <Inicio handleAuthentication={handleAuthentication} />
             ) : (
               <Container className={sidebarOpen ? "sidebarState active" : ""}>
                 <Sidebar

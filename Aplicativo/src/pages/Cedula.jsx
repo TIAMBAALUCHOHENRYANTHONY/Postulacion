@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/Cedula.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
-
+import { Link } from 'react-router-dom';
 
 
 function Cedula({ handleAuthentication }) {
@@ -27,9 +27,10 @@ function Cedula({ handleAuthentication }) {
               Cedula:
               <input type="text" />
             </label>
-            {/* Agrega aquí los otros campos del formulario si es necesario */}
             <div className="submit-button">
-              <button type="submit">Enviar</button>
+              <Link to="/datosPersonales" className="modal-register-button">
+                Enviar
+              </Link>
             </div>
           </form>
         </div>

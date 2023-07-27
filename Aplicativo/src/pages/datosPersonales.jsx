@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/datosPersonales.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
+import { Link } from 'react-router-dom';
 
 function DatosPersonales({ handleAuthentication }) {
   const handleLogin = () => {
@@ -57,7 +58,9 @@ function DatosPersonales({ handleAuthentication }) {
               <input type="password" />
             </label>
             <div className="submit-button">
-              <button type="submit">Enviar</button>
+            <Link to="/escritorio" className="modal-register-button">
+                Enviar
+              </Link>
             </div>
           </form>
         </div>

@@ -5,6 +5,7 @@ import '../styles/Inicio.css';
 import Modal from "../components/modal"
 import styled from 'styled-components'
 import ImagenInicio from "../images/LogoEspe.png"
+import { Link } from 'react-router-dom';
 
 function Inicio({ handleAuthentication }) {
   const handleLogin = () => {
@@ -61,7 +62,9 @@ function Inicio({ handleAuthentication }) {
             </form>
             <div className="modal-buttons-container">
               <button className="modal-login-button" onClick={handleLogin}>Iniciar sesión</button>
-              <button className="modal-register-button">Registrarse</button>
+              <Link to="/cedula" className="modal-register-button">
+                Registrarse
+              </Link>
             </div>
           </div>
         </Modal>

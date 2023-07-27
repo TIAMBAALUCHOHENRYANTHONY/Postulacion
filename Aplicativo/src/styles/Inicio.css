@@ -126,7 +126,7 @@
 
   /*CSS Modal*/
   .modal-content {
-  max-width: 400px; /* Ajusta el tamaño máximo del modal según tus necesidades */
+  max-width: 400px; 
   background-color: #fff;
   border-radius: 5px;
   padding: 20px;
@@ -134,9 +134,9 @@
 }
 
 .modal-image {
-  width: 100%; /* La imagen ocupará el 100% del ancho del modal */
+  width: 100%;
   height: auto;
-  border-radius: 5px 5px 0 0; /* Esquina superior redondeada */
+  border-radius: 5px 5px 0 0;
   margin-bottom: 10px;
 }
 

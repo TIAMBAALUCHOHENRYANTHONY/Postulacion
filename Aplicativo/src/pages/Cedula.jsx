@@ -29,6 +29,7 @@ function validarCedula(cedula) {
 
   return false;
 }
+import { Link } from 'react-router-dom';
 
 
 function Cedula({ handleAuthentication }) {
@@ -77,7 +78,9 @@ function Cedula({ handleAuthentication }) {
             />
             {/* Agrega aquí los otros campos del formulario si es necesario */}
             <div className="submit-button">
-              <button type="submit">Enviar</button>
+              <Link to="/datosPersonales" className="modal-register-button">
+                Enviar
+              </Link>
             </div>
           </form>
         </div>

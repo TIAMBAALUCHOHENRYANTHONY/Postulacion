@@ -8,7 +8,7 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 import { MdOutlineAnalytics, MdLogout } from "react-icons/md";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../App";
 
@@ -56,7 +56,9 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
         <div className="Linkicon">
           <MdLogout />
         </div>
-        {sidebarOpen && <span>Salir</span>}
+        <Link to="/" className="modal-register-button">
+          Salir
+        </Link>
       </div>
     </div>
       <Divider />

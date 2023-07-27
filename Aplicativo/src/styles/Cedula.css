@@ -1,47 +1,47 @@
 /* Cedula.css */
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dividir la pantalla en dos columnas iguales */
+  grid-template-columns: 1fr 1fr;
   height: 100vh;
 }
 
 .left-section {
-  background-color: #f0f0f0; /* Puedes ajustar el color de fondo si lo deseas */
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .left-section img {
-  width: 100%; /* La imagen ocupará todo el ancho disponible en la zona izquierda */
-  height: 100%; /* La altura ocupará todo el espacio disponible en la zona izquierda */
-  object-fit: cover; /* Ajusta el tamaño de la imagen sin distorsionarla */
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
 }
 
 .right-section {
   background-color: white;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Alinear los elementos al inicio del contenedor */
+  justify-content: flex-start; 
   align-items: center;
   padding: 20px;
 }
 
 .logo {
-  margin-top: 20px; /* Ajusta el margen superior del logo según lo desees */
+  margin-top: 20px;
 }
 
 .logo img {
-  width: 80%; /* Tamaño del logo */
+  width: 80%; 
   height: auto;
   margin-left: 100px;
 }
 
 .form {
-  margin-top: 40px; /* Ajusta el margen superior del formulario según lo desees */
+  margin-top: 40px; 
   width: 100%;
   max-width: 300px;
-  text-align: center; /* Centrar el contenido del formulario */
+  text-align: center; 
 }
 
 .form-cedula label {
@@ -56,5 +56,5 @@
 }
 
 .submit-button {
-  margin-top: 20px; /* Ajusta el margen superior del botón según lo desees */
+  margin-top: 20px; 
 }

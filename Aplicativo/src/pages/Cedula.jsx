@@ -3,11 +3,10 @@ import '../styles/Cedula.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
 import ReCAPTCHA from 'react-google-recaptcha'; // Importa el componente de reCAPTCHA
-import { useNavigate } from 'react-router-dom';
+
 //import { useHistory } from "react-router-dom";
 function validarCedula(cedula) {
-  const navigate = useNavigate();
-  var cad = cedula.trim(); 
+  var cad = cedula.trim();
   var total = 0;
   var longitud = cad.length;
   var longcheck = longitud - 1;
@@ -79,10 +78,9 @@ function Cedula({ handleAuthentication }) {
           <div className="submit-button">
             {/* Verifica si la cédula es válida antes de redirigir */}
             {cedulaValida ? (
-              navigate("/datosPersonales")
-
-              
-              
+              <Link to="/datosPersonales">
+                Reintentar
+              </Link>
             ) : (
               <button type="submit" className="modal-register-button">
                 Entrar

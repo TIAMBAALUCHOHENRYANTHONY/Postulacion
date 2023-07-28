@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ReactModal from "react-modal";
 
 export const Postulacion = () => {
   const [postulaciones, setPostulaciones] = useState([]);
@@ -29,6 +30,20 @@ export const Postulacion = () => {
   const [campoEspecificoHabilitado, setCampoEspecificoHabilitado] = useState(false);
   const [tablaCargada, setTablaCargada] = useState(false);
   const [showConfirmButton, setShowConfirmButton] = useState(false);
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  // Datos para mostrar en el popup de confirmación
+  const [confirmationDetails, setConfirmationDetails] = useState({
+    postulacion: "",
+    sede: "",
+    departamento: "",
+    campoAmplio: "",
+    campoEspecifico: "",
+    contratacion: "",
+    personalAcademico: "",
+  });
+
   const handleCampoAmplioChange = (e) => {
     const selectedValue = e.target.value;
     setCampo_amplio(selectedValue);
@@ -37,6 +52,29 @@ export const Postulacion = () => {
     setCampoEspecificoHabilitado(selectedValue !== '');
   };
 
+  const handleConfirmClick = () => {
+    // Show the confirmation modal
+    setShowConfirmModal(true);
+  };
+
+  const handleModalAcceptClick = () => {
+    // Handle the logic when the user clicks "Aceptar" in the modal
+    // For now, you can just print the confirmation details to the console
+    console.log("Confirmation Details:", confirmationDetails);
+  
+    // Reset the confirmation details and hide the modal
+    setConfirmationDetails({
+      postulacion: "",
+      sede: "",
+      departamento: "",
+      campoAmplio: "",
+      campoEspecifico: "",
+      contratacion: "",
+      personalAcademico: "",
+    });
+    setShowConfirmModal(false);
+  };
+  
   const obtenerDatosTabla = async () => {
     try {
       const queryParams = new URLSearchParams({
@@ -53,11 +91,25 @@ export const Postulacion = () => {
       setTablaData(data);
       setTablaCargada(true); // Marcamos que la tabla ha sido cargada
       setShowConfirmButton(true);
+  
+      // Set confirmation details before showing the modal
+      setConfirmationDetails({
+        postulacion: postulacion,
+        sede: sede,
+        departamento: departamento,
+        campoAmplio: campo_amplio,
+        campoEspecifico: campo_especifico,
+        contratacion: contratacion,
+        personalAcademico: personal_academico,
+      });
+  
+     // setShowConfirmModal(true); // Show the confirmation modal
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
     }
   };
+  
   
 
   useEffect(() => {
@@ -340,6 +392,8 @@ export const Postulacion = () => {
 
 
       </Form>
+
+      <Container2>
 {/* Tabla */}
 {tablaCargada && (
         <table>
@@ -368,8 +422,44 @@ export const Postulacion = () => {
         </table>
       )}
 {tablaCargada && tablaData.length > 0 && showConfirmButton && (
-        <button onClick={() => handleConfirmClick()}>Confirmar</button>
+        <button onClick={() => {
+          setShowConfirmModal(true);
+          handleConfirmClick();
+        }}>Confirmar</button>
       )}
+
+      {/* ReactModal para mostrar el popup */}
+      <ReactModal
+        isOpen={showConfirmModal}
+        onRequestClose={() => setShowConfirmModal(false)}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            zIndex: 1000,
+          },
+          content: {
+            backgroundColor: "#fff",
+            borderRadius: "5px",
+            maxWidth: "400px",
+            margin: "auto",
+            padding: "20px",
+          },
+        }}
+      >
+        <h2>Verifique los datos antes de enviar</h2>
+        <p>Postulación: {confirmationDetails.postulacion}</p>
+        <p>Sede: {confirmationDetails.sede}</p>
+        <p>Departamento: {confirmationDetails.departamento}</p>
+        <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
+        <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
+        <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
+        <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
+          <button onClick={handleModalAcceptClick}>Aceptar</button>
+        </div>
+      </ReactModal>
+      </Container2>
     </Container>
     
   );
@@ -382,6 +472,19 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const Container2 = styled.div`
+
+button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 `;
 
 const Form = styled.form`

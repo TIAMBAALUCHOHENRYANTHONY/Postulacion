@@ -1,16 +1,20 @@
 // Inicio.jsx
-import React, { useState } from 'react';
-import { AiOutlineArrowDown } from 'react-icons/ai';
-import '../styles/Inicio.css';
-import Modal from "../components/modal"
-import styled from 'styled-components'
-import ImagenInicio from "../images/LogoEspe.png"
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { AiOutlineArrowDown } from "react-icons/ai";
+import "../styles/Inicio.css";
+import Modal from "../components/modal";
+import styled from "styled-components";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import ImagenInicio from "../images/LogoEspe.png";
+import { Cedula } from "./Cedula";
 
 function Inicio({ handleAuthentication }) {
+  
+  const navigate = useNavigate(); 
+
   const handleLogin = () => {
-    // lógica de autenticación
     handleAuthentication(true);
+    navigate("/home")
   };
 
   const [showDocuments, setShowDocuments] = useState(false);
@@ -21,19 +25,25 @@ function Inicio({ handleAuthentication }) {
 
   const [active, setActive] = useState(false);
 
-  const toggle = () =>{
+  const toggle = () => {
     setActive(!active);
-  }
+  };
 
   return (
-    <div className='BienvenidoInicio'>
-      <div className='ImagenInicio' />
-      <div className='LogoEspe'></div>
-      <div className='WhiteSection'>
-        <button className='login-button' onClick={toggle}>Iniciar sesión</button>
-        <div className='container-documents'>
-          <button className='documents-button' onClick={handleShowDocuments}>Más Informacion</button>
-          {!showDocuments && <div className="down-arrow" onClick={handleShowDocuments}></div>}
+    <div className="BienvenidoInicio">
+      <div className="ImagenInicio" />
+      <div className="LogoEspe"></div>
+      <div className="WhiteSection">
+        <button className="login-button" onClick={toggle}>
+          Iniciar sesión
+        </button>
+        <div className="container-documents">
+          <button className="documents-button" onClick={handleShowDocuments}>
+            Más Informacion
+          </button>
+          {!showDocuments && (
+            <div className="down-arrow" onClick={handleShowDocuments}></div>
+          )}
         </div>
         {showDocuments && (
           <div className="documents">
@@ -41,37 +51,43 @@ function Inicio({ handleAuthentication }) {
             <p>Documento 2</p>
           </div>
         )}
-        <div className='text-container'>
-        <h1>Concurso de mérito y oposición 2023</h1>
-        <Modal active={active} toggle={toggle}>
-        <div className="modal-content">
-            <img
-              src={ImagenInicio}
-              alt="Imagen Logo"
-              className="modal-image"
-            />
-            <form className="modal-form">
-              <label>
-                Usuario:
-                <input type="text" />
-              </label>
-              <label>
-                Contraseña:
-                <input type="password" />
-              </label>
-            </form>
-            <div className="modal-buttons-container">
-              <button className="modal-login-button" onClick={handleLogin}>Iniciar sesión</button>
-              <Link to="/cedula" className="modal-register-button">
-                Registrarse
-              </Link>
+        <div className="text-container">
+          <h1>Concurso de mérito y oposición 2023</h1>
+          <Modal active={active} toggle={toggle}>
+            <div className="modal-content">
+              <img src={ImagenInicio} alt="Imagen Logo" className="modal-image" />
+              <form className="modal-form">
+                <label>
+                  Usuario:
+                  <input type="text" />
+                </label>
+                <label>
+                  Contraseña:
+                  <input type="password" />
+                </label>
+              </form>
+              <div className="modal-buttons-container">
+                <button className="modal-login-button" onClick={handleLogin}>
+                  Iniciar sesión
+                </button>
+                <Link to="/cedula">Registrarse</Link>
+              </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
         </div>
       </div>
     </div>
   );
 }
+
+const StyledLink = styled(Link)`
+  margin-left: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+`;
 
 export { Inicio };

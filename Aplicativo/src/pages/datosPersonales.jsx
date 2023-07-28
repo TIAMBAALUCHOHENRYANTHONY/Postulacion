@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import '../styles/datosPersonales.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
-import { Link } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export function DatosPersonales({ handleAuthentication }) {
+  
+  const navigate = useNavigate(); 
+  
   const handleLogin = () => {
-    // lógica de autenticación
     handleAuthentication(true);
+    navigate("/home")
   };
 
   return (
@@ -58,9 +61,9 @@ export function DatosPersonales({ handleAuthentication }) {
               <input type="password" />
             </label>
             <div className="submit-button">
-            <Link to="/escritorio" className="modal-register-button">
-                Enviar
-              </Link>
+                <button className="modal-login-button" onClick={handleLogin}>
+                  Enviar
+                </button>
             </div>
           </form>
         </div>

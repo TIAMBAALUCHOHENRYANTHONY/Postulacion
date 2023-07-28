@@ -25,6 +25,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
 
   const handleLogout = () => {
     handleAuthentication(false);
+    navigate("/");
   };
 
 
@@ -56,9 +57,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
         <div className="Linkicon">
           <MdLogout />
         </div>
-        <Link to="/" className="modal-register-button">
-          Salir
-        </Link>
+        {sidebarOpen && <span>Salir</span>}
       </div>
     </div>
       <Divider />

@@ -4,9 +4,9 @@ import { Home } from "../pages/Home";
 import { Inicio } from "../pages/Inicio";
 import { Cedula } from "../pages/Cedula";
 import { Documentos } from "../pages/Documentos";
-import {Info} from "../pages/Informacion";
+import { Info } from "../pages/Informacion";
 import { Postulacion } from "../pages/Postulacion";
-import DatosPersonales from "../pages/datosPersonales";
+import { DatosPersonales} from "../pages/DatosPersonales";
 
 export function MyRoutes({ handleAuthentication }) {
 

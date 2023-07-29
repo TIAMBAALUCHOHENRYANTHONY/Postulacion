@@ -6,9 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar";
 import { Light, Dark } from "./styles/Themes";
 import { ThemeProvider } from "styled-components";
-import {Inicio} from "./pages/Inicio";
+import { Inicio } from "./pages/Inicio";
 import { Cedula } from "./pages/Cedula";
-import DatosPersonales from './pages/datosPersonales';
 
 export const ThemeContext = React.createContext(null);
 

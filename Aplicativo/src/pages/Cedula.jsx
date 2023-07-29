@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Cedula.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
 import ReCAPTCHA from 'react-google-recaptcha'; // Importa el componente de reCAPTCHA
+import { Navigate, useNavigate } from "react-router-dom";
+import DatosPersonales from './DatosPersonales';
 
-//import { useHistory } from "react-router-dom";
 function validarCedula(cedula) {
   var cad = cedula.trim();
   var total = 0;
@@ -29,27 +31,28 @@ function validarCedula(cedula) {
 
   return false;
 }
-import { Link } from 'react-router-dom';
 
 
-function Cedula({ handleAuthentication }) {
+function Cedula({}) {
+  const navigate = useNavigate();
   const [cedula, setCedula] = useState('');
   const [cedulaValida, setCedulaValida] = useState(false);
+  const [captchaValido, setCaptchaValido] = useState('');
 
   const handleCedulaChange = (event) => {
     setCedula(event.target.value);
+    console.log(cedula);
   };
+
+  useEffect(() => {
+    setCedulaValida(validarCedula(cedula));
+  }, [cedula]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const esValida = validarCedula(cedula);
-
-    setCedulaValida(esValida);
-
-    if (esValida) {
-      handleAuthentication(true);
-    } else {
-      // Lógica para manejar la cédula inválida (opcional)
+    if (cedulaValida && captchaValido != '') {
+      console.log(cedula);
+      navigate("/DatosPersonales", {state: {cedula: cedula}});
     }
   };
 
@@ -63,33 +66,25 @@ function Cedula({ handleAuthentication }) {
           <img src={Logo} alt="Logo" />
         </div>
         <div className="form">
-          <h2>Ingrese su cédula</h2>
+          <h2>Ingrese su Cédula</h2>
           <form className="form-cedula" onSubmit={handleSubmit}>
-          <label>
-            Cedula:
-            <input type="text" value={cedula} onChange={handleCedulaChange} />
-          </label>
-          {cedulaValida === false && <p className="error">Cédula Inválida</p>}
-          <ReCAPTCHA
+            <label>
+              Cedula:
+              <input type="text" value={cedula} onChange={handleCedulaChange} />
+            </label>
+            {/* Muestra el mensaje de error si la cédula es inválida y el campo no está vacío */}
+            {(cedula != '') ? ((cedulaValida) ? (<p></p>) : (<p>¡Valor de Cédula incorrecto!</p>)) : (<p></p>)}
+            <ReCAPTCHA
               sitekey="6LcIJVQnAAAAAP7fCorE5Hjiqeo0L7Cnv7woZIo9"
-              //onChange={(value) => console.log('Captcha value:', value)}
+            onChange={(value) => setCaptchaValido(value)}
             />
-          {/* Resto del código del formulario */}
-          <div className="submit-button">
-            {/* Verifica si la cédula es válida antes de redirigir */}
-            {cedulaValida ? (
-              <Link to="/datosPersonales">
-                Reintentar
-              </Link>
-            ) : (
+            {/* Resto del código del formulario */}
+            <div className="submit-button">
               <button type="submit" className="modal-register-button">
-                Entrar
+                Continuar
               </button>
-            )}
-          </div>
-        </form>
-
-
+            </div>
+          </form>
         </div>
       </div>
     </div>

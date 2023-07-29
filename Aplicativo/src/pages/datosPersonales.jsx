@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import '../styles/datosPersonales.css';
+import '../styles/DatosPersonales.css';
 import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
-export function DatosPersonales({ handleAuthentication }) {
+export function DatosPersonales({ handleAuthentication}) {
   
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const cedula = location?.state?.cedula || '';
   
   const handleLogin = () => {
     handleAuthentication(true);
@@ -38,13 +40,15 @@ export function DatosPersonales({ handleAuthentication }) {
             </label>
             <label>
               Número de Identificación:
-              <input type="text" />
+              <input type="text" placeholder={cedula} disabled/>
             </label>
             <label>
-              Título:
+              Máximo Título Alcanzado:
               <select>
-                <option value="licenciado">Licenciado</option>
-                <option value="ingeniero">Ingeniero</option>
+                <option value="licenciado">Doctorado</option>
+                <option value="ingeniero">Maestría</option>
+                <option value="ingeniero">Ingeniería/Licencuiatura</option>
+                <option value="ingeniero">Tecnología</option>
               </select>
             </label>
             <label>

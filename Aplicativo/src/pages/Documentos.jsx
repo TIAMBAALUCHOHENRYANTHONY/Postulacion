@@ -50,7 +50,8 @@ export function Documentos() {
 }
 
 const Container = styled.div`
-  height: 90vh;
+  height: 100%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +62,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 900px; /* Ancho del formulario */
   border: 1px solid #ccc;
   padding: 20px;
   border-radius: 5px;

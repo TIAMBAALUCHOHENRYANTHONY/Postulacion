@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Portal from "./portal";
+import Portal from "./Portal";
 
 export default class Modal extends Component {
   render() {
@@ -35,7 +35,7 @@ const styles = {
   },
   window: {
     position: "relative",
-    background: "#fff",
+    background: "white",
     borderRadius: 5,
     padding: 15,
     boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",

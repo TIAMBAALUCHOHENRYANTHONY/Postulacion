@@ -69,7 +69,7 @@ export const Postulacion = () => {
     // Handle the logic when the user clicks "Aceptar" in the modal
     // For now, you can just print the confirmation details to the console
     console.log("Confirmation Details:", confirmationDetails);
-  
+
     // Reset the confirmation details and hide the modal
     setConfirmationDetails({
       postulacion: "",
@@ -82,7 +82,7 @@ export const Postulacion = () => {
     });
     setShowConfirmModal(false);
   };
-  
+
   const obtenerDatosTabla = async () => {
     try {
       const queryParams = new URLSearchParams({
@@ -99,7 +99,7 @@ export const Postulacion = () => {
       setTablaData(data);
       setTablaCargada(true); // Marcamos que la tabla ha sido cargada
       setShowConfirmButton(true);
-  
+
       // Set confirmation details before showing the modal
       setConfirmationDetails({
         postulacion: postulacion,
@@ -110,15 +110,15 @@ export const Postulacion = () => {
         contratacion: contratacion,
         personalAcademico: personal_academico,
       });
-  
-     // setShowConfirmModal(true); // Show the confirmation modal
+
+      // setShowConfirmModal(true); // Show the confirmation modal
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     async function fetchCampoAmplios() {
@@ -151,7 +151,7 @@ export const Postulacion = () => {
     handleInitialCampoAmplio();
   }, []);
 
-   
+
   //postulacion
   const fetchData = async () => {
     try {
@@ -165,53 +165,53 @@ export const Postulacion = () => {
         //console.log(postPeriodo);
         setPostulacion(postPeriodo);
       }
-      
-      setIsLoading(false); 
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setIsLoading(false); 
+      setIsLoading(false);
     }
 
     //sede
-    
-      try {
-        const response = await axios.get("http://localhost:5000/sede");
-        const data = response.data;
-        setSedes(data);
-        if (data.length === 0) {
-          console.log("Data is empty");
-        } else {
-          const sedeNombre = data[0]?.sede_nombre;
-          //console.log(postPeriodo);
-          setSede(sedeNombre);
-        }
-        
-        setIsLoading(false); 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false); 
+
+    try {
+      const response = await axios.get("http://localhost:5000/sede");
+      const data = response.data;
+      setSedes(data);
+      if (data.length === 0) {
+        console.log("Data is empty");
+      } else {
+        const sedeNombre = data[0]?.sede_nombre;
+        //console.log(postPeriodo);
+        setSede(sedeNombre);
       }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
+    }
     //departamento
-    
-      try {
-        const response = await axios.get("http://localhost:5000/departamento");
-        const data = response.data;
-        setDepartamentos(data);
-        if (data.length === 0) {
-          console.log("Data is empty");
-        } else {
-          const departamentoNombre = data[0]?.dept_nombre;
-          //console.log(postPeriodo);
-          setDepartamento(departamentoNombre);
-        }
-        
-        setIsLoading(false); 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false); 
+
+    try {
+      const response = await axios.get("http://localhost:5000/departamento");
+      const data = response.data;
+      setDepartamentos(data);
+      if (data.length === 0) {
+        console.log("Data is empty");
+      } else {
+        const departamentoNombre = data[0]?.dept_nombre;
+        //console.log(postPeriodo);
+        setDepartamento(departamentoNombre);
       }
-  //campo amplio
-  
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
+    }
+    //campo amplio
+
     try {
       const response = await axios.get("http://localhost:5000/campo_amplio");
       const data = response.data;
@@ -223,14 +223,14 @@ export const Postulacion = () => {
         //console.log(postPeriodo);
         setCampo_amplio(campo_amplioNombre);
       }
-      
-      setIsLoading(false); 
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setIsLoading(false); 
+      setIsLoading(false);
     }
     //campo especifico
-  
+
     try {
       const response = await axios.get("http://localhost:5000/campo_especifico");
       const data = response.data;
@@ -242,14 +242,14 @@ export const Postulacion = () => {
         //console.log(postPeriodo);
         setCampo_especifico(campo_especificoNombre);
       }
-      
-      setIsLoading(false); 
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setIsLoading(false); 
+      setIsLoading(false);
     }
 
-    
+
     //contratacion
     try {
       const response = await axios.get("http://localhost:5000/contratacion");
@@ -258,15 +258,15 @@ export const Postulacion = () => {
       if (data.length === 0) {
         console.log("Data is empty");
       } else {
-        const conNombre= data[0]?.con_nombre;
+        const conNombre = data[0]?.con_nombre;
         //console.log(postPeriodo);
         setContratacion(conNombre);
       }
-      
-      setIsLoading(false); 
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setIsLoading(false); 
+      setIsLoading(false);
     }
 
     //personal
@@ -282,22 +282,20 @@ export const Postulacion = () => {
         //console.log(postPeriodo);
         setPersonal_academico(paNombre);
       }
-      
-      setIsLoading(false); 
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setIsLoading(false); 
+      setIsLoading(false);
     }
 
   };
-  
+
 
   return (
-    
+
     <Container>
-      
-      <h1>Postulacion</h1>
-      
+      <h1>Postulación</h1>
       <Form>
         <div>
           <label htmlFor="postulacion">Postulación:</label>
@@ -319,7 +317,7 @@ export const Postulacion = () => {
         <div>
           <label htmlFor="sede">Sede:</label>
           <select id="sede" value={sede} onChange={(e) => setSede(e.target.value)}>
-          <option value="" disabled>Seleccionar</option>
+            <option value="" disabled>Seleccionar</option>
             {sedes.map((sede) => (
               <option key={sede.id} value={sede.id}>
                 {sede.sede_nombre}
@@ -331,7 +329,7 @@ export const Postulacion = () => {
         <div>
           <label htmlFor="departamento">Departamento:</label>
           <select id="departamento" value={departamento} onChange={(e) => setDepartamento(e.target.value)}>
-          <option value="" disabled>Seleccionar</option>
+            <option value="" disabled>Seleccionar</option>
             {departamentos.map((departamento) => (
               <option key={departamento.id} value={departamento.id}>
                 {departamento.dept_nombre}
@@ -340,11 +338,23 @@ export const Postulacion = () => {
           </select>
         </div>
 
-            
-        
 
-        
 
+
+
+
+
+        <div>
+          <label htmlFor="campo_amplio">Campo Amplio:</label>
+          <select id="campo_amplio" value={campo_amplio} onChange={(e) => setCampo_amplio(e.target.value)}>
+            <option value="">Seleccionar</option>
+            {campo_amplios.map((campo_amplio) => (
+              <option key={campo_amplio.id} value={campo_amplio.id}>
+                {campo_amplio.ca_nombre}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div>
       <label htmlFor="campo_amplio">Campo Amplio:</label>
@@ -384,7 +394,7 @@ export const Postulacion = () => {
         <div>
           <label htmlFor="contratacion">Tipo de Contratación:</label>
           <select id="contratacion" value={contratacion} onChange={(e) => setContratacion(e.target.value)}>
-          <option value="" disabled>Seleccionar</option>
+            <option value="" disabled>Seleccionar</option>
             {contrataciones.map((contratacion) => (
               <option key={contratacion.id} value={contratacion.id}>
                 {contratacion.con_nombre}
@@ -396,7 +406,7 @@ export const Postulacion = () => {
         <div>
           <label htmlFor="personal_academico">Tipo de Personal Académico:</label>
           <select id="personal_academico" value={personal_academico} onChange={(e) => setPersonal_academico(e.target.value)}>
-          <option value="" disabled>Seleccionar</option>
+            <option value="" disabled>Seleccionar</option>
             {personal_academicos.map((personal_academico) => (
               <option key={personal_academico.id} value={personal_academico.id}>
                 {personal_academico.pa_nombre}
@@ -405,94 +415,95 @@ export const Postulacion = () => {
           </select>
         </div>
 
-      
+
 
         <button onClick={(e) => { e.preventDefault(); obtenerDatosTabla(); }}>Enviar</button>
-        
+
 
 
       </Form>
 
       <Container2>
-{/* Tabla */}
-{tablaCargada && (
-        <table>
-          <thead>
-            <tr>
-              <th>Vacantes</th>
-              <th>Horas</th>
-              <th>Actividad</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tablaData.length === 0 ? (
+        {/* Tabla */}
+        {tablaCargada && (
+          <table>
+            <thead>
               <tr>
-                <td colSpan="3">No hay datos disponibles</td>
+                <th>Vacantes</th>
+                <th>Horas</th>
+                <th>Actividad</th>
               </tr>
-            ) : (
-              tablaData.map((dato, index) => (
-                <tr key={index}>
-                  <td>{dato.ofe_vacantes}</td>
-                  <td>{dato.ofe_horas}</td>
-                  <td>{dato.act_nombre}</td>
+            </thead>
+            <tbody>
+              {tablaData.length === 0 ? (
+                <tr>
+                  <td colSpan="3">No hay datos disponibles</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      )}
-{tablaCargada && tablaData.length > 0 && showConfirmButton && (
-        <button onClick={() => {
-          setShowConfirmModal(true);
-          handleConfirmClick();
-        }}>Confirmar</button>
-      )}
+              ) : (
+                tablaData.map((dato, index) => (
+                  <tr key={index}>
+                    <td>{dato.ofe_vacantes}</td>
+                    <td>{dato.ofe_horas}</td>
+                    <td>{dato.act_nombre}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        )}
+        {tablaCargada && tablaData.length > 0 && showConfirmButton && (
+          <button onClick={() => {
+            setShowConfirmModal(true);
+            handleConfirmClick();
+          }}>Confirmar</button>
+        )}
 
-      {/* ReactModal para mostrar el popup */}
-      <ReactModal
-        isOpen={showConfirmModal}
-        onRequestClose={() => setShowConfirmModal(false)}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            zIndex: 1000,
-          },
-          content: {
-            backgroundColor: "#fff",
-            borderRadius: "5px",
-            maxWidth: "400px",
-            margin: "auto",
-            padding: "20px",
-          },
-        }}
-      >
-        <h2>Verifique los datos antes de enviar</h2>
-        <p>Postulación: {confirmationDetails.postulacion}</p>
-        <p>Sede: {confirmationDetails.sede}</p>
-        <p>Departamento: {confirmationDetails.departamento}</p>
-        <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
-        <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
-        <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
-        <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-          <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
-          <button onClick={handleModalAcceptClick}>Aceptar</button>
-        </div>
-      </ReactModal>
+        {/* ReactModal para mostrar el popup */}
+        <ReactModal
+          isOpen={showConfirmModal}
+          onRequestClose={() => setShowConfirmModal(false)}
+          style={{
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              zIndex: 1000,
+            },
+            content: {
+              backgroundColor: "#fff",
+              borderRadius: "5px",
+              maxWidth: "400px",
+              margin: "auto",
+              padding: "20px",
+            },
+          }}
+        >
+          <h2>Verifique los datos antes de enviar</h2>
+          <p>Postulación: {confirmationDetails.postulacion}</p>
+          <p>Sede: {confirmationDetails.sede}</p>
+          <p>Departamento: {confirmationDetails.departamento}</p>
+          <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
+          <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
+          <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
+          <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+            <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
+            <button onClick={handleModalAcceptClick}>Aceptar</button>
+          </div>
+        </ReactModal>
       </Container2>
     </Container>
-    
+
   );
 };
 
 const Container = styled.div`
-
-  height: 50vh;
+  height: 100%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
+
 
 const Container2 = styled.div`
 

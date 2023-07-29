@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../assets/react.svg";
+import logo from "../images/usuario.png";
 import { v } from "../styles/Variables";
 import {
   AiOutlineLeft,
@@ -62,7 +62,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
     </div>
       <Divider />
       <div className="Themecontent">
-        {sidebarOpen && <span className="titletheme">Dark mode</span>}
+        {sidebarOpen && <span className="titletheme">Modo Oscuro</span>}
         <div className="Togglecontent">
           <div className="grid theme-container">
             <div className="content">
@@ -92,17 +92,17 @@ const linksArray = [
     to: "/home",
   },
   {
-    label: "Postulacion",
+    label: "Postulación",
     icon: <MdOutlineAnalytics />,
     to: "/postulacion",
   },
   {
-    label: "Tu Documentacion",
+    label: "Sus Documentos",
     icon: <AiOutlineApartment />,
     to: "/docs",
   },
   {
-    label: "Informacion y Formatos",
+    label: "Información y Formatos",
     icon: <MdOutlineAnalytics />,
     to: "/info",
   },

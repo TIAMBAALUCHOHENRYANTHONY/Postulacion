@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const app = express();
 const port = 5000;
 
-// PostgreSQL configuration
+// Configuración de PostgreSQL
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',

@@ -2,19 +2,23 @@
 import React, { useState } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import "../styles/Inicio.css";
-import Modal from "../components/modal";
+import Modal from "../components/Modal";
 import styled from "styled-components";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import ImagenInicio from "../images/LogoEspe.png";
 import { Cedula } from "./Cedula";
 
 function Inicio({ handleAuthentication }) {
-  
-  const navigate = useNavigate(); 
+
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     handleAuthentication(true);
     navigate("/home")
+  };
+
+  const navegarCedula = () => {
+    navigate("/cedula")
   };
 
   const [showDocuments, setShowDocuments] = useState(false);
@@ -39,7 +43,7 @@ function Inicio({ handleAuthentication }) {
         </button>
         <div className="container-documents">
           <button className="documents-button" onClick={handleShowDocuments}>
-            Más Informacion
+            Más Información
           </button>
           {!showDocuments && (
             <div className="down-arrow" onClick={handleShowDocuments}></div>
@@ -47,12 +51,10 @@ function Inicio({ handleAuthentication }) {
         </div>
         {showDocuments && (
           <div className="documents">
-            <p>Documento 1</p>
-            <p>Documento 2</p>
           </div>
         )}
         <div className="text-container">
-          <h1>Concurso de mérito y oposición 2023</h1>
+          <h1>Concurso de Méritos y Oposición<br></br>2023</h1>
           <Modal active={active} toggle={toggle}>
             <div className="modal-content">
               <img src={ImagenInicio} alt="Imagen Logo" className="modal-image" />
@@ -67,10 +69,10 @@ function Inicio({ handleAuthentication }) {
                 </label>
               </form>
               <div className="modal-buttons-container">
-                <button className="modal-login-button" onClick={handleLogin}>
+                <button onClick={handleLogin}>
                   Iniciar sesión
                 </button>
-                <Link to="/cedula">Registrarse</Link>
+                <button className="modal-login-button" onClick={navegarCedula}>Registrarse</button>
               </div>
             </div>
           </Modal>

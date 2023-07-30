@@ -24,13 +24,11 @@ function Inicio({ handleAuthentication }) {
   const [showButtonText, setShowButtonText] = useState(true);
 
   const handleShowDocuments = () => {
-    // Mostrar u ocultar los documentos
+
     setShowDocuments(!showDocuments);
 
-    // Cambiar el texto del botón al mostrar u ocultar los documentos
     setShowButtonText(!showButtonText);
 
-    // Si showDocuments cambia a true, desplaza la pantalla hacia arriba para mostrar los PDFs
     if (!showDocuments && refDocumentSection.current) {
       refDocumentSection.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -42,12 +40,10 @@ function Inicio({ handleAuthentication }) {
     setActive(!active);
   };
 
-  // Crear referencias a los elementos de documentos PDF
   const refDocumento1 = useRef(null);
   const refDocumento2 = useRef(null);
   const refDocumento3 = useRef(null);
 
-  // Crear referencia a la sección de documentos PDF
   const refDocumentSection = useRef(null);
 
   return (

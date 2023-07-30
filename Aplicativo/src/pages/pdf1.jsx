@@ -40,7 +40,7 @@ class PdfViewer extends Component {
               type="application/pdf"
               width="100%"
               height="100%"
-              style={{ position: 'relative' }} // Cambiar la posición a relative
+              style={{ position: 'relative' }}
             />
           )}
         </div>

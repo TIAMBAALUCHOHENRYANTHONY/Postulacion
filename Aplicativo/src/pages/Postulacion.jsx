@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 export const Postulacion = () => {
   const [postulaciones, setPostulaciones] = useState([]);
   const [postulacion, setPostulacion] = useState("");
+  const [firstTimeSelection, setFirstTimeSelection] = useState(true);
 
   const [sedes, setSedes] = useState([]);
   const [sede, setSede] = useState("");
@@ -18,6 +19,7 @@ export const Postulacion = () => {
   const [campo_amplio, setCampo_amplio] = useState("");
 
   const [campo_especificos, setCampo_especificos] = useState([]);
+  const [campo_especificos_filtrados, setCampo_especificos_filtrados] = useState([]);
   const [campo_especifico, setCampo_especifico] = useState("");
 
   const [contrataciones, setContrataciones] = useState([]);
@@ -28,7 +30,7 @@ export const Postulacion = () => {
   const [tablaData, setTablaData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true); // Add loading state
-  const [campoEspecificoHabilitado, setCampoEspecificoHabilitado] = useState(false);
+  //const [campoEspecificoHabilitado, setCampoEspecificoHabilitado] = useState(false);
   const [tablaCargada, setTablaCargada] = useState(false);
   const [showConfirmButton, setShowConfirmButton] = useState(false);
 
@@ -60,18 +62,12 @@ export const Postulacion = () => {
   };
   const handleCampoAmplioChange = (e) => {
     const selectedValue = e.target.value;
+    const ampliosFiltrados = campo_amplios.filter((campo_amplio) => campo_amplio.ca_nombre === selectedValue);
     setCampo_amplio(selectedValue);
+    setCampo_especificos_filtrados(campo_especificos.filter((campo_especifico) => campo_especifico.ca_id === ampliosFiltrados[0].ca_id));
 
     // Habilitar el campo específico solo si se ha seleccionado un valor en el campo amplio
-    setCampoEspecificoHabilitado(selectedValue !== '');
-  };
-
-  const handleInitialCampoAmplio = () => {
-    // If campo_amplios array is not empty, set the first option as selected by default
-    if (campo_amplios.length > 0) {
-      setCampo_amplio(campo_amplios[0].id);
-      setCampoEspecificoHabilitado(false); // Disable campo específico initially
-    }
+    //setCampoEspecificoHabilitado(selectedValue !== '');
   };
 
   const handleConfirmClick = () => {
@@ -136,7 +132,7 @@ export const Postulacion = () => {
 
 
   useEffect(() => {
-    async function fetchCampoAmplios() {
+    /* async function fetchCampoAmplios() {
       try {
         const response = await axios.get("http://localhost:5000/campo_amplio");
         const data = response.data;
@@ -157,13 +153,12 @@ export const Postulacion = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    }
+    } */
 
-    fetchCampoAmplios();
-    fetchCampoEspecificos();
+    //fetchCampoAmplios();
+    //fetchCampoEspecificos();
     fetchData();
     obtenerDatosTabla();
-    handleInitialCampoAmplio();
   }, []);
 
 
@@ -249,6 +244,11 @@ export const Postulacion = () => {
     try {
       const response = await axios.get("http://localhost:5000/campo_especifico");
       const data = response.data;
+      const primerId = campo_amplios[0];
+      if (firstTimeSelection) {
+        setCampo_especificos_filtrados(data.filter((campo_especifico) => campo_especifico.ca_id === 2));
+        setFirstTimeSelection(false);
+      }
       setCampo_especificos(data);
       if (data.length === 0) {
         console.log("Data is empty");
@@ -367,18 +367,12 @@ export const Postulacion = () => {
         </div>
 
 
-
-
-
-
-
-
-
         <div>
           <label htmlFor="campo_amplio">Campo Amplio:</label>
           <select
             id="campo_amplio"
             value={campo_amplio}
+            on
             onChange={handleCampoAmplioChange}
           >
             {!isLoading &&
@@ -395,12 +389,11 @@ export const Postulacion = () => {
           <select
             id="campo_especifico"
             value={campo_especifico}
-            onChange={(e) => setCampo_especifico(e.target.value)}
-            disabled={!campoEspecificoHabilitado}
+            onChange={(e) => {setCampo_especifico(e.target.value)}}
           >
             <option value="" disabled>Seleccionar</option>
             {!isLoading &&
-              campo_especificos.map((campo_especifico) => (
+              campo_especificos_filtrados.map((campo_especifico) => (
                 <option key={campo_especifico.id} value={campo_especifico.id}>
                   {campo_especifico.ce_nombre}
                 </option>

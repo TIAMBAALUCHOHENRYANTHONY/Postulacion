@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../styles/pdf.css";
+import { FaFilePdf } from "react-icons/fa";
 import pdf1 from "../docs/pdf1.pdf";
 import pdf2 from "../docs/pdf2.pdf";
 import pdf3 from "../docs/pdf3.pdf";
@@ -27,8 +28,8 @@ class PdfViewer extends Component {
         <div>
           {documents.map((doc) => (
             <a key={doc.name} href={doc.url} target="_blank" rel="noopener noreferrer">
-              <button key={doc.name} onClick={() => this.handlePdfClick(doc.url)}>
-                {doc.name}
+              <button className="pdf-button" key={doc.name} onClick={() => this.handlePdfClick(doc.url)}>
+                <FaFilePdf />  {doc.name}
               </button>
             </a>
           ))}

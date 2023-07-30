@@ -2,10 +2,8 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/Postulacion.css";
-import ReactModal from "react-modal"; // Make sure you have installed this package
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-
-const AVERAGE_SHEET_SIZE = 20480; // Tamaño promedio de una hoja en bytes
+import ReactModal from "react-modal"; 
+import { useNavigate } from "react-router-dom";
 
 export function Documentos() {
   const documentLabels = [

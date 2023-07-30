@@ -36,7 +36,7 @@ export function DatosPersonales({ handleAuthentication }) {
     const templateId = "template_3hhh20g"; // Replace with your actual template ID
     try {
       setLoading(true);
-      const response = await emailjs.send(
+      /* const response = await emailjs.send(
         serviceId,
         templateId,
         {
@@ -45,7 +45,7 @@ export function DatosPersonales({ handleAuthentication }) {
           cedula: cedula,
           titulo: tituloRef.current.value,
         }
-      );
+      ); */
       if (response.status === 200) {
         //alert("Email successfully sent, check your inbox.");
         handleAuthentication(true);

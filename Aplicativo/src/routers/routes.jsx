@@ -8,6 +8,8 @@ import { Info } from "../pages/Informacion";
 import { Postulacion } from "../pages/Postulacion";
 import { DatosPersonales} from "../pages/DatosPersonales";
 import { Home } from "../pages/Home";
+import Pdf from "../pages/pdf1";
+import Pdf1 from "../pages/pdf1";
 export function MyRoutes({ handleAuthentication }) {
 
   const handleLogin = () => {
@@ -27,6 +29,7 @@ export function MyRoutes({ handleAuthentication }) {
         <Route path="/cedula" element={<Cedula/>} />
         <Route path="/datosPersonales" element={<DatosPersonales handleAuthentication={handleLogin}/>}/>
         <Route path="/home" element={<Home/>} />
+        <Route path="/pdf1" element={<Pdf1/>} />
       </Routes>
     
   );

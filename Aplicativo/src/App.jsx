@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { MyRoutes } from "./routers/routes";
 import styled from "styled-components";
@@ -9,15 +9,39 @@ import { ThemeProvider } from "styled-components";
 import { Inicio } from "./pages/Inicio";
 import { Cedula } from "./pages/Cedula";
 
+
+
 export const ThemeContext = React.createContext(null);
 
 function App() {
   const [theme, setTheme] = useState("light");
   const themeStyle = theme === "light" ? Light : Dark;
 
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  //const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  //const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Utilizamos el almacenamiento local para guardar el estado de sidebarOpen
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const storedValue = localStorage.getItem("sidebarOpen");
+    return storedValue ? JSON.parse(storedValue) : true;
+  });
+
+  // Utilizamos el almacenamiento local para guardar el estado de isAuthenticated
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const storedValue = localStorage.getItem("isAuthenticated");
+    return storedValue ? JSON.parse(storedValue) : false;
+  });
+
+  // Almacenamos el estado de sidebarOpen en el almacenamiento local cada vez que cambie
+  useEffect(() => {
+    localStorage.setItem("sidebarOpen", JSON.stringify(sidebarOpen));
+  }, [sidebarOpen]);
+
+  // Almacenamos el estado de isAuthenticated en el almacenamiento local cada vez que cambie
+  useEffect(() => {
+    localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
+  }, [isAuthenticated]);
 
   const handleAuthentication = (value) => {
     setIsAuthenticated(value);
@@ -37,7 +61,7 @@ function App() {
                   setSidebarOpen={setSidebarOpen}
                   handleAuthentication={handleAuthentication}
                 />
-                <MyRoutes />
+                  <MyRoutes />
               </Container>
             )}
           </BrowserRouter>

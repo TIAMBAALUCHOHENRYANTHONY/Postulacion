@@ -1,4 +1,10 @@
+.mm-popup {
+    display: none;
+}
 
+.mm-popup--visible {
+    display: block;
+}
 
 /*FONDO DE PAGINA */
 /*.mm-popup__overlay {
@@ -55,26 +61,11 @@
 }
 
 /*BOTON DE ACEPTAR*/
-.mm-popup__btn--success button {
-    /* Remove the existing background and border styles */
-    background: #007bff;
-    border: none;
-  
-    /* Apply the desired styles for the blue buttons */
-    padding: 8px 16px;
+.mm-popup__btn--success {
+    background-color: #007bff;
+    border-color: #007bff;
     color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: "Open Sans", sans-serif;
-  }
-  
-  /* Optional: Add some space between the buttons */
-  .mm-popup__btn--success button + button {
-    margin-left: 10px;
-  }
-  
+}
 
 
 

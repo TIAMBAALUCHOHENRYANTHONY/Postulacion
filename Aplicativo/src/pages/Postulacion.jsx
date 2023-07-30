@@ -2,10 +2,12 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactModal from "react-modal";
-
+import "../styles/Postulacion.css";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 export const Postulacion = () => {
   const [postulaciones, setPostulaciones] = useState([]);
   const [postulacion, setPostulacion] = useState("");
+  const [firstTimeSelection, setFirstTimeSelection] = useState(true);
 
   const [sedes, setSedes] = useState([]);
   const [sede, setSede] = useState("");
@@ -17,6 +19,7 @@ export const Postulacion = () => {
   const [campo_amplio, setCampo_amplio] = useState("");
 
   const [campo_especificos, setCampo_especificos] = useState([]);
+  const [campo_especificos_filtrados, setCampo_especificos_filtrados] = useState([]);
   const [campo_especifico, setCampo_especifico] = useState("");
 
   const [contrataciones, setContrataciones] = useState([]);
@@ -27,12 +30,15 @@ export const Postulacion = () => {
   const [tablaData, setTablaData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true); // Add loading state
-  const [campoEspecificoHabilitado, setCampoEspecificoHabilitado] = useState(false);
+  //const [campoEspecificoHabilitado, setCampoEspecificoHabilitado] = useState(false);
   const [tablaCargada, setTablaCargada] = useState(false);
   const [showConfirmButton, setShowConfirmButton] = useState(false);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
 
+  const navigate = useNavigate();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   // Datos para mostrar en el popup de confirmación
   const [confirmationDetails, setConfirmationDetails] = useState({
     postulacion: "",
@@ -44,20 +50,24 @@ export const Postulacion = () => {
     personalAcademico: "",
   });
 
+  const handleRowClick = (index) => {
+    if (selectedRow === index) {
+      // If the row is already selected, deselect it
+      setSelectedRow(null);
+      setShowConfirmButton(false); // Hide the Confirm button when a row is deselected
+    } else {
+      setSelectedRow(index);
+      setShowConfirmButton(true); // Show the Confirm button when a row is selected
+    }
+  };
   const handleCampoAmplioChange = (e) => {
     const selectedValue = e.target.value;
+    const ampliosFiltrados = campo_amplios.filter((campo_amplio) => campo_amplio.ca_nombre === selectedValue);
     setCampo_amplio(selectedValue);
+    setCampo_especificos_filtrados(campo_especificos.filter((campo_especifico) => campo_especifico.ca_id === ampliosFiltrados[0].ca_id));
 
     // Habilitar el campo específico solo si se ha seleccionado un valor en el campo amplio
-    setCampoEspecificoHabilitado(selectedValue !== '');
-  };
-
-  const handleInitialCampoAmplio = () => {
-    // If campo_amplios array is not empty, set the first option as selected by default
-    if (campo_amplios.length > 0) {
-      setCampo_amplio(campo_amplios[0].id);
-      setCampoEspecificoHabilitado(false); // Disable campo específico initially
-    }
+    //setCampoEspecificoHabilitado(selectedValue !== '');
   };
 
   const handleConfirmClick = () => {
@@ -81,6 +91,7 @@ export const Postulacion = () => {
       personalAcademico: "",
     });
     setShowConfirmModal(false);
+    setShowSuccessModal(true);
   };
 
   const obtenerDatosTabla = async () => {
@@ -98,7 +109,7 @@ export const Postulacion = () => {
       const data = response.data;
       setTablaData(data);
       setTablaCargada(true); // Marcamos que la tabla ha sido cargada
-      setShowConfirmButton(true);
+      setShowConfirmButton(false);
 
       // Set confirmation details before showing the modal
       setConfirmationDetails({
@@ -111,7 +122,7 @@ export const Postulacion = () => {
         personalAcademico: personal_academico,
       });
 
-      // setShowConfirmModal(true); // Show the confirmation modal
+
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
@@ -121,7 +132,7 @@ export const Postulacion = () => {
 
 
   useEffect(() => {
-    async function fetchCampoAmplios() {
+    /* async function fetchCampoAmplios() {
       try {
         const response = await axios.get("http://localhost:5000/campo_amplio");
         const data = response.data;
@@ -142,13 +153,12 @@ export const Postulacion = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    }
+    } */
 
-    fetchCampoAmplios();
-    fetchCampoEspecificos();
+    //fetchCampoAmplios();
+    //fetchCampoEspecificos();
     fetchData();
     obtenerDatosTabla();
-    handleInitialCampoAmplio();
   }, []);
 
 
@@ -234,6 +244,11 @@ export const Postulacion = () => {
     try {
       const response = await axios.get("http://localhost:5000/campo_especifico");
       const data = response.data;
+      const primerId = campo_amplios[0];
+      if (firstTimeSelection) {
+        setCampo_especificos_filtrados(data.filter((campo_especifico) => campo_especifico.ca_id === 2));
+        setFirstTimeSelection(false);
+      }
       setCampo_especificos(data);
       if (data.length === 0) {
         console.log("Data is empty");
@@ -292,6 +307,19 @@ export const Postulacion = () => {
   };
 
 
+  const getActivityNames = (actId) => {
+    const activities = {
+      1: "Docencia",
+      2: "Investigación",
+      3: "Vinculación",
+      4: "Docencia, Investigación",
+      5: "Docencia, Investigación, Vinculación",
+      6: "Investigación, Vinculación",
+      7: "Docencia, Vinculación",
+    };
+    return activities[actId] || "";
+  };
+
   return (
 
     <Container>
@@ -339,46 +367,39 @@ export const Postulacion = () => {
         </div>
 
 
-
-
-
-
-
-        
+        <div>
+          <label htmlFor="campo_amplio">Campo Amplio:</label>
+          <select
+            id="campo_amplio"
+            value={campo_amplio}
+            on
+            onChange={handleCampoAmplioChange}
+          >
+            {!isLoading &&
+              campo_amplios.map((campo_amplio) => (
+                <option key={campo_amplio.id} value={campo_amplio.id}>
+                  {campo_amplio.ca_nombre}
+                </option>
+              ))}
+          </select>
+        </div>
 
         <div>
-      <label htmlFor="campo_amplio">Campo Amplio:</label>
-      <select
-        id="campo_amplio"
-        value={campo_amplio}
-        onChange={handleCampoAmplioChange}
-      >
-        {!isLoading &&
-          campo_amplios.map((campo_amplio) => (
-            <option key={campo_amplio.id} value={campo_amplio.id}>
-              {campo_amplio.ca_nombre}
-            </option>
-          ))}
-      </select>
-    </div>
-
-    <div>
-      <label htmlFor="campo_especifico">Campo Específico:</label>
-      <select
-        id="campo_especifico"
-        value={campo_especifico}
-        onChange={(e) => setCampo_especifico(e.target.value)}
-        disabled={!campoEspecificoHabilitado}
-      >
-        <option value="" disabled>Seleccionar</option>
-        {!isLoading &&
-          campo_especificos.map((campo_especifico) => (
-            <option key={campo_especifico.id} value={campo_especifico.id}>
-              {campo_especifico.ce_nombre}
-            </option>
-          ))}
-      </select>
-    </div>
+          <label htmlFor="campo_especifico">Campo Específico:</label>
+          <select
+            id="campo_especifico"
+            value={campo_especifico}
+            onChange={(e) => {setCampo_especifico(e.target.value)}}
+          >
+            <option value="" disabled>Seleccionar</option>
+            {!isLoading &&
+              campo_especificos_filtrados.map((campo_especifico) => (
+                <option key={campo_especifico.id} value={campo_especifico.id}>
+                  {campo_especifico.ce_nombre}
+                </option>
+              ))}
+          </select>
+        </div>
 
 
         <div>
@@ -416,27 +437,51 @@ export const Postulacion = () => {
       <Container2>
         {/* Tabla */}
         {tablaCargada && (
+
+
           <table>
             <thead>
               <tr>
-                <th>Vacantes</th>
-                <th>Horas</th>
-                <th>Actividad</th>
+                <th rowSpan="2">Vacantes</th>
+                <th rowSpan="2">Horas</th>
+                <th colSpan="3">Actividad</th>
+                <th rowSpan="2">Escoger</th>
               </tr>
+
             </thead>
             <tbody>
               {tablaData.length === 0 ? (
                 <tr>
-                  <td colSpan="3">No hay datos disponibles</td>
+                  <td colSpan="6">No hay datos disponibles</td>
                 </tr>
               ) : (
-                tablaData.map((dato, index) => (
-                  <tr key={index}>
-                    <td>{dato.ofe_vacantes}</td>
-                    <td>{dato.ofe_horas}</td>
-                    <td>{dato.act_nombre}</td>
-                  </tr>
-                ))
+                tablaData.map((dato, index) => {
+                  const isDocencia = getActivityNames(dato.act_id).includes("Docencia");
+                  const isInvestigacion = getActivityNames(dato.act_id).includes("Investigación");
+                  const isVinculacion = getActivityNames(dato.act_id).includes("Vinculación");
+
+                  return (
+                    <tr
+                      key={index}
+                      className={selectedRow === index ? "selected-row" : ""}
+                      onClick={() => handleRowClick(index)}
+                    >
+                      <td>{dato.ofe_vacantes}</td>
+                      <td>{dato.ofe_horas}</td>
+                      <td className={isDocencia ? "selected docencia" : ""}>Docencia</td>
+                      <td className={isInvestigacion ? "selected investigacion" : ""}>Investigación</td>
+                      <td className={isVinculacion ? "selected vinculacion" : ""}>Vinculación</td>
+                      <td>
+                        <div style={{ textAlign: 'center' }}>
+                          <CircleButton
+                            selected={selectedRow === index}
+                            onClick={() => handleRowClick(index)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -449,36 +494,66 @@ export const Postulacion = () => {
         )}
 
         {/* ReactModal para mostrar el popup */}
+
+
         <ReactModal
           isOpen={showConfirmModal}
           onRequestClose={() => setShowConfirmModal(false)}
-          style={{
-            overlay: {
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
-              zIndex: 1000,
-            },
-            content: {
-              backgroundColor: "#fff",
-              borderRadius: "5px",
-              maxWidth: "400px",
-              margin: "auto",
-              padding: "20px",
-            },
-          }}
+          className="mm-popup" // Aquí aplicamos la clase mm-popup directamente
+          overlayClassName="mm-popup__overlay" // Si también deseas aplicar la clase al overlay
+          
         >
-          <h2>Verifique los datos antes de enviar</h2>
-          <p>Postulación: {confirmationDetails.postulacion}</p>
-          <p>Sede: {confirmationDetails.sede}</p>
-          <p>Departamento: {confirmationDetails.departamento}</p>
-          <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
-          <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
-          <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
-          <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-            <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
-            <button onClick={handleModalAcceptClick}>Aceptar</button>
+          <div className="mm-popup__box">
+            <div className="mm-popup__box__header">
+              <h2>Verifique los datos antes de enviar</h2>
+            </div>
+            <div className="mm-popup__box__body">
+              <p>Postulación: {confirmationDetails.postulacion}</p>
+              <p>Sede: {confirmationDetails.sede}</p>
+              <p>Departamento: {confirmationDetails.departamento}</p>
+              <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
+              <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
+              <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
+              <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
+            </div>
+            <div className="mm-popup__box__footer">
+              <div className="mm-popup__box__footer__right-space">
+                <div className="mm-popup__btn--success">
+                  <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
+                  <button onClick={handleModalAcceptClick}>Aceptar</button>
+                </div>
+              </div>
+            </div>
           </div>
         </ReactModal>
+        <ReactModal
+        isOpen={showSuccessModal}
+        onRequestClose={() => setShowSuccessModal(false)}
+        className="mm-popup__box"
+        overlayClassName="mm-popup__overlay"
+        
+      >
+        <div className="mm-popup__box__header">
+          <h2 className="mm-popup__box__header__title">Datos Subidos Correctamente</h2>
+          
+        </div>
+        <div className="mm-popup__box__body">
+          <p>Tus datos se han subido correctamente. ¡Gracias por completar el proceso!</p>
+        </div>
+        <div className="mm-popup__box__footer">
+          <div className="mm-popup__box__footer__right-space">
+          <button
+            className="mm-popup__btn"
+            onClick={() => {
+              
+              navigate("/home"); // Navegar a la ruta "/home" usando useNavigate
+            }}
+          >
+            Salir
+          </button>
+          </div>
+        </div>
+      </ReactModal>
       </Container2>
     </Container>
 
@@ -496,17 +571,24 @@ const Container = styled.div`
 
 
 const Container2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Add these properties to center the button horizontally and vertically */
+  justify-content: center;
+  align-items: center;
 
-button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 `;
+
 
 const Form = styled.form`
   display: flex;
@@ -558,5 +640,36 @@ const HorizontalContainer = styled.div`
     flex: 1;
   }
 `;
+const CircleButton = styled.button`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  background-color: ${(props) => (props.selected ? "#007bff" : "transparent")};
+  color: ${(props) => (props.selected ? "#fff" : "#007bff")};
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+
+  ::after {
+    content: "${(props) => (props.selected ? "\\2713" : "")}";
+    font-size: 14px;
+    color: ${(props) => (props.selected ? "#fff" : "transparent")};
+  }
+
+  :hover {
+    background-color: #007bff;
+    color: #fff;
+    ::after {
+      color: #fff;
+    }
+  }
+`;
+
+
+
+
 
 export default Postulacion;

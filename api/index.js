@@ -53,7 +53,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'SistemaPostulacion',
-  password: 'admin',
+  password: 'password',
   port: 5432,
 });
 

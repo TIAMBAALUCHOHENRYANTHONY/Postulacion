@@ -37,7 +37,7 @@ function App() {
                   setSidebarOpen={setSidebarOpen}
                   handleAuthentication={handleAuthentication}
                 />
-                <MyRoutes />
+                  <MyRoutes />
               </Container>
             )}
           </BrowserRouter>

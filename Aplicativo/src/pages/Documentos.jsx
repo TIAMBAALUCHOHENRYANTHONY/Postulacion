@@ -18,7 +18,7 @@ export function Documentos() {
     "Certificado de no tener responsabilidades administrativas",
     "Experiencia profesional",
   ];
- 
+
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -27,7 +27,7 @@ export function Documentos() {
     event.preventDefault();
     if (cedulaValida && captchaValido != '') {
       console.log(cedula);
-      navigate("/DatosPersonales", {state: {cedula: cedula}});
+      navigate("/DatosPersonales", { state: { cedula: cedula } });
     }
   };
   const handleModalAcceptClick = () => {
@@ -53,6 +53,7 @@ export function Documentos() {
   };
 
   const [sheetsCount, setSheetsCount] = useState(Array(8).fill(0));
+  const [linkPDF, setLinkPDF] = useState(Array(8).fill(0));
 
   const handleFileChange = async (index, event) => {
     const file = event.target.files[0];
@@ -68,8 +69,11 @@ export function Documentos() {
         });
         const { numPages } = response.data;
         const updatedSheetsCount = [...sheetsCount];
+        const updatedLinkPDF = [...linkPDF];
         updatedSheetsCount[index] = numPages;
+        updatedLinkPDF[index] = response.data.url;
         setSheetsCount(updatedSheetsCount);
+        setLinkPDF(updatedLinkPDF);
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -88,66 +92,67 @@ export function Documentos() {
               id={`file${index + 1}`}
               onChange={(e) => handleFileChange(index, e)}
             />
-            {sheetsCount[index] > 0 && <p>Cantidad de hojas: {sheetsCount[index]}</p>}
+            {/*<a href={linkPDF[index]} target="_blank" rel="noreferrer"><button onClick={(e) => e.preventDefault()}>📄 Previsualizar</button></a>*/}
+            {sheetsCount[index] > 0 && <p>Cantidad de Páginas: {sheetsCount[index]}</p>}
           </div>
         ))}
-
-<button type="button" onClick={handleEnviarClick}>
-    Enviar
-  </button>
+        {sheetsCount.reduce((a, b) => a + b, 0) > 0 && <h3>Conteo Acumulado de Páginas: {sheetsCount.reduce((a, b) => a + b, 0)}</h3>}
+        <button type="button" onClick={handleEnviarClick}>
+          Enviar
+        </button>
       </Form>
 
       <ReactModal
-  isOpen={showConfirmModal}
-  onRequestClose={() => setShowConfirmModal(false)}
-  className="mm-popup__box"
-  overlayClassName="mm-popup__overlay"
-  style={{
-    content: {
-      width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
-      top: "15%", // Posición vertical, 5% desde la parte superior
-      left: "40%", // Posición horizontal, 5% desde la izquierda
-      right: "50%", // Margen derecho, 5% desde la derecha
-      bottom: "45%", // Margen inferior, 5% desde la parte inferior
-      padding: "50px", // Agrega espacio interno de 20px
-      borderRadius: "10px", // Añade bordes redondeados
-      backgroundColor: "#fff", // Fondo del popup en blanco
-    },
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-      zIndex: 1000,
-    },
-  }}
->
-  <div className="mm-popup__box__header">
-    <h2 className="mm-popup__box__header__title">Verifique los datos antes de enviar</h2>
-    <button
-      className="mm-popup__close"
-      onClick={() => setShowConfirmModal(false)}
-      aria-label="Cerrar"
-    >
-      X
-    </button>
-  </div>
-  <div className="mm-popup__box__body">
-    <p>
-      Esta seguro que los datos enviados son los correctos, estos datos serán enviados y
-      posteriormente no podrán ser modificados.
-    </p>
-    <p>Si envía cualquier documento de manera errónea, puede ser descalificado del concurso.</p>
-  </div>
-  <div className="mm-popup__box__footer">
-    <div className="mm-popup__box__footer__right-space">
-      <button className="mm-popup__btn" onClick={() => setShowConfirmModal(false)}>
-        Cancelar
-      </button>
-      <button className="mm-popup__btn mm-popup__btn--success" onClick={handleModalAcceptClick}>
-        Aceptar
-      </button>
-    </div>
-  </div>
-</ReactModal>
-<ReactModal
+        isOpen={showConfirmModal}
+        onRequestClose={() => setShowConfirmModal(false)}
+        className="mm-popup__box"
+        overlayClassName="mm-popup__overlay"
+        style={{
+          content: {
+            width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
+            top: "15%", // Posición vertical, 5% desde la parte superior
+            left: "40%", // Posición horizontal, 5% desde la izquierda
+            right: "50%", // Margen derecho, 5% desde la derecha
+            bottom: "45%", // Margen inferior, 5% desde la parte inferior
+            padding: "50px", // Agrega espacio interno de 20px
+            borderRadius: "10px", // Añade bordes redondeados
+            backgroundColor: "#fff", // Fondo del popup en blanco
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <div className="mm-popup__box__header">
+          <h2 className="mm-popup__box__header__title">Verifique los datos antes de enviar</h2>
+          <button
+            className="mm-popup__close"
+            onClick={() => setShowConfirmModal(false)}
+            aria-label="Cerrar"
+          >
+            X
+          </button>
+        </div>
+        <div className="mm-popup__box__body">
+          <p>
+            Esta seguro que los datos enviados son los correctos, estos datos serán enviados y
+            posteriormente no podrán ser modificados.
+          </p>
+          <p>Si envía cualquier documento de manera errónea, puede ser descalificado del concurso.</p>
+        </div>
+        <div className="mm-popup__box__footer">
+          <div className="mm-popup__box__footer__right-space">
+            <button className="mm-popup__btn" onClick={() => setShowConfirmModal(false)}>
+              Cancelar
+            </button>
+            <button className="mm-popup__btn mm-popup__btn--success" onClick={handleModalAcceptClick}>
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </ReactModal>
+      <ReactModal
         isOpen={showSuccessModal}
         onRequestClose={() => setShowSuccessModal(false)}
         className="mm-popup__box"
@@ -184,15 +189,15 @@ export function Documentos() {
         </div>
         <div className="mm-popup__box__footer">
           <div className="mm-popup__box__footer__right-space">
-          <button
-            className="mm-popup__btn"
-            onClick={() => {
-              setShowSuccessModal(false);
-              navigate("/home"); // Navegar a la ruta "/home" usando useNavigate
-            }}
-          >
-            Salir
-          </button>
+            <button
+              className="mm-popup__btn"
+              onClick={() => {
+                setShowSuccessModal(false);
+                navigate("/home"); // Navegar a la ruta "/home" usando useNavigate
+              }}
+            >
+              Salir
+            </button>
           </div>
         </div>
       </ReactModal>

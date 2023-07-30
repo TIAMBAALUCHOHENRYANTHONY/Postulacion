@@ -5,7 +5,6 @@ import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
 import ReCAPTCHA from 'react-google-recaptcha'; // Importa el componente de reCAPTCHA
 import { Navigate, useNavigate } from "react-router-dom";
-import DatosPersonales from './DatosPersonales';
 
 function validarCedula(cedula) {
   var cad = cedula.trim();

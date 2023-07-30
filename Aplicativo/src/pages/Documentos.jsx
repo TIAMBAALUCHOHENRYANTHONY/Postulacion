@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, { useState } from "react";
+import axios from "axios";
 import "../styles/Postulacion.css";
 import ReactModal from "react-modal"; // Make sure you have installed this package
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -53,13 +54,25 @@ export function Documentos() {
 
   const [sheetsCount, setSheetsCount] = useState(Array(8).fill(0));
 
-  const handleFileChange = (index, event) => {
+  const handleFileChange = async (index, event) => {
     const file = event.target.files[0];
     if (file) {
-      const sheets = Math.ceil(file.size / AVERAGE_SHEET_SIZE);
-      const updatedSheetsCount = [...sheetsCount];
-      updatedSheetsCount[index] = sheets;
-      setSheetsCount(updatedSheetsCount);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await axios.post("http://localhost:5000/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const { numPages } = response.data;
+        const updatedSheetsCount = [...sheetsCount];
+        updatedSheetsCount[index] = numPages;
+        setSheetsCount(updatedSheetsCount);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
     }
   };
 

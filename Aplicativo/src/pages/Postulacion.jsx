@@ -538,22 +538,7 @@ export const Postulacion = () => {
         onRequestClose={() => setShowSuccessModal(false)}
         className="mm-popup__box"
         overlayClassName="mm-popup__overlay"
-        style={{
-          content: {
-            width: "25%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
-            top: "15%", // Posición vertical, 5% desde la parte superior
-            left: "45%", // Posición horizontal, 5% desde la izquierda
-            right: "50%", // Margen derecho, 5% desde la derecha
-            bottom: "55%", // Margen inferior, 5% desde la parte inferior
-            padding: "50px", // Agrega espacio interno de 20px
-            borderRadius: "10px", // Añade bordes redondeados
-            backgroundColor: "#fff", // Fondo del popup en blanco
-          },
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            zIndex: 1000,
-          },
-        }}
+        
       >
         <div className="mm-popup__box__header">
           <h2 className="mm-popup__box__header__title">Datos Subidos Correctamente</h2>

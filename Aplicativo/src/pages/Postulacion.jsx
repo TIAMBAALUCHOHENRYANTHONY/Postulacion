@@ -344,17 +344,7 @@ export const Postulacion = () => {
 
 
 
-        <div>
-          <label htmlFor="campo_amplio">Campo Amplio:</label>
-          <select id="campo_amplio" value={campo_amplio} onChange={(e) => setCampo_amplio(e.target.value)}>
-            <option value="">Seleccionar</option>
-            {campo_amplios.map((campo_amplio) => (
-              <option key={campo_amplio.id} value={campo_amplio.id}>
-                {campo_amplio.ca_nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+        
 
         <div>
       <label htmlFor="campo_amplio">Campo Amplio:</label>

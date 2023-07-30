@@ -83,9 +83,14 @@ function Inicio({ handleAuthentication }) {
             <button className="documents-button" onClick={handleShowDocuments}>
               {showButtonText ? "Más Información" : "Volver"}
             </button>
-            {!showDocuments && (
-              <div className="down-arrow" onClick={handleShowDocuments}>
-              </div>
+            {!showDocuments ? (
+              <div className="down-arrow" onClick={handleShowDocuments} />
+            ) : (
+              <div
+                className="up-arrow down-arrow"
+                style={{ transform: "rotate(315deg)" }}
+                onClick={handleShowDocuments}
+              />
             )}
           </div>
         </div>

@@ -12,10 +12,14 @@ import { NavLink, useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../App";
 
+
 export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
+ 
   const ModSidebaropen = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  
   const { setTheme, theme } = useContext(ThemeContext);
   const CambiarTheme = () => {
     setTheme((theme) => (theme === "light" ? "dark" : "light"));
@@ -27,7 +31,6 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
     handleAuthentication(false);
     navigate("/");
   };
-
 
   return (
     <Container isOpen={sidebarOpen} themeUse={theme}>
@@ -281,4 +284,5 @@ const Divider = styled.div`
   background: ${(props) => props.theme.bg3};
   margin: ${v.lgSpacing} 0;
 `;
+
 //#endregion

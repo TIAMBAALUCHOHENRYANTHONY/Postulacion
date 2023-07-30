@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import "../styles/Inicio.css";
-import Modal from "../components/Modal";
+import Modal from "../components/modal";
 import styled from "styled-components";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import ImagenInicio from "../images/LogoEspe.png";

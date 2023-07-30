@@ -52,6 +52,14 @@ export const Postulacion = () => {
     setCampoEspecificoHabilitado(selectedValue !== '');
   };
 
+  const handleInitialCampoAmplio = () => {
+    // If campo_amplios array is not empty, set the first option as selected by default
+    if (campo_amplios.length > 0) {
+      setCampo_amplio(campo_amplios[0].id);
+      setCampoEspecificoHabilitado(false); // Disable campo específico initially
+    }
+  };
+
   const handleConfirmClick = () => {
     // Show the confirmation modal
     setShowConfirmModal(true);
@@ -140,6 +148,7 @@ export const Postulacion = () => {
     fetchCampoEspecificos();
     fetchData();
     obtenerDatosTabla();
+    handleInitialCampoAmplio();
   }, []);
 
 
@@ -335,29 +344,42 @@ export const Postulacion = () => {
 
 
 
-        <div>
-          <label htmlFor="campo_amplio">Campo Amplio:</label>
-          <select id="campo_amplio" value={campo_amplio} onChange={(e) => setCampo_amplio(e.target.value)}>
-            <option value="">Seleccionar</option>
-            {campo_amplios.map((campo_amplio) => (
-              <option key={campo_amplio.id} value={campo_amplio.id}>
-                {campo_amplio.ca_nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+        
 
         <div>
-          <label htmlFor="campo_especifico">Campo Especifico:</label>
-          <select id="campo_especifico" value={campo_especifico} onChange={(e) => setCampo_especifico(e.target.value)}>
-            <option value="">Seleccionar</option>
-            {campo_especificos.map((campo_especifico) => (
-              <option key={campo_especifico.id} value={campo_especifico.id}>
-                {campo_especifico.ce_nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+      <label htmlFor="campo_amplio">Campo Amplio:</label>
+      <select
+        id="campo_amplio"
+        value={campo_amplio}
+        onChange={handleCampoAmplioChange}
+      >
+        {!isLoading &&
+          campo_amplios.map((campo_amplio) => (
+            <option key={campo_amplio.id} value={campo_amplio.id}>
+              {campo_amplio.ca_nombre}
+            </option>
+          ))}
+      </select>
+    </div>
+
+    <div>
+      <label htmlFor="campo_especifico">Campo Específico:</label>
+      <select
+        id="campo_especifico"
+        value={campo_especifico}
+        onChange={(e) => setCampo_especifico(e.target.value)}
+        disabled={!campoEspecificoHabilitado}
+      >
+        <option value="" disabled>Seleccionar</option>
+        {!isLoading &&
+          campo_especificos.map((campo_especifico) => (
+            <option key={campo_especifico.id} value={campo_especifico.id}>
+              {campo_especifico.ce_nombre}
+            </option>
+          ))}
+      </select>
+    </div>
+
 
         <div>
           <label htmlFor="contratacion">Tipo de Contratación:</label>

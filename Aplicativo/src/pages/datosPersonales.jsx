@@ -4,12 +4,12 @@ import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
-export function DatosPersonales({ handleAuthentication}) {
-  
+export function DatosPersonales({ handleAuthentication }) {
+
   const navigate = useNavigate();
   const location = useLocation();
   const cedula = location?.state?.cedula || '';
-  
+
   const handleLogin = () => {
     handleAuthentication(true);
     navigate("/home")
@@ -40,7 +40,7 @@ export function DatosPersonales({ handleAuthentication}) {
             </label>
             <label>
               Número de Identificación:
-              <input type="text" placeholder={cedula} disabled/>
+              <input type="text" placeholder={cedula} disabled />
             </label>
             <label>
               Máximo Título Alcanzado:
@@ -51,11 +51,18 @@ export function DatosPersonales({ handleAuthentication}) {
                 <option value="ingeniero">Tecnología</option>
               </select>
             </label>
-            <label>
-              Sexo:
-              <input type="radio" name="sexo" value="masculino" /> Masculino
-              <input type="radio" name="sexo" value="femenino" /> Femenino
-            </label>
+
+            <div>
+              <p>Sexo:</p>
+              <label>
+                Masculino
+                <input type="radio" name="sexo" value="masculino" />
+              </label>
+              <label>
+                Femenino
+                <input type="radio" name="sexo" value="femenino" />
+              </label>
+            </div>
             <label>
               Email:
               <input type="email" />
@@ -65,9 +72,9 @@ export function DatosPersonales({ handleAuthentication}) {
               <input type="password" />
             </label>
             <div className="submit-button">
-                <button className="modal-login-button" onClick={handleLogin}>
-                  Enviar
-                </button>
+              <button className="modal-login-button" onClick={handleLogin}>
+                Enviar
+              </button>
             </div>
           </form>
         </div>

@@ -6,7 +6,7 @@ import pdf2 from "../docs/pdf2.pdf";
 import pdf3 from "../docs/pdf3.pdf";
 
 const documents = [
-  { name: "Nuestras Cedes", url: pdf1 },
+  { name: "Nuestras Sedes", url: pdf1 },
   { name: "Bases del Concurso", url: pdf2 },
   { name: "Cronograma", url: pdf3 },
 ];

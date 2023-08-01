@@ -1,0 +1,124 @@
+INSERT INTO sede (sede_nombre) VALUES ('Matriz','Sangolquí');
+
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DECEM','Departamento de Energía y Mecánica');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DECTC','Departamento de la Tierra y la Construcción');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DECV','Departamento de la Vida y la Agricultura');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DECEAC','Departamento Económicas, Administrativas, y del Comercio');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DECHS','Departamento Humanas y Sociales');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DESD','Departamento de Seguridad y Defensa');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('DEEE','Departamento de Eléctrica, Electrónica y Telecomunicaciones');
+INSERT INTO departamento (dept_nombre,dept_descripcion) VALUES ('CEC','Departamento de Ciencias Médicas');
+
+INSERT INTO postulacion (post_periodo) VALUES ('202351');
+
+INSERT INTO campo_amplio (ca_nombre, ca_descripcion) VALUES ('Tecnología','Tecnologia');
+
+INSERT INTO campo_especifico (ce_nombre, ce_descripcion) VALUES ('Base de Datos','BDD');
+
+INSERT INTO candidato (cand_tipo_identificacion, cand_num_identificacion, cand_sexo, cand_titulo, cand_fecha_nacimiento, cand_correo, cand_password, cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2) VALUES ('Cedula','1721354262','M','Magister','2000-01-01','a@gmail.com','a','a','b','c','d');
+
+
+
+INSERT INTO contratacion (con_nombre) VALUES ('Personal académico que desarrolla actividades de tercer nivel de grado y cuarto nivel');
+INSERT INTO contratacion (con_nombre) VALUES ('Personal de apoyo académico (técnicos docentes, técnicos de laboratorio y técnico de investigación)');
+INSERT INTO contratacion (con_nombre) VALUES ('Personal académico para la formación técnica y tecnológica');
+
+
+INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES ('Auxiliar Nivel 1','Auxiliar Nivel 1');
+INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES ('Agregado Nivel 1','Agregado Nivel 1');
+INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES ('Principal Nivel 1','Principal Nivel 1');
+INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES ('Técnico Docente Nivel 1','Técnico Docente Nivel 1');
+INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES ('Técnico de Laboratorio Nivel 1','Técnico de Laboratorio Nivel 1');
+INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES ('Técnico de Investigación','Técnico de Investigación Nivel 1');
+
+
+INSERT INTO item (it_nombre) VALUES ('Formación');
+INSERT INTO item (it_nombre) VALUES ('Docencia');
+INSERT INTO item (it_nombre) VALUES ('Producción Académica');
+INSERT INTO item (it_nombre) VALUES ('Experiencia Profesional');
+
+
+CAMPO descripcion VARCHAR 750
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Tener al menos grado académico de maestría reconocido por el Órgano Rector de la Política Pública de Educación Superior, en el camplio aplio de conocimiento vinculado a sus actividades de docencia o investigación, o vinculación con la sociedad. La Universidad dará preferencia a los perfiles que tengan adicionalmente el título de grado con afinidad al campo amplio del conocimiento de su formación de cuarto nivel.');
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Acreditar competencia con nivel B1 o equivalente en una lengua diferente al castellano; o haber obtenido su título académico de tercer o cuarto nivel en un país con una lengua diferente al castellano. Los idiomas ancestrales serán considerados como lengua diferente al castellano. Cuando el idioma materno del postulante sea diferente al castellano, deberá acreditar competencia con nivel B2 en castellano');
+
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Acreditar un mínimo de ciento veintiocho (128) horas de capacitación en los últimos 4 años en el campo de conocimiento vinculadoa sus actividade s de docencia, invesstigación y/o vinculación con la sociedad, de las cuales al menos 25% (32 horas) deberán versar  sobre temas pedagógicos.');
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Tener promedio mínimo de ochenta por ciento (80%) como resultado de su evaluación de desempeño en los procesos de evauluación de desempeño correspondientes al último año en el que ejerció la docencia.');
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Acreditar al menos veinte y cuatro (24) meses de experiencia profesional docente en educación superior. Se reconocerá como experiencia profesional docente a la labor como personal de apoyo académico.');
+
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Haber publicado al menos dos artículos en revistas indexadas o haber producido la cantidad equivalente de obras de relevancia, según la tabla de equivalencias de obras de relevancia del Reglamento de Carrera y Escalafón del Personal Académico de la Universidad de las Fuerzas Armadas - ESPE. La participación en la mencionada tabla de equivalencias. Serán válidos los artículos u otras obras de relevancia que tengan afinidad con la formación académica del docente investigador y, con las actividades de docencia, investigación y vinculación que realizará en la Universidad de las Fuerzas Armadas - ESPE. Serán validas las publicaciones u obras de relevancia producidas en los últimos (4) cuatro años.');
+
+INSERT INTO requisito (rq_descripcion) VALUES ('Acreditar al menos doce (12) meses de experiencia en el ejercicio de su profesión. Esta experiencia se podrá acreditar con experiencia en instituciones de educación superior siempre que haya ejercicio real de la profesión.');
+
+
+
+Campo Detalle varchar 500
+
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Maestría','Registrado SENESCYT','18','20','0','Se atribuyen únicamente 2 puntos cuando el/los título/s de maestría tiene afinidad con el/los título/s de grado a nivel de campo específico');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Doctorado, PhD o su equivalente','Registrado SENESCYT','0','3','0','Se atribuyen 3 puntos cuando el t[itulo de doctorado tiene afinidad con el de maestría y el de grado, según se especifique en la convocatoria.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Adicional título de grado Maestría y/o Doctorado, PhD o su equivalente','Registrado SENESCYT','0','1,50','0','Se atribuyen 3 puntos cuando el título de doctorado tiene afinidad con el de maestría y el de grado, según se especifique en la convocatoria.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Certificado nivel B1 o su equivalente, y/o','Documento o certificado emitido por una IES o una institución que brinda programas o cursos de lenguas, cuyo certificado de suficiencia sea mediante la rendición de exámenes de reconocimiento internacional.','3','3.50','0','Se atribuyen 0,25 punto adicional por registrar un certificado superior a nivel B1. Se atribuye 0,25 punto adicional por la acreditación de otro idioma adicional al primero que ha sido presentado, siempre que se presente el certificado equivalente a C2.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Título de tercer o cuarto nivel obtenido en otro idioma','Documento o certificado emitido por una IES o una institución que brinda programas o cursos de lenguas, cuyo certificado de suficiencia sea mediante la rendición de exámenes de reconocimiento internacional.','3','3.50','0','Se atribuyen 0,25 punto adicional por registrar un certificado superior a nivel B1. Se atribuye 0,25 punto adicional por la acreditación de otro idioma adicional al primero que ha sido presentado, siempre que se presente el certificado equivalente a C2.');
+
+corregir certificado
+
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Certificado de idiomas ancestrales','Documento o certificado emitido por una IES o una institución que brinda programas o cursos de lenguas, cuyo certificado de suficiencia sea mediante la rendición de exámenes de reconocimiento internacional.','3','3.50','0','Se atribuyen 0,25 punto adicional por registrar un certificado superior a nivel B1. Se atribuye 0,25 punto adicional por la acreditación de otro idioma adicional al primero que ha sido presentado, siempre que se presente el certificado equivalente a C2.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Nivel B2 en castellano','Documento o certificado emitido por una IES o una institución que brinda programas o cursos de lenguas, cuyo certificado de suficiencia sea mediante la rendición de exámenes de reconocimiento internacional.','3','3.50','0','Se atribuyen 0,25 punto adicional por registrar un certificado superior a nivel B1. Se atribuye 0,25 punto adicional por la acreditación de otro idioma adicional al primero que ha sido presentado, siempre que se presente el certificado equivalente a C2.');
+
+
+corregir evaluacion y puntaje de 4 a 3
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Capacitación en los últimos 4 años, 128 horas','96 horas de capacitación en el campo de conocimiento vinculado a sus actividades de docencia, investigación y/o vinculación con la sociedad','2','2.50','0','Para asignar el puntaje adicional, se realizará proporcionalmente al número de horas de capacitación, hasta 64 horas adicionales a las mínimas requeridas, si suma más se pondrá el puntaje máximo indicado.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Capacitación en los últimos 4 años, 128 horas','32 horas sobre temas pedagógicos','1.75','2','0','Para asignar un puntaje adicional, se deberá realizar proporcionalmente al número de horas de capacitación, hasta 32 horas adicionales a las mínimas requeridas, si suma más se pondrá el máximo puntaje indicado.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Evaluación integral de desempeño docente de los últimos 24 meses','Mínimo 80% en el último año','2.75','3','0','El postulante que tenga el puntaje mínimo de 80100 en su evaluación obtendrá el puntaje mínimo. El puntaje adicional se asigna´ra de manera proporcional a partir de los 80 puntos, hasta el puntaje máximo indicado');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Experiencia profesional en docencia universitaria','24 meses','4','4.50','0','El puntaje adicional se asignará proporcionalmente de acuerdo al número de meses de experiencia, hasta 48 meses, si suma más se pondrá el máximo puntaje indicado.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Artículo completo o DOI. Obras de relevancia. Solicitud al Servicio Nacional de Derechos Intelectuales.','2 artículos, obras de relevancia dentro de los últimos cuatro años','5.50','6.50','0','Por cada artículo adicional al requisito mínimo exigido se sumará 0,25 puntos, hasta el máximo puntaje indicado.');
+INSERT INTO titulo_exp (tx_descripcion, tx_detalle, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) VALUES ('Experiencia del ejercicio de la profesión','12 meses','3','3.50','0','El puntaje adicional, se asignará proporcionalmente de acuerdo al número de meses de experiencia, hasta 36 meses, si suma más se pondrá el máximo puntaje indicado');
+
+
+INSERT INTO oferta (ofe_vacantes,ofe_horas) VALUES ('3','8');
+
+create table OFERTA
+(
+   
+   OFE_ID               int not null,
+   POST_ID              int,
+   CON_ID               int,
+   CE_ID               		int,
+   CA_ID               	int,
+   SEDE_ID                int,
+   DEPT_ID                int ,
+   PA_ID					int ,
+   
+   primary key (OFE_ID)
+);
+      
+alter table OFERTA add constraint FK_RELATIONSHIP_15 foreign key (POST_ID)
+      references POSTULACION (POST_ID) on delete restrict on update restrict;
+      
+alter table OFERTA add constraint FK_RELATIONSHIP_16 foreign key (CON_ID)
+      references CONTRATACION (CON_ID) on delete restrict on update restrict;
+      
+alter table OFERTA add constraint FK_RELATIONSHIP_17 foreign key (CE_ID)
+      references CAMPO_ESPECIFICO (CE_ID) on delete restrict on update restrict;
+      
+alter table OFERTA add constraint FK_RELATIONSHIP_18 foreign key (CA_ID)
+      references CAMPO_AMPLIO (CA_ID) on delete restrict on update restrict;
+      
+alter table OFERTA add constraint FK_RELATIONSHIP_19 foreign key (SEDE_ID)
+      references SEDE (SEDE_ID) on delete restrict on update restrict;
+      
+alter table OFERTA add constraint FK_RELATIONSHIP_20 foreign key (DEPT_ID)
+      references DEPARTAMENTO (DEPT_ID) on delete restrict on update restrict;
+
+alter table OFERTA add constraint FK_RELATIONSHIP_21 foreign key (PA_ID)
+      references PERSONAL_ACADEMICO (PA_ID) on delete restrict on update restrict;
+
+
+
+

@@ -53,7 +53,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'SistemaPostulacion',
-  password: 'admin',
+  password: 'password',
   port: 5432,
 });
 
@@ -160,9 +160,6 @@ app.get('/tabla', (req, res) => {
       AND pa_id = (SELECT pa_id FROM personal_academico WHERE pa_nombre=$7)
   `;
 
-  
-
-  
   const values = [postulacion, sede, departamento, campo_amplio, campo_especifico, contratacion, personal_academico];
 
   pool.query(query, values, (err, result) => {

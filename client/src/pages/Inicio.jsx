@@ -7,9 +7,34 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import ImagenInicio from "../images/LogoEspe.png";
 import PdfViewer from "./pdf1";
 import { Cedula } from "./Cedula";
+import Axios from "axios";
 
 function Inicio({ handleAuthentication }) {
   const navigate = useNavigate();
+  const [cedulaLog, setCedulaLog] = useState("");
+  const [contraseñaLog, setContraseñaLog] = useState("");
+
+  const [loginStatus, setLoginStatus] = useState("");
+
+  const log = () => {
+    Axios.post("http://localhost:5000/api/login", {
+      cand_num_identificacion: cedulaLog,
+      cand_password: contraseñaLog,
+    }).then((response) => {
+      if (response.data.message) {
+        setLoginStatus(response.data.message);
+      } else if (response.data && response.data.length > 0 && response.data[0].cand_num_identificacion) {
+        const cand_num_identificacion = response.data[0].cand_num_identificacion;
+        setLoginStatus("Bienvenido: " + cand_num_identificacion);
+        localStorage.setItem("auth", "yes");
+        localStorage.setItem("cand_num_identificacion", cand_num_identificacion);
+        handleAuthentication(true);
+        navigate("/home");
+      } else {
+        setLoginStatus("Usuario o contraseña incorrecta");
+      }
+    });
+  };
 
   const handleLogin = () => {
     handleAuthentication(true);
@@ -62,16 +87,22 @@ function Inicio({ handleAuthentication }) {
                 <img src={ImagenInicio} alt="Imagen Logo" className="modal-image" />
                 <form className="modal-form">
                   <label>
-                    Usuario:
-                    <input type="text" />
+                    Cedula:
+                    <input type="text"  
+                    onChange={(e) => {
+                      setCedulaLog(e.target.value);
+                    }}/>
                   </label>
                   <label>
                     Contraseña:
-                    <input type="password" />
+                    <input type="password"
+                    onChange={(e) => {
+                      setContraseñaLog(e.target.value);
+                    }} />
                   </label>
                 </form>
                 <div className="modal-buttons-container">
-                  <button onClick={handleLogin}>Iniciar sesión</button>
+                  <button onClick={log}>Iniciar sesión</button>
                   <button className="modal-login-button" onClick={navegarCedula}>
                     Registrarse
                   </button>

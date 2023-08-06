@@ -29,6 +29,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
 
   const handleLogout = () => {
     handleAuthentication(false);
+    localStorage.removeItem("auth");
     navigate("/");
   };
 

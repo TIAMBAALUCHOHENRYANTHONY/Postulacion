@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const { Pool } = require('pg');
 const app = express();
@@ -26,6 +27,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 app.use(cors({ origin: "http://localhost:5173" })); // Allow requests from the frontend domain
+app.use(express.json());
 
 // Endpoint for file upload
 app.post('/api/upload', upload.single('file'), (req, res) => {
@@ -66,7 +68,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'SistemaPostulacion',
-  password: 'password',
+  password: 'root',
   port: 5432,
 });
 
@@ -185,6 +187,55 @@ app.get('/tabla', (req, res) => {
     }
   });
 });
+
+//Login
+
+app.get("/api/get", (req, res) => {
+  const sqlSelect = "SELECT * FROM candidato";
+  db.query(sqlSelect, (err, rows, results) => {
+    res.send(rows);
+  });
+});
+
+app.post("/api/login", async (req, res) => {
+  const cand_num_identificacion = req.body.cand_num_identificacion;
+  const cand_password = req.body.cand_password; // Corregir 'req.cand_password' a 'req.body.cand_password'
+
+  pool.query(
+    "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2", // Agregar '$1' y '$2' como marcadores de posición
+    [cand_num_identificacion, cand_password],
+    (err, result) => {
+      if (err) {
+        console.error("Error executing query", err);
+        res.status(500).send("Error executing query");
+      } else {
+        if (result.rows.length > 0) {
+          // Verificar si result.rows está definido y tiene elementos
+          res.send(result.rows);
+        } else {
+          res.send({ message: "Usuario o contraseña incorrecta!" });
+        }
+      }
+    }
+  );
+});
+
+// Función para obtener un candidato por su número de identificación desde la base de datos
+async function getCandidateByIdentification(cand_num_identificacion) {
+  const query = 'SELECT * FROM candidato WHERE cand_num_identificacion = $1';
+  const values = [cand_num_identificacion];
+
+  try {
+    const result = await pool.query(query, values);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error fetching candidate:', error);
+    throw error;
+  }
+}
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -13,5 +13,8 @@
     "pdf-page-counter": "^1.0.3",
     "pg": "^8.11.1",
     "uuid": "^9.0.0"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
   }
 }

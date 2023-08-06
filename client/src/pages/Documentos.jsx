@@ -58,6 +58,8 @@ export function Documentos() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("username", "Usuario");
+      formData.append("tipoDocumento", documentLabels[index]);
 
       try {
         const response = await axios.post("http://localhost:5000/api/upload", formData, {
@@ -72,6 +74,7 @@ export function Documentos() {
         updatedLinkPDF[index] = response.data.url;
         setSheetsCount(updatedSheetsCount);
         setLinkPDF(updatedLinkPDF);
+        console.log("PDF subido a la Base de Datos");
       } catch (error) {
         console.error("Error uploading file:", error);
       }

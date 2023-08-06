@@ -5,6 +5,7 @@ const app = express();
 const port = 5000;
 const fs = require('fs');
 const pdf = require('pdf-page-counter');
+const PDF = require('./docs');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
@@ -31,8 +32,20 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
-  
+
+  const { username, tipoDocumento } = req.body;
   const dataBuffer = fs.readFileSync(req.file.path);
+
+  const doc = new PDF({
+    username,
+    tipoDocumento,
+    pdfPath: req.file.path,
+    pdfFile: dataBuffer
+  });
+
+  doc.save();
+
+  
   
   
   const uniqueFileName = req.file.filename;

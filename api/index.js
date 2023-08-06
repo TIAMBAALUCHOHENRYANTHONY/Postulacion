@@ -11,6 +11,7 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
+
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -236,6 +237,71 @@ async function getCandidateByIdentification(cand_num_identificacion) {
     throw error;
   }
 }
+
+//Middleware para analizar el cuerpo de las solicitudes POST en formato JSON
+app.use(bodyParser.json());
+
+// Mija aqui esta el metodo post 
+// Ruta para el método POST para insertar datos en la tabla candidato
+
+app.post('/candidatos', async (req, res) => {
+  try {
+    const {
+      cand_tipo_identificacion,
+      cand_num_identificacion,
+      cand_sexo,
+      cand_titulo,
+      cand_fecha_nacimiento,
+      cand_correo,
+      cand_password,
+      cand_nombre1,
+      cand_nombre2,
+      cand_apellido1,
+      cand_apellido2,
+    } = req.body;
+
+    // Realiza la inserción en la base de datos
+    const query = `
+      INSERT INTO public.candidato (
+        cand_tipo_identificacion,
+        cand_num_identificacion,
+        cand_sexo,
+        cand_titulo,
+        cand_fecha_nacimiento,
+        cand_correo,
+        cand_password,
+        cand_nombre1,
+        cand_nombre2,
+        cand_apellido1,
+        cand_apellido2
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING cand_id;
+    `;
+    const values = [
+      cand_tipo_identificacion,
+      cand_num_identificacion,
+      cand_sexo,
+      cand_titulo,
+      cand_fecha_nacimiento,
+      cand_correo,
+      cand_password,
+      cand_nombre1,
+      cand_nombre2,
+      cand_apellido1,
+      cand_apellido2,
+    ];
+
+    const result = await pool.query(query, values);
+    const insertedId = result.rows[0].cand_id;
+
+    return res.status(201).json({ message: 'Candidato creado con éxito', insertedId });
+  } catch (error) {
+    console.error('Error al insertar candidato:', error);
+    return res.status(500).json({ message: 'Error al insertar candidato' });
+  }
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -67,7 +67,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "SistemaPostulacion",
-  password: "root",
+  password: "admin",
   port: 5432,
 });
 
@@ -355,6 +355,27 @@ app.post("/candidatos", async (req, res) => {
   } catch (error) {
     console.error("Error al insertar candidato:", error);
     return res.status(500).json({ message: "Error al insertar candidato" });
+  }
+});
+
+app.post('/solicitud', async (req, res) => {
+  const { cand_id, ofe_id } = req.body;
+
+  try {
+    // Configurar el valor inicial del campo "sol_aprobado" en false
+    const sol_aprobado = false;
+
+    // Guardar la postulación en la tabla "solicitud" usando la conexión a PostgreSQL
+    const query = 'INSERT INTO solicitud (cand_id, ofe_id, sol_aprobacion) VALUES ($1, $2, $3) ';
+    const values = [cand_id, ofe_id, sol_aprobado];
+    const result = await pool.query(query, values);
+
+    // Responder con éxito y enviar la nueva solicitud creada
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    // En caso de error, responder con un código de error y un mensaje de error
+    console.error('Error al guardar la solicitud:', error);
+    res.status(500).json({ error: 'Error al guardar la solicitud' });
   }
 });
 

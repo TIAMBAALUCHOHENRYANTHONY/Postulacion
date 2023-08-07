@@ -41,8 +41,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   const doc = new PDF({
     username,
     tipoDocumento,
-    pdfPath: req.file.path,
-    pdfFile: dataBuffer,
+    pdfPath: req.file.path
   });
 
   doc.save();

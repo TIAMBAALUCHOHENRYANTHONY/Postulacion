@@ -20,11 +20,7 @@ const pdfSchema = new mongoose.Schema({
   pdfPath: {
     type: String,
     required: true,
-  },
-  pdfFile: {
-    type: Buffer,
-    required: true,
-  },
+  }
 });
 
 const PDF = mongoose.model('PDF', pdfSchema);

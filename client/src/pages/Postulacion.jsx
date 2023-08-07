@@ -94,7 +94,7 @@ export const Postulacion = ({ idUsuario }) => {
     }
   
     const data = {
-      cand_id: idUsuario,
+      cand_id: 1,
       ofe_id: selectedOfeId, // Utilizar la ID de oferta seleccionada
     };
   

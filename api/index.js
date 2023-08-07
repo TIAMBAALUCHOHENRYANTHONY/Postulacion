@@ -11,6 +11,7 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
+
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -199,7 +200,7 @@ app.get("/api/get", (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const cand_num_identificacion = req.body.cand_num_identificacion;
-  const cand_password = req.body.cand_password; // Corregir 'req.cand_password' a 'req.body.cand_password'
+  const cand_password = req.body.cand_password;
 
   pool.query(
     "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2", // Agregar '$1' y '$2' como marcadores de posición
@@ -210,13 +211,8 @@ app.post("/api/login", async (req, res) => {
         res.status(500).send("Error executing query");
       } else {
         if (result.rows.length > 0) {
-          const candidate = result.rows[0];
-          res.send({
-            cand_id: candidate.cand_id, // Return the candidate's ID
-            cand_nombre: candidate.cand_nombre, // Return other relevant information
-            // ... include other properties you want to return
-          });
-
+          
+          res.send(result.rows);
         } else {
           res.send({ message: "Usuario o contraseña incorrecta!" });
         }
@@ -252,7 +248,7 @@ app.post('/solicitud', async (req, res) => {
 
     // Guardar la postulación en la tabla "solicitud" usando la conexión a PostgreSQL
     const query = 'INSERT INTO solicitud (cand_id, ofe_id, sol_aprobacion) VALUES ($1, $2, $3) ';
-    const values = [1, ofe_id, false];
+    const values = [cand_id, ofe_id, sol_aprobado];
     const result = await pool.query(query, values);
 
     // Responder con éxito y enviar la nueva solicitud creada

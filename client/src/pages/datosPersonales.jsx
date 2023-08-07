@@ -61,6 +61,7 @@ export function DatosPersonales({ handleAuthentication }) {
         cand_apellido2: apellido2Reg,
       });
       localStorage.setItem("auth", "yes");
+      navigate("/home")
       handleAuthentication(true);
       console.log(response);
     } catch (error) {
@@ -95,7 +96,6 @@ export function DatosPersonales({ handleAuthentication }) {
       );
       if (response.status === 200) {
         //alert("Email successfully sent, check your inbox.");
-        handleAuthentication(true);
         navigate("/home");
       } else {
         console.log("Error sending email:", response.text);
@@ -187,7 +187,7 @@ export function DatosPersonales({ handleAuthentication }) {
                 }}/>
               </label>
               <div className="submit-button">
-                <button type="button" onClick={register}>Enviar</button>
+                <button type="button" onClick={handleConfirmClick}>Enviar</button>
               </div>
             </form>
           </div>

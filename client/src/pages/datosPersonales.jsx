@@ -19,7 +19,7 @@ export function DatosPersonales({ handleAuthentication }) {
   const nameRef = useRef();
   const tituloRef = useRef();
   const [loading, setLoading] = useState(false);
-  const fechaNacPorDefecto = '2000-08-13'
+  const fechaNacPorDefecto = '2003-08-13'
   const tituloDefecto = 'Doctorado'
   const tipoIdentificacionDefecto = 'Cédula'
 

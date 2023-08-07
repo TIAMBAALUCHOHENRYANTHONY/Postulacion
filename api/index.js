@@ -46,9 +46,6 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   });
 
   doc.save();
-
-  
-  
   
   const uniqueFileName = req.file.filename;
   
@@ -199,7 +196,7 @@ app.get("/api/get", (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const cand_num_identificacion = req.body.cand_num_identificacion;
-  const cand_password = req.body.cand_password; // Corregir 'req.cand_password' a 'req.body.cand_password'
+  const cand_password = req.body.cand_password;
 
   pool.query(
     "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2", // Agregar '$1' y '$2' como marcadores de posición
@@ -210,7 +207,6 @@ app.post("/api/login", async (req, res) => {
         res.status(500).send("Error executing query");
       } else {
         if (result.rows.length > 0) {
-          // Verificar si result.rows está definido y tiene elementos
           res.send(result.rows);
         } else {
           res.send({ message: "Usuario o contraseña incorrecta!" });
@@ -236,6 +232,115 @@ async function getCandidateByIdentification(cand_num_identificacion) {
     throw error;
   }
 }
+
+//Register
+app.get("/candidatos", async (req, res) => {
+  try {
+    // Realiza la consulta para obtener todos los candidatos de la base de datos
+    const query = "SELECT * FROM public.candidato;";
+    const result = await pool.query(query);
+    const candidatos = result.rows;
+
+    return res.status(200).json(candidatos);
+  } catch (error) {
+    console.error("Error al obtener candidatos:", error);
+    return res.status(500).json({ message: "Error al obtener candidatos" });
+  }
+});
+
+app.post("/api/candidatos", (req, res) => {
+  const cand_tipo_identificacion = req.body.cand_tipo_identificacion;
+  const cand_num_identificacion = req.body.cand_num_identificacion;
+  const cand_sexo = req.body.cand_sexo;
+  const cand_titulo = req.body.cand_titulo;
+  const cand_fecha_nacimiento = req.body.cand_fecha_nacimiento;
+  const cand_correo = req.body.cand_correo;
+  const cand_password = req.body.cand_password;
+  const cand_nombre1 = req.body.cand_nombre1;
+  const cand_nombre2 = req.body.cand_nombre2;
+  const cand_apellido1 = req.body.cand_apellido1;
+  const cand_apellido2 = req.body.cand_apellido2;
+
+  pool.query(
+    "INSERT INTO candidato (cand_tipo_identificacion,cand_num_identificacion,cand_sexo,cand_titulo,cand_fecha_nacimiento,cand_correo,cand_password,cand_nombre1,cand_nombre2,cand_apellido1,cand_apellido2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+    [
+      cand_tipo_identificacion,
+      cand_num_identificacion,
+      cand_sexo,
+      cand_titulo,
+      cand_fecha_nacimiento,
+      cand_correo,
+      cand_password,
+      cand_nombre1,
+      cand_nombre2,
+      cand_apellido1,
+      cand_apellido2,
+    ],
+    (err, result) => {
+      console.log(err);
+    }
+  );
+});
+
+// Ruta para el método POST para insertar datos en la tabla candidato
+app.post("/candidatos", async (req, res) => {
+  try {
+    const {
+      cand_tipo_identificacion,
+      cand_num_identificacion,
+      cand_sexo,
+      cand_titulo,
+      cand_fecha_nacimiento,
+      cand_correo,
+      cand_password,
+      cand_nombre1,
+      cand_nombre2,
+      cand_apellido1,
+      cand_apellido2,
+    } = req.body;
+
+    // Realiza la inserción en la base de datos
+    const query = `
+      INSERT INTO public.candidato (
+        cand_tipo_identificacion,
+        cand_num_identificacion,
+        cand_sexo,
+        cand_titulo,
+        cand_fecha_nacimiento,
+        cand_correo,
+        cand_password,
+        cand_nombre1,
+        cand_nombre2,
+        cand_apellido1,
+        cand_apellido2
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING cand_id;
+    `;
+    const values = [
+      cand_tipo_identificacion,
+      cand_num_identificacion,
+      cand_sexo,
+      cand_titulo,
+      cand_fecha_nacimiento,
+      cand_correo,
+      cand_password,
+      cand_nombre1,
+      cand_nombre2,
+      cand_apellido1,
+      cand_apellido2,
+    ];
+
+    const result = await pool.query(query, values);
+    const insertedId = result.rows[0].cand_id;
+
+    return res
+      .status(201)
+      .json({ message: "Candidato creado con éxito", insertedId });
+  } catch (error) {
+    console.error("Error al insertar candidato:", error);
+    return res.status(500).json({ message: "Error al insertar candidato" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

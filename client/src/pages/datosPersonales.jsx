@@ -45,20 +45,7 @@ export function DatosPersonales({ handleAuthentication }) {
     setApellido2Reg(nombresArray[3] || '');
   };
 
-  const register = () => {
-    console.log("Valores a enviar al servidor:");
-    console.log("cand_tipo_identificacion:", tipoIdentifReg);
-    console.log("cand_num_identificacion:", cedula);
-    console.log("cand_sexo:", sexoReg);
-    console.log("cand_titulo:", tituloReg);
-    console.log("cand_fecha_nacimiento:", fechaNacReg);
-    console.log("cand_correo:", correoReg);
-    console.log("cand_password:", passwordReg);
-    console.log("cand_nombre1:", nombre1Reg);
-    console.log("cand_nombre2:", nombre2Reg);
-    console.log("cand_apellido1:", apellido1Reg);
-    console.log("cand_apellido2:", apellido2Reg);
-      
+  const register = () => {      
     try {
       const response = Axios.post("http://localhost:5000/api/candidatos", {
         cand_tipo_identificacion: tipoIdentifReg,

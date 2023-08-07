@@ -5,6 +5,7 @@ import ReactModal from "react-modal";
 import "../styles/Postulacion.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 export const Postulacion = ({ idUsuario }) => {
+  console.log("ID de Usuario:", idUsuario);
 
   // Llama a la función para guardar la postulación junto con la ID del candidato logueado
   
@@ -88,29 +89,13 @@ export const Postulacion = ({ idUsuario }) => {
   
  
   const handleConfirmClick = async (idUsuario) => {
-    if (selectedOfeId === null) {
-      console.error("No se ha seleccionado ninguna oferta.");
-      return;
-    }
-  
-    const data = {
-      cand_id: 1,
-      ofe_id: selectedOfeId, // Utilizar la ID de oferta seleccionada
-    };
-  
-    try {
-      const response = await axios.post("http://localhost:5000/solicitud", data);
-      // Manejar el éxito y mostrar un mensaje de éxito u otras acciones necesarias
-      setShowConfirmModal(false);
-      setShowSuccessModal(true);
-    } catch (error) {
-      console.error("Error al guardar la postulación:", error);
-    }
+    setShowConfirmModal(true);
+    
   };
   
   
 
-  const handleModalAcceptClick = () => {
+  const handleModalAcceptClick = async() => {
     // Handle the logic when the user clicks "Aceptar" in the modal
     // For now, you can just print the confirmation details to the console
     console.log("Confirmation Details:", confirmationDetails);
@@ -125,8 +110,27 @@ export const Postulacion = ({ idUsuario }) => {
       contratacion: "",
       personalAcademico: "",
     });
-    setShowConfirmModal(false);
-    setShowSuccessModal(true);
+    
+    if (selectedOfeId === null) {
+      console.error("No se ha seleccionado ninguna oferta.");
+      return;
+    }
+  
+    const data = {
+      cand_id: 1,
+      ofe_id: selectedOfeId, // Utilizar la ID de oferta seleccionada
+    };
+  
+    try {
+      
+      // Manejar el éxito y mostrar un mensaje de éxito u otras acciones necesarias
+      setShowConfirmModal(false);
+      const response = await axios.post("http://localhost:5000/solicitud", data);
+      setShowSuccessModal(true);
+
+    } catch (error) {
+      console.error("Error al guardar la postulación:", error);
+    }
   };
 
   const obtenerDatosTabla = async () => {

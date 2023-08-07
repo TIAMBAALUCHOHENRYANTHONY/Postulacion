@@ -11,6 +11,7 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
+
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -233,6 +234,7 @@ async function getCandidateByIdentification(cand_num_identificacion) {
   }
 }
 
+<<<<<<< HEAD
 //Register
 app.get("/candidatos", async (req, res) => {
   try {
@@ -284,6 +286,15 @@ app.post("/api/candidatos", (req, res) => {
 
 // Ruta para el método POST para insertar datos en la tabla candidato
 app.post("/candidatos", async (req, res) => {
+=======
+//Middleware para analizar el cuerpo de las solicitudes POST en formato JSON
+app.use(bodyParser.json());
+
+// Mija aqui esta el metodo post 
+// Ruta para el método POST para insertar datos en la tabla candidato
+
+app.post('/candidatos', async (req, res) => {
+>>>>>>> c853879c9599eb5a8c85ab3b01e760760b454a82
   try {
     const {
       cand_tipo_identificacion,
@@ -333,6 +344,7 @@ app.post("/candidatos", async (req, res) => {
     const result = await pool.query(query, values);
     const insertedId = result.rows[0].cand_id;
 
+<<<<<<< HEAD
     return res
       .status(201)
       .json({ message: "Candidato creado con éxito", insertedId });
@@ -345,3 +357,18 @@ app.post("/candidatos", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+=======
+    return res.status(201).json({ message: 'Candidato creado con éxito', insertedId });
+  } catch (error) {
+    console.error('Error al insertar candidato:', error);
+    return res.status(500).json({ message: 'Error al insertar candidato' });
+  }
+});
+
+
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
+
+>>>>>>> c853879c9599eb5a8c85ab3b01e760760b454a82

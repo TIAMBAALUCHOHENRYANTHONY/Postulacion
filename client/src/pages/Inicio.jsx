@@ -35,11 +35,7 @@ function Inicio({ handleAuthentication }) {
       }
     });
   };
-
-  const handleLogin = () => {
-    handleAuthentication(true);
-    navigate("/home");
-  };
+  
 
   const navegarCedula = () => {
     navigate("/cedula");

@@ -4,12 +4,11 @@ import FormImagen from "../images/Form-imagen.jpg"
 import Logo from "../images/LogoEspe.png"
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser"; // Corrected import statement
-
 import styled from "styled-components";
-
 import axios from "axios";
 import ReactModal from "react-modal";
 import "../styles/Postulacion.css";
+import Axios from "axios";
 
 export function DatosPersonales({ handleAuthentication }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -20,6 +19,54 @@ export function DatosPersonales({ handleAuthentication }) {
   const nameRef = useRef();
   const tituloRef = useRef();
   const [loading, setLoading] = useState(false);
+  const fechaNacPorDefecto = '2000-08-13'
+  const tituloDefecto = 'Doctorado'
+  const tipoIdentificacionDefecto = 'Cédula'
+
+  const [tipoIdentifReg, setTipoIdentifReg] = useState(tipoIdentificacionDefecto);
+  const [sexoReg, setSexoReg] = useState();
+  const [tituloReg, setTituloReg] = useState(tituloDefecto);
+  const [fechaNacReg, setFechaNacReg] = useState(fechaNacPorDefecto);
+  const [correoReg, setCorreoReg] = useState();
+  const [passwordReg, setPasswordReg] = useState();
+  const [nombreCompleto, setNombreCompleto] = useState();
+  const [nombre1Reg, setNombre1Reg] = useState();
+  const [nombre2Reg, setNombre2Reg] = useState();
+  const [apellido1Reg, setApellido1Reg] = useState();
+  const [apellido2Reg, setApellido2Reg] = useState();
+
+  const handleNombreCompletoChange = (e) => {
+    const value = e.target.value;
+    setNombreCompleto(value);
+    const nombresArray = value.split(' ');
+    setNombre1Reg(nombresArray[0] || '');
+    setNombre2Reg(nombresArray[1] || '');
+    setApellido1Reg(nombresArray[2] || '');
+    setApellido2Reg(nombresArray[3] || '');
+  };
+
+  const register = () => {      
+    try {
+      const response = Axios.post("http://localhost:5000/api/candidatos", {
+        cand_tipo_identificacion: tipoIdentifReg,
+        cand_num_identificacion: cedula,
+        cand_sexo: sexoReg,
+        cand_titulo: tituloReg,
+        cand_fecha_nacimiento: fechaNacReg,
+        cand_correo: correoReg,
+        cand_password: passwordReg,
+        cand_nombre1: nombre1Reg,
+        cand_nombre2: nombre2Reg,
+        cand_apellido1: apellido1Reg,
+        cand_apellido2: apellido2Reg,
+      });
+      localStorage.setItem("auth", "yes");
+      handleAuthentication(true);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleConfirmClick = () => {
     // Show the confirmation modal
@@ -36,7 +83,7 @@ export function DatosPersonales({ handleAuthentication }) {
     const templateId = "template_3hhh20g"; // Replace with your actual template ID
     try {
       setLoading(true);
-      /* const response = await emailjs.send(
+      const response = await emailjs.send(
         serviceId,
         templateId,
         {
@@ -45,7 +92,7 @@ export function DatosPersonales({ handleAuthentication }) {
           cedula: cedula,
           titulo: tituloRef.current.value,
         }
-      ); */
+      );
       if (response.status === 200) {
         //alert("Email successfully sent, check your inbox.");
         handleAuthentication(true);
@@ -60,6 +107,11 @@ export function DatosPersonales({ handleAuthentication }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAcceptClick = () => {
+    register(); // Llama a la función register
+    handleSubmit(); // Llama a la función handleSubmit
   };
 
   return (
@@ -78,11 +130,14 @@ export function DatosPersonales({ handleAuthentication }) {
             <form className="form-datos">
               <label>
                 Nombres Completos:
-                <input ref={nameRef} type="text"/>
+                <input ref={nameRef} type="text"
+                onChange={handleNombreCompletoChange}/>
               </label>
               <label>
                 Tipo de Identificación:
-                <select>
+                <select onChange={(e) => {
+                  setTipoIdentifReg(e.target.value);
+                }}>
                   <option value="cedula">Cédula</option>
                   <option value="pasaporte">Pasaporte</option>
                 </select>
@@ -93,36 +148,46 @@ export function DatosPersonales({ handleAuthentication }) {
               </label>
               <label>
                 Máximo Título Alcanzado:
-                <select ref={tituloRef}>
-                  <option value="Doctorado" selected>Doctorado</option>
+                <select ref={tituloRef} onChange={(e) => setTituloReg(e.target.value)} defaultValue="Doctorado">
+                  <option value="Doctorado">Doctorado</option>
                   <option value="Maestría">Maestría</option>
                   <option value="ingeniería/Licenciatura">Ingeniería/Licenciatura</option>
                   <option value="Tecnología">Tecnología</option>
                 </select>
               </label>
-
               <div>
                 <p>Sexo:</p>
                   <label>
                     Masculino
-                    <input type="radio" name="sexo" value="Masculino" />
+                    <input type="radio" name="sexo" value="M" 
+                    onChange={(e) => {
+                      setSexoReg(e.target.value);
+                    }}/>
                   </label>
                   <label>
                     Femenino
-                    <input type="radio" name="sexo" value="Femenino" />
+                    <input type="radio" name="sexo" value="F" 
+                    onChange={(e) => {
+                      setSexoReg(e.target.value);
+                    }}/>
                   </label>
               </div>
               <label>
                 Email:
-                <input ref={emailRef} type="email" />
+                <input ref={emailRef} type="email" 
+                onChange={(e) => {
+                  setCorreoReg(e.target.value);
+                }}/>
               </label>
               <label>
                 Contraseña:
-                <input type="password" />
+                <input type="password" 
+                onChange={(e) => {
+                  setPasswordReg(e.target.value);
+                }}/>
               </label>
               <div className="submit-button">
-                <button type="button" onClick={() => {setShowConfirmModal(true);
-        handleConfirmClick();}}>Enviar</button>
+                <button type="button" onClick={register}>Enviar</button>
               </div>
             </form>
           </div>
@@ -177,7 +242,7 @@ export function DatosPersonales({ handleAuthentication }) {
             <button className="mm-popup__btn" onClick={() => setShowConfirmModal(false)}>
               Cancelar
             </button>
-            <button className="mm-popup__btn mm-popup__btn--success" onClick={handleSubmit}>
+            <button className="mm-popup__btn mm-popup__btn--success" onClick={handleAcceptClick}>
               Aceptar
             </button>
           </div>

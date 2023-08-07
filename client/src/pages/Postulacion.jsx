@@ -4,7 +4,16 @@ import axios from "axios";
 import ReactModal from "react-modal";
 import "../styles/Postulacion.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-export const Postulacion = () => {
+export const Postulacion = ({ idUsuario }) => {
+
+  // Llama a la función para guardar la postulación junto con la ID del candidato logueado
+  
+
+  // Muestra la ventana emergente de confirmación
+ 
+  const [selectedOfeId, setSelectedOfeId] = useState(null); // Estado para almacenar la ID de oferta seleccionada
+
+
   const [postulaciones, setPostulaciones] = useState([]);
   const [postulacion, setPostulacion] = useState("");
   const [firstTimeSelection, setFirstTimeSelection] = useState(true);
@@ -29,6 +38,7 @@ export const Postulacion = () => {
   const [personal_academico, setPersonal_academico] = useState("");
   const [tablaData, setTablaData] = useState([]);
 
+
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   //const [campoEspecificoHabilitado, setCampoEspecificoHabilitado] = useState(false);
   const [tablaCargada, setTablaCargada] = useState(false);
@@ -36,9 +46,11 @@ export const Postulacion = () => {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-
+  const postulacionSeleccionada = tablaData[selectedRow];
   const navigate = useNavigate();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+ 
   // Datos para mostrar en el popup de confirmación
   const [confirmationDetails, setConfirmationDetails] = useState({
     postulacion: "",
@@ -52,14 +64,17 @@ export const Postulacion = () => {
 
   const handleRowClick = (index) => {
     if (selectedRow === index) {
-      // If the row is already selected, deselect it
       setSelectedRow(null);
-      setShowConfirmButton(false); // Hide the Confirm button when a row is deselected
+      setShowConfirmButton(false);
+      setSelectedOfeId(null); // Limpiar la ID de oferta seleccionada
     } else {
       setSelectedRow(index);
-      setShowConfirmButton(true); // Show the Confirm button when a row is selected
+      setShowConfirmButton(true);
+      const selectedOfeId = tablaData[index].ofe_id; // Obtener la ID de oferta para la fila seleccionada
+      setSelectedOfeId(selectedOfeId); // Almacenarla en el estado
     }
   };
+  
   const handleCampoAmplioChange = (e) => {
     const selectedValue = e.target.value;
     const ampliosFiltrados = campo_amplios.filter((campo_amplio) => campo_amplio.ca_nombre === selectedValue);
@@ -70,10 +85,30 @@ export const Postulacion = () => {
     //setCampoEspecificoHabilitado(selectedValue !== '');
   };
 
-  const handleConfirmClick = () => {
-    // Show the confirmation modal
-    setShowConfirmModal(true);
+  
+ 
+  const handleConfirmClick = async (idUsuario) => {
+    if (selectedOfeId === null) {
+      console.error("No se ha seleccionado ninguna oferta.");
+      return;
+    }
+  
+    const data = {
+      cand_id: idUsuario,
+      ofe_id: selectedOfeId, // Utilizar la ID de oferta seleccionada
+    };
+  
+    try {
+      const response = await axios.post("http://localhost:5000/solicitud", data);
+      // Manejar el éxito y mostrar un mensaje de éxito u otras acciones necesarias
+      setShowConfirmModal(false);
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error("Error al guardar la postulación:", error);
+    }
   };
+  
+  
 
   const handleModalAcceptClick = () => {
     // Handle the logic when the user clicks "Aceptar" in the modal
@@ -129,7 +164,7 @@ export const Postulacion = () => {
     }
   };
 
-
+ 
 
   useEffect(() => {
     /* async function fetchCampoAmplios() {

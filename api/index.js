@@ -68,7 +68,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'SistemaPostulacion',
-  password: 'root',
+  password: 'admin',
   port: 5432,
 });
 
@@ -210,8 +210,13 @@ app.post("/api/login", async (req, res) => {
         res.status(500).send("Error executing query");
       } else {
         if (result.rows.length > 0) {
-          // Verificar si result.rows está definido y tiene elementos
-          res.send(result.rows);
+          const candidate = result.rows[0];
+          res.send({
+            cand_id: candidate.cand_id, // Return the candidate's ID
+            cand_nombre: candidate.cand_nombre, // Return other relevant information
+            // ... include other properties you want to return
+          });
+
         } else {
           res.send({ message: "Usuario o contraseña incorrecta!" });
         }
@@ -236,6 +241,28 @@ async function getCandidateByIdentification(cand_num_identificacion) {
     throw error;
   }
 }
+
+
+app.post('/solicitud', async (req, res) => {
+  const { cand_id, ofe_id } = req.body;
+
+  try {
+    // Configurar el valor inicial del campo "sol_aprobado" en false
+    const sol_aprobado = false;
+
+    // Guardar la postulación en la tabla "solicitud" usando la conexión a PostgreSQL
+    const query = 'INSERT INTO solicitud (cand_id, ofe_id, sol_aprobacion) VALUES ($1, $2, $3) ';
+    const values = [1, ofe_id, false];
+    const result = await pool.query(query, values);
+
+    // Responder con éxito y enviar la nueva solicitud creada
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    // En caso de error, responder con un código de error y un mensaje de error
+    console.error('Error al guardar la solicitud:', error);
+    res.status(500).json({ error: 'Error al guardar la solicitud' });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

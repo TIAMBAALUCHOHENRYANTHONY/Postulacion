@@ -12,8 +12,12 @@ import Pdf from "../pages/pdf1";
 import Pdf1 from "../pages/pdf1";
 export function MyRoutes({ handleAuthentication }) {
 
-  const handleLogin = () => {
-    // lógica de autenticación
+  const [candId, setCandId] = useState(null);
+
+
+  const handleLogin = (candidateId) => {
+    // Lógica de autenticación
+    setCandId(candidateId);
     handleAuthentication(true);
   };
 
@@ -24,7 +28,7 @@ export function MyRoutes({ handleAuthentication }) {
         <Route path="/" element={<Inicio handleAuthentication={handleLogin}/>} />
         <Route path="/home" element={<Home />} />
         <Route path="/docs" element={<Documentos />} />
-        <Route path="/postulacion" element={<Postulacion />} />
+        <Route path="/postulacion" element={<Postulacion idUsuario={candId}/>} />
         <Route path="/info" element={<Info/>} />
         <Route path="/cedula" element={<Cedula/>} />
         <Route path="/datosPersonales" element={<DatosPersonales handleAuthentication={handleLogin}/>}/>

@@ -70,6 +70,15 @@ const pool = new Pool({
   port: 5432,
 });
 
+pool.connect()
+  .then(client => {
+    console.log('Connected to PostgreSQL');
+    client.release(); // Release the client back to the pool
+  })
+  .catch(error => {
+    console.error('Error connecting to PostgreSQL:', error);
+  });
+
 // Endpoint to fetch data from the "my_table"
 app.get("/postulacion", (req, res) => {
   pool.query("SELECT * FROM postulacion", (err, result) => {

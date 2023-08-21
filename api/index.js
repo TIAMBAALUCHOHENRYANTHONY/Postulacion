@@ -417,6 +417,34 @@ app.post('/solicitud', async (req, res) => {
   }
 });
 
+//Recursos humanos
+
+
+
+app.get('/solicitudes', async (req, res) => {
+  try {
+    const query = `
+      SELECT s.sol_id, s.sol_aprobacion, s.ofe_id,
+             c.cand_tipo_identificacion, c.cand_num_identificacion, c.cand_sexo,
+             c.cand_titulo, c.cand_fecha_nacimiento, c.cand_id,
+             c.cand_correo, c.cand_nombre1, c.cand_nombre2,
+             c.cand_apellido1, c.cand_apellido2
+      FROM public.solicitud s
+      JOIN public.candidato c ON s.cand_id = c.cand_id;
+    `;
+
+    const client = await pool.connect();
+    const result = await client.query(query);
+    client.release();
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred');
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

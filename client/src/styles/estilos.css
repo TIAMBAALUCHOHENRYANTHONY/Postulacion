@@ -1,0 +1,40 @@
+/* Estilos para la barra de atributos (header) de color verde */
+.green-header {
+    background-color: #4caf50;
+    color: #ffffff;
+  }
+  .centered-header {
+    text-align: center;
+  }
+
+  
+.responsive-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+    min-height: 400px;
+    font-size: 14px; /* Tamaño de fuente por defecto */
+  }
+
+
+  
+  /* Estilos adicionales para pantallas pequeñas */
+  @media screen and (max-width: 768px) {
+    .responsive-container {
+      font-size: 12px; /* Tamaño de fuente para pantallas pequeñas */
+    }
+  }
+  
+  /* Estilos adicionales para pantallas aún más pequeñas */
+  @media screen and (max-width: 480px) {
+    .responsive-container {
+      font-size: 10px; /* Tamaño de fuente para pantallas muy pequeñas */
+    }
+  }
+  
+ .app-container {
+  margin-left: 20px;   /* Espacio en el lado izquierdo */
+  margin-right: 20px;  /* Espacio en el lado derecho */
+}
+  
+  
+  

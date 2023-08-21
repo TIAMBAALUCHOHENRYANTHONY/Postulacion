@@ -1,16 +1,18 @@
 
 import React, { useState } from "react";
-
 import "../styles/Inicio.css";
 import Modal from "../components/modal";
 import styled from "styled-components";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import ImagenInicio from "../images/LogoEspe.png";
+import { useLocation } from "react-router-dom";
 
 
 function  Home({ handleAuthentication }) {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const candidato = location.state?.candidato;
 
   const handleLogin = () => {
     handleAuthentication(true);
@@ -38,7 +40,6 @@ function  Home({ handleAuthentication }) {
       <div className="ImagenInicio" />
       <div className="LogoEspe"></div>
       <div className="WhiteSection">
-        
         <div className="container-documents">
           <button className="documents-button" onClick={handleShowDocuments}>
             Más Información
@@ -52,7 +53,7 @@ function  Home({ handleAuthentication }) {
           </div>
         )}
         <div className="text-container">
-          <h1>Concurso de Méritos y Oposición<br></br>2023</h1>
+        <h1>Bienvenido/a: {candidato.cand_nombre1} {candidato.cand_apellido1}</h1>
           <Modal active={active} toggle={toggle}>
             <div className="modal-content">
               <img src={ImagenInicio} alt="Imagen Logo" className="modal-image" />

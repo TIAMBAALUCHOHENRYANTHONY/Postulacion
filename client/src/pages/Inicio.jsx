@@ -41,7 +41,7 @@ function Inicio({ handleAuthentication }) {
             localStorage.setItem("cand_num_identificacion", candidato.cand_num_identificacion);
             localStorage.setItem("id_candidato", candidato.cand_id);
             handleAuthentication(true);
-            navigate("/home");
+            navigate("/home", { state: { candidato } });
           } else {
             setLoginStatus("Usuario o contraseña incorrecta");
           }

@@ -117,7 +117,8 @@ export const Postulacion = ({ idUsuario }) => {
     }
   
     const data = {
-      cand_id: 1,
+      cand_id: localStorage.getItem("id_candidato"),
+      
       ofe_id: selectedOfeId, // Utilizar la ID de oferta seleccionada
     };
   

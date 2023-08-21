@@ -223,7 +223,7 @@ app.post("/api/login_candidatos", async (req, res) => {
   const cand_password = req.body.cand_password;
 
   pool.query(
-    "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2", // Agregar '$1' y '$2' como marcadores de posición
+    "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2",
     [cand_num_identificacion, cand_password],
     (err, result) => {
       if (err) {
@@ -231,7 +231,7 @@ app.post("/api/login_candidatos", async (req, res) => {
         res.status(500).send("Error executing query");
       } else {
         if (result.rows.length > 0) {
-          res.send(result.rows);
+          res.send(result.rows[0]);
         } else {
           res.send({ message: "Usuario o contraseña incorrecta!" });
         }

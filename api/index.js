@@ -66,7 +66,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "SistemaPostulacion",
-  password: "admin",
+  password: "root",
   port: 5432,
 });
 
@@ -218,7 +218,7 @@ app.get("/api/get", (req, res) => {
   });
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/api/login_candidatos", async (req, res) => {
   const cand_num_identificacion = req.body.cand_num_identificacion;
   const cand_password = req.body.cand_password;
 
@@ -239,6 +239,36 @@ app.post("/api/login", async (req, res) => {
     }
   );
 });
+
+app.get("/api/get", (req, res) => {
+  const sqlSelect = "SELECT * FROM rechum";
+  db.query(sqlSelect, (err, rows, results) => {
+    res.send(rows);
+  });
+});
+
+app.post("/api/login_recursos_humanos", async (req, res) => {
+  const rh_correo = req.body.rh_correo;
+  const rh_password = req.body.rh_password;
+
+  pool.query(
+    "SELECT * FROM rechum WHERE rh_correo = $1 AND rh_password = $2",
+    [rh_correo, rh_password],
+    (err, result) => {
+      if (err) {
+        console.error("Error executing query", err);
+        res.status(500).send("Error executing query");
+      } else {
+        if (result.rows.length > 0) {
+          res.send(result.rows);
+        } else {
+          res.send({ message: "Usuario o contraseña incorrecta!" });
+        }
+      }
+    }
+  );
+});
+
 
 // Función para obtener un candidato por su número de identificación desde la base de datos
 async function getCandidateByIdentification(cand_num_identificacion) {

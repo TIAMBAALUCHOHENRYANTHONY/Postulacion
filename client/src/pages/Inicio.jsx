@@ -13,29 +13,42 @@ function Inicio({ handleAuthentication }) {
   const navigate = useNavigate();
   const [cedulaLog, setCedulaLog] = useState("");
   const [contraseñaLog, setContraseñaLog] = useState("");
+  const [usuarioRechu, setCedulaRechu] = useState("");
+  const [contraseñaRechu, setContraseñaRechu] = useState("");
 
-  const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus, setLoginStatus] = useState(""); 
 
   const log = () => {
-    Axios.post("http://localhost:5000/api/login", {
-      cand_num_identificacion: cedulaLog,
-      cand_password: contraseñaLog,
+    // Intentar inicio de sesión para Recursos Humanos
+    Axios.post("http://localhost:5000/api/login_recursos_humanos", {
+      rh_correo: usuarioRechu,
+      rh_password: contraseñaRechu,
     }).then((response) => {
-      if (response.data.message) {
-        setLoginStatus(response.data.message);
-      } else if (response.data && response.data.length > 0 && response.data[0].cand_num_identificacion) {
-        const cand_num_identificacion = response.data[0].cand_num_identificacion;
-        setLoginStatus("Bienvenido: " + cand_num_identificacion);
-        localStorage.setItem("auth", "yes");
-        localStorage.setItem("cand_num_identificacion", cand_num_identificacion);
-        handleAuthentication(true);
-        navigate("/home");
+      if (response.data && response.data.length > 0) {
+        navigate("/recursosHumanos");
+        localStorage.setItem("Cargo", "recursos_H")
       } else {
-        setLoginStatus("Usuario o contraseña incorrecta");
+        // Intentar inicio de sesión para Candidatos si no es Recursos Humanos
+        Axios.post("http://localhost:5000/api/login_candidatos", {
+          cand_num_identificacion: cedulaLog,
+          cand_password: contraseñaLog,
+        }).then((candidatoResponse) => {
+          if (candidatoResponse.data.message) {
+            setLoginStatus(candidatoResponse.data.message);
+          } else if (candidatoResponse.data && candidatoResponse.data.length > 0) {
+            const cand_num_identificacion = candidatoResponse.data[0].cand_num_identificacion;
+            setLoginStatus("Bienvenido Candidato: " + cand_num_identificacion);
+            localStorage.setItem("auth", "yes");
+            localStorage.setItem("cand_num_identificacion", cand_num_identificacion);
+            handleAuthentication(true);
+            navigate("/home");
+          } else {
+            setLoginStatus("Usuario o contraseña incorrecta");
+          }
+        });
       }
     });
   };
-  
 
   const navegarCedula = () => {
     navigate("/cedula");
@@ -87,6 +100,7 @@ function Inicio({ handleAuthentication }) {
                     <input type="text"  
                     onChange={(e) => {
                       setCedulaLog(e.target.value);
+                      setCedulaRechu(e.target.value);
                     }}/>
                   </label>
                   <label>
@@ -94,6 +108,7 @@ function Inicio({ handleAuthentication }) {
                     <input type="password"
                     onChange={(e) => {
                       setContraseñaLog(e.target.value);
+                      setContraseñaRechu(e.target.value);
                     }} />
                   </label>
                 </form>

@@ -35,16 +35,17 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
 
-  const { username, tipoDocumento } = req.body;
+  const { id_candidato, username, tipoDocumento } = req.body;
   const dataBuffer = fs.readFileSync(req.file.path);
 
   const doc = new PDF({
+    id_candidato,
     username,
     tipoDocumento,
     pdfPath: req.file.path
   });
 
-  doc.save();
+  doc.save()
 
   const uniqueFileName = req.file.filename;
 

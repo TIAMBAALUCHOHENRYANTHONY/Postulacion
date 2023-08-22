@@ -38,6 +38,7 @@ export function Info() {
 }
 
 const Container = styled.div`
+  height: 100vh;
   max-width: 500px;
   margin: 0 auto;
   display: flex;

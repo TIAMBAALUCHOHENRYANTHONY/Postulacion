@@ -6,6 +6,10 @@ import ReactModal from "react-modal";
 import { useNavigate } from "react-router-dom";
 
 export function Documentos() {
+
+  const id_candidato = localStorage.getItem("id_candidato");
+  const nombre_candidato = localStorage.getItem("nombre_candidato") + " " + localStorage.getItem("apellido_candidato");
+
   const documentLabels = [
     "Hoja de vida formato ESPE",
     "Copia de cédula",
@@ -16,7 +20,6 @@ export function Documentos() {
     "Certificado de no tener responsabilidades administrativas",
     "Experiencia profesional",
   ];
-
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -58,7 +61,8 @@ export function Documentos() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("username", "Usuario");
+      formData.append("id_candidato", id_candidato);
+      formData.append("username", nombre_candidato);
       formData.append("tipoDocumento", documentLabels[index]);
 
       try {
@@ -207,7 +211,10 @@ export function Documentos() {
 }
 
 const Container = styled.div`
-  height: 100%;
+  h1 {
+    margin-top: 20px;
+  }
+  height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;

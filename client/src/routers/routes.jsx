@@ -27,7 +27,7 @@ export function MyRoutes({ handleAuthentication }) {
      
       <Routes>
         <Route path="/" element={<Inicio handleAuthentication={handleLogin}/>} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Home handleAuthentication={handleLogin}/>} />
         <Route path="/docs" element={<Documentos />} />
         <Route path="/postulacion" element={<Postulacion idUsuario={candId}/>} />
         <Route path="/info" element={<Info/>} />

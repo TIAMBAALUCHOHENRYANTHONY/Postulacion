@@ -50,7 +50,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
   } else {
     filteredLinksArray = linksArray;
   }
-
+  const candidato_nombre = localStorage.getItem("nombre_candidato");
   return (
     <Container isOpen={sidebarOpen} themeUse={theme}>
       <button className="Sidebarbutton" onClick={ModSidebaropen}>
@@ -60,7 +60,8 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
         <div className="imgcontent">
           <img src={logo} />
         </div>
-        <h2>Usuario</h2>
+        <h2>{candidato_nombre}</h2>
+        
       </div>
       {filteredLinksArray.map(({ icon, label, to }) => (
         <div className="LinkContainer" key={label}>

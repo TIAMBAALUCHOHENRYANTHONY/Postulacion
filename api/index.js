@@ -218,13 +218,42 @@ app.get("/api/get", (req, res) => {
   });
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/api/login_candidatos", async (req, res) => {
   const cand_num_identificacion = req.body.cand_num_identificacion;
   const cand_password = req.body.cand_password;
 
   pool.query(
-    "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2", // Agregar '$1' y '$2' como marcadores de posición
+    "SELECT * FROM candidato WHERE cand_num_identificacion = $1 AND cand_password = $2",
     [cand_num_identificacion, cand_password],
+    (err, result) => {
+      if (err) {
+        console.error("Error executing query", err);
+        res.status(500).send("Error executing query");
+      } else {
+        if (result.rows.length > 0) {
+          res.send(result.rows[0]);
+        } else {
+          res.send({ message: "Usuario o contraseña incorrecta!" });
+        }
+      }
+    }
+  );
+});
+
+app.get("/api/get", (req, res) => {
+  const sqlSelect = "SELECT * FROM rechum";
+  db.query(sqlSelect, (err, rows, results) => {
+    res.send(rows);
+  });
+});
+
+app.post("/api/login_recursos_humanos", async (req, res) => {
+  const rh_correo = req.body.rh_correo;
+  const rh_password = req.body.rh_password;
+
+  pool.query(
+    "SELECT * FROM rechum WHERE rh_correo = $1 AND rh_password = $2",
+    [rh_correo, rh_password],
     (err, result) => {
       if (err) {
         console.error("Error executing query", err);
@@ -239,6 +268,7 @@ app.post("/api/login", async (req, res) => {
     }
   );
 });
+
 
 // Función para obtener un candidato por su número de identificación desde la base de datos
 async function getCandidateByIdentification(cand_num_identificacion) {
@@ -386,6 +416,34 @@ app.post('/solicitud', async (req, res) => {
     res.status(500).json({ error: 'Error al guardar la solicitud' });
   }
 });
+
+//Recursos humanos
+
+
+
+app.get('/solicitudes', async (req, res) => {
+  try {
+    const query = `
+      SELECT s.sol_id, s.sol_aprobacion, s.ofe_id,
+             c.cand_tipo_identificacion, c.cand_num_identificacion, c.cand_sexo,
+             c.cand_titulo, c.cand_fecha_nacimiento, c.cand_id,
+             c.cand_correo, c.cand_nombre1, c.cand_nombre2,
+             c.cand_apellido1, c.cand_apellido2
+      FROM public.solicitud s
+      JOIN public.candidato c ON s.cand_id = c.cand_id;
+    `;
+
+    const client = await pool.connect();
+    const result = await client.query(query);
+    client.release();
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred');
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

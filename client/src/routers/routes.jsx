@@ -10,6 +10,7 @@ import { DatosPersonales} from "../pages/DatosPersonales";
 import { Home } from "../pages/Home";
 import Pdf from "../pages/pdf1";
 import Pdf1 from "../pages/pdf1";
+import { RecursosHumanos } from "../pages/RecursosHumanos";
 export function MyRoutes({ handleAuthentication }) {
 
   const [candId, setCandId] = useState(null);
@@ -34,6 +35,7 @@ export function MyRoutes({ handleAuthentication }) {
         <Route path="/datosPersonales" element={<DatosPersonales handleAuthentication={handleLogin}/>}/>
         <Route path="/home" element={<Home/>} />
         <Route path="/pdf1" element={<Pdf1/>} />
+        <Route path="/recursosHumanos" element={<RecursosHumanos/>} />
       </Routes>
     
   );

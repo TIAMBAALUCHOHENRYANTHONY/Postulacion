@@ -30,6 +30,8 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
   const handleLogout = () => {
     handleAuthentication(false);
     localStorage.removeItem("auth");
+    localStorage.removeItem("cand_num_identificacion");
+    localStorage.removeItem("id_candidato");
     navigate("/");
   };
 

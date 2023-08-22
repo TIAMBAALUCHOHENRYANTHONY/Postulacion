@@ -117,7 +117,8 @@ export const Postulacion = ({ idUsuario }) => {
     }
   
     const data = {
-      cand_id: 1,
+      cand_id: localStorage.getItem("id_candidato"),
+      
       ofe_id: selectedOfeId, // Utilizar la ID de oferta seleccionada
     };
   
@@ -359,13 +360,16 @@ export const Postulacion = ({ idUsuario }) => {
     return activities[actId] || "";
   };
 
+  //Se trae el id del candidato
+  const candidato_id = localStorage.getItem("id_candidato");
+
   return (
 
     <Container>
-      <h1>Postulación</h1>
+      <h1>Postulación | Candidato {candidato_id}</h1>
       <Form>
         <div>
-          <label htmlFor="postulacion">Postulación:</label>
+          <label htmlFor="postulacion">Postulación: </label>
           <select
             id="postulacion"
             value={postulacion}

@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import '../styles/estilos.css';
+import { Sidebar } from "../components/SidebarRH";
 
 function  RecursosHumanos({ handleAuthentication }) {
 
@@ -94,6 +95,7 @@ function  RecursosHumanos({ handleAuthentication }) {
 
   return (
     <div className='app-container' style={{ height: 600, width: '100%' }}>
+      
       <h1>Lista de Solicitudes</h1>
       <TextField
         id="search"

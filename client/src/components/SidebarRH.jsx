@@ -32,24 +32,8 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
     localStorage.removeItem("auth");
     localStorage.removeItem("cand_num_identificacion");
     localStorage.removeItem("id_candidato");
-    localStorage.removeItem("Tipo");
     navigate("/");
   };
-
-  const userType = localStorage.getItem("Tipo"); // Obtener el valor de "Tipo" del localStorage
-
-  const isRecursosH = userType === "recursosH";
-  const isPostulante = userType === "postulante";
-
-  let filteredLinksArray;
-
-  if (isRecursosH) {
-    filteredLinksArray = recursosHLinksArray;
-  } else if (isPostulante) {
-    filteredLinksArray = linksArray;
-  } else {
-    filteredLinksArray = linksArray;
-  }
 
   return (
     <Container isOpen={sidebarOpen} themeUse={theme}>
@@ -60,9 +44,9 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
         <div className="imgcontent">
           <img src={logo} />
         </div>
-        <h2>Usuario</h2>
+        <h2>RRHH</h2>
       </div>
-      {filteredLinksArray.map(({ icon, label, to }) => (
+      {linksArray.map(({ icon, label, to }) => (
         <div className="LinkContainer" key={label}>
           <NavLink
             to={to}
@@ -111,39 +95,17 @@ const linksArray = [
   {
     label: "Inicio",
     icon: <AiOutlineHome />,
-    to: "/home",
+    to: "/",
   },
   {
-    label: "Postulación",
+    label: "Gestionar Postulaciónes",
     icon: <MdOutlineAnalytics />,
-    to: "/postulacion",
-  },
-  {
-    label: "Sus Documentos",
-    icon: <AiOutlineApartment />,
-    to: "/docs",
-  },
-  {
-    label: "Información y Formatos",
-    icon: <MdOutlineAnalytics />,
-    to: "/info",
+    to: "/recursosHumanos",
   },
  
 ];
 //#endregion
-const recursosHLinksArray = [
-  {
-    label: "Inicio",
-    icon: <AiOutlineHome />,
-    to: "/home",
-  },
-  {
-    label: "Gestion Postulación",
-    icon: <MdOutlineAnalytics />,
-    to: "/recursosHumanos",
-  },
-  
-];
+
 //#region STYLED COMPONENTS
 const Container = styled.div`
   color: ${(props) => props.theme.text};

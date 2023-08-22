@@ -5,7 +5,7 @@ import "../styles/Postulacion.css";
 import ReactModal from "react-modal"; 
 import { useNavigate } from "react-router-dom";
 
-export function Documentos() {
+export const  Documentos= ({ handleDocsApplication}) => {
 
   const id_candidato = localStorage.getItem("id_candidato");
   const nombre_candidato = localStorage.getItem("nombre_candidato") + " " + localStorage.getItem("apellido_candidato");
@@ -23,6 +23,7 @@ export function Documentos() {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isDocsAccepted, setIsDocsAccepted] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,6 +38,9 @@ export function Documentos() {
     // Close the modal after submitting
     setShowConfirmModal(false);
     setShowSuccessModal(true);
+    handleDocsApplication(); // This triggers the docs accepted state update
+      setIsDocsAccepted(true);
+      localStorage.setItem("docsAccepted", "true");
   };
 
   const handleEnviarClick = () => {
@@ -88,6 +92,12 @@ export function Documentos() {
   return (
     <Container>
       <h1>Subir Documentos</h1>
+      {console.log("isDocsAccepted:", isDocsAccepted)} 
+      {isDocsAccepted ? (
+      
+        <h2>¡Tus documentos han sido procesado con éxito!</h2>
+       
+    ) : (
       <Form>
         {documentLabels.map((label, index) => (
           <div key={index}>
@@ -106,8 +116,9 @@ export function Documentos() {
           Enviar
         </button>
       </Form>
+    )}
 
-      <ReactModal
+<ReactModal
         isOpen={showConfirmModal}
         onRequestClose={() => setShowConfirmModal(false)}
         className="mm-popup__box"

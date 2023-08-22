@@ -12,6 +12,8 @@ import Pdf from "../pages/pdf1";
 import Pdf1 from "../pages/pdf1";
 import { RecursosHumanos } from "../pages/RecursosHumanos";
 export function MyRoutes({ handleAuthentication }) {
+  const [isApplicationAccepted, setIsApplicationAccepted] = useState(false); // New state
+  const [isDocsAccepted, setIsDocsAccepted] = useState(false); // New state
 
   const [candId, setCandId] = useState(null);
 
@@ -20,6 +22,22 @@ export function MyRoutes({ handleAuthentication }) {
     // Lógica de autenticación
     setCandId(candidateId);
     handleAuthentication(true);
+    localStorage.setItem("applicationAccepted", "false");
+    localStorage.setItem("docsAccepted", "false");
+  };
+  const handleAcceptApplication = () => {
+    console.log("Application accepted!");
+
+    setIsApplicationAccepted(true);
+    console.log("isApplicationAccepted:", isApplicationAccepted);
+    localStorage.setItem("applicationAccepted", "true");
+  };
+  const handleDocsApplication = () => {
+    console.log("Docs accepted!");
+
+    setIsDocsAccepted(true);
+    console.log("isDocsAccepted:", isDocsAccepted);
+    localStorage.setItem("docsAccepted", "true");
   };
 
   return (
@@ -28,8 +46,8 @@ export function MyRoutes({ handleAuthentication }) {
       <Routes>
         <Route path="/" element={<Inicio handleAuthentication={handleLogin}/>} />
         <Route path="/home" element={<Home handleAuthentication={handleLogin}/>} />
-        <Route path="/docs" element={<Documentos />} />
-        <Route path="/postulacion" element={<Postulacion idUsuario={candId}/>} />
+        <Route path="/docs" element={<Documentos handleDocsApplication={handleDocsApplication}/>} />
+        <Route path="/postulacion" element={<Postulacion handleAcceptApplication={handleAcceptApplication} />} />
         <Route path="/info" element={<Info/>} />
         <Route path="/cedula" element={<Cedula/>} />
         <Route path="/datosPersonales" element={<DatosPersonales handleAuthentication={handleLogin}/>}/>

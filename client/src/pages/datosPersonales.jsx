@@ -75,7 +75,7 @@ export function DatosPersonales({ handleAuthentication }) {
   };
 
   // Lógica de Correos
-  useEffect(() => emailjs.init("v9ol_j_QrnHrLw2MK"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
+  useEffect(() => emailjs.init("blank"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
 
   const handleSubmit = async (e) => {
     console.log(nameRef.current.value, emailRef.current.value);

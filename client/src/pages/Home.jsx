@@ -34,8 +34,10 @@ function  Home({ handleAuthentication }) {
   const toggle = () => {
     setActive(!active);
   };
-
+  const candidato_nombre = localStorage.getItem("nombre_candidato");
+  const apellido_nombre = localStorage.getItem("apellido_candidato");
   return (
+    
     <div className="BienvenidoInicio">
       <div className="ImagenInicio" />
       <div className="LogoEspe"></div>
@@ -53,7 +55,7 @@ function  Home({ handleAuthentication }) {
           </div>
         )}
         <div className="text-container">
-        <h1>Bienvenido/a: {candidato.cand_nombre1} {candidato.cand_apellido1}</h1>
+        <h1>Bienvenido/a: {candidato_nombre} {apellido_nombre}</h1>
           <Modal active={active} toggle={toggle}>
             <div className="modal-content">
               <img src={ImagenInicio} alt="Imagen Logo" className="modal-image" />

@@ -43,6 +43,8 @@ function Inicio({ handleAuthentication }) {
             localStorage.setItem("Tipo", "postulante");
             localStorage.setItem("cand_num_identificacion", candidato.cand_num_identificacion);
             localStorage.setItem("id_candidato", candidato.cand_id);
+            localStorage.setItem("nombre_candidato", candidato.cand_nombre1);
+            localStorage.setItem("apellido_candidato", candidato.cand_apellido1);
             handleAuthentication(true);
             navigate("/home", { state: { candidato } });
           } else {

@@ -26,6 +26,8 @@ function Inicio({ handleAuthentication }) {
       if (response.data && response.data.length > 0) {
         navigate("/recursosHumanos");
         localStorage.setItem("Tipo", "recursosH");
+        localStorage.setItem("auth", "yes");
+        localStorage.setItem("isAuthenticated", "true");
       } else {
         Axios.post("http://localhost:5000/api/login_candidatos", {
           cand_num_identificacion: cedulaLog,
@@ -38,6 +40,7 @@ function Inicio({ handleAuthentication }) {
             setLoginStatus("Bienvenido Candidato: " + candidato.cand_num_identificacion);
             setCandidato(candidato);
             localStorage.setItem("auth", "yes");
+            localStorage.setItem("Tipo", "postulante");
             localStorage.setItem("cand_num_identificacion", candidato.cand_num_identificacion);
             localStorage.setItem("id_candidato", candidato.cand_id);
             handleAuthentication(true);

@@ -366,7 +366,7 @@ export const Postulacion = ({ idUsuario }) => {
   return (
 
     <Container>
-      <h1>Postulación | Candidato {candidato_id}</h1>
+      <h1>Postulación </h1>
       <Form>
         <div>
           <label htmlFor="postulacion">Postulación: </label>

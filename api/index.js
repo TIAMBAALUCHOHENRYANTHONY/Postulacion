@@ -444,6 +444,38 @@ app.get('/solicitudes', async (req, res) => {
   }
 });
 
+app.put('/solicitudes/:id/aprobar', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Actualizar el estado de aprobación de la solicitud en la base de datos
+    const query = 'UPDATE solicitud SET sol_aprobacion = true WHERE sol_id = $1';
+    const values = [id];
+    await pool.query(query, values);
+
+    res.status(200).json({ message: 'Solicitud aprobada exitosamente' });
+  } catch (error) {
+    console.error('Error al aprobar la solicitud:', error);
+    res.status(500).json({ error: 'Error al aprobar la solicitud' });
+  }
+});
+
+app.put('/solicitudes/:id/rechazar', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Actualizar el estado de aprobación de la solicitud en la base de datos
+    const query = 'UPDATE solicitud SET sol_aprobacion = false WHERE sol_id = $1';
+    const values = [id];
+    await pool.query(query, values);
+
+    res.status(200).json({ message: 'Solicitud rechazada exitosamente' });
+  } catch (error) {
+    console.error('Error al rechazar la solicitud:', error);
+    res.status(500).json({ error: 'Error al rechazar la solicitud' });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

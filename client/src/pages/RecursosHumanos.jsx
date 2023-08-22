@@ -24,12 +24,41 @@ function  RecursosHumanos({ handleAuthentication }) {
   }, []);
 
   const handleAcceptClick = (id) => {
-    console.log(`Aceptar clic en fila con ID ${id}`);
+    // Llamar al endpoint para aprobar la solicitud
+    axios.put(`http://localhost:5000/solicitudes/${id}/aprobar`)
+      .then(response => {
+        console.log('Solicitud aprobada exitosamente');
+        // Actualizar el estado local para reflejar el cambio
+        const updatedSolicitudes = solicitudes.map(solicitud => {
+          if (solicitud.sol_id === id) {
+            return { ...solicitud, sol_aprobacion: true };
+          }
+          return solicitud;
+        });
+        setSolicitudes(updatedSolicitudes);
+      })
+      .catch(error => {
+        console.error('Error al aprobar la solicitud:', error);
+      });
   };
-  
 
   const handleRejectClick = (id) => {
-    console.log(`Rechazar clic en fila con ID ${id}`);
+    // Llamar al endpoint para rechazar la solicitud
+    axios.put(`http://localhost:5000/solicitudes/${id}/rechazar`)
+      .then(response => {
+        console.log('Solicitud rechazada exitosamente');
+        // Actualizar el estado local para reflejar el cambio
+        const updatedSolicitudes = solicitudes.map(solicitud => {
+          if (solicitud.sol_id === id) {
+            return { ...solicitud, sol_aprobacion: false };
+          }
+          return solicitud;
+        });
+        setSolicitudes(updatedSolicitudes);
+      })
+      .catch(error => {
+        console.error('Error al rechazar la solicitud:', error);
+      });
   };
 
 

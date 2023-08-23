@@ -1,14 +1,20 @@
-# Dockerfile
-# Pulling base image
-FROM node:16-alpine
+# Use a Node.js version compatible with Vite
+FROM node:16
+
 # Set working directory
 WORKDIR /app
+
+# Install yarn (if not already installed)
+RUN npm install -g yarn
+
 # Install app dependencies
 COPY package*.json yarn.lock ./
 RUN yarn install
+
 # Copy app source
 COPY . .
-COPY vite.config.js ./
+
 # Expose port and start app
 EXPOSE 5173
 CMD ["yarn", "run", "dev"]
+

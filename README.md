@@ -1,7 +1,7 @@
-#Sistema de Postulación - Universidad de las Fuerzas Armadas ESPE
+# Sistema de Postulación - Universidad de las Fuerzas Armadas ESPE
 El Sistema de Postulación es una aplicación web diseñada para optimizar el proceso de selección de docentes en la Universidad de las Fuerzas Armadas ESPE. Proporciona a los candidatos una plataforma centralizada y eficiente para registrar su información personal y académica, así como para adjuntar los documentos necesarios. Este sistema agiliza el proceso de postulación, simplificando la evaluación y toma de decisiones por parte de los encargados de selección.
 
-##Características Principales
+## Características Principales
 - Registro y autenticación de postulantes.
 - Carga de información personal y académica.
 - Adjuntar documentos requeridos.

@@ -75,11 +75,10 @@ export function DatosPersonales({ handleAuthentication }) {
   };
 
   // Lógica de Correos
-  useEffect(() => emailjs.init("blank"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
+  useEffect(() => emailjs.init("v9ol_j_QrnHrLw2MK"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
 
   const handleSubmit = async (e) => {
     console.log(nameRef.current.value, emailRef.current.value);
-    e.preventDefault();
     const serviceId = "service_hkqiwpk"; // Replace with your actual service ID
     const templateId = "template_3hhh20g"; // Replace with your actual template ID
     try {
@@ -95,11 +94,11 @@ export function DatosPersonales({ handleAuthentication }) {
         }
       );
       if (response.status === 200) {
-        //alert("Email successfully sent, check your inbox.");
+        alert("Email successfully sent, check your inbox.");
         navigate("/home");
       } else {
         console.log("Error sending email:", response.text);
-        //alert("Failed to send the email. Please try again later.");
+        alert("Failed to send the email. Please try again later.");
       }
     } catch (error) {
       console.log("Error sending email:", error);

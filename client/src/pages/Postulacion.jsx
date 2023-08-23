@@ -4,8 +4,8 @@ import axios from "axios";
 import ReactModal from "react-modal";
 import "../styles/Postulacion.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-export const Postulacion = ({ idUsuario }) => {
-  console.log("ID de Usuario:", idUsuario);
+export const Postulacion = ({ handleAcceptApplication}) => {
+
 
   // Llama a la función para guardar la postulación junto con la ID del candidato logueado
   
@@ -51,7 +51,8 @@ export const Postulacion = ({ idUsuario }) => {
   const navigate = useNavigate();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
- 
+  const [isApplicationAccepted, setIsApplicationAccepted] = useState(false);
+
   // Datos para mostrar en el popup de confirmación
   const [confirmationDetails, setConfirmationDetails] = useState({
     postulacion: "",
@@ -128,6 +129,10 @@ export const Postulacion = ({ idUsuario }) => {
       setShowConfirmModal(false);
       const response = await axios.post("http://localhost:5000/solicitud", data);
       setShowSuccessModal(true);
+      handleAcceptApplication(); // This triggers the application accepted state update
+      setIsApplicationAccepted(true);
+      localStorage.setItem("applicationAccepted", "true");
+
 
     } catch (error) {
       console.error("Error al guardar la postulación:", error);
@@ -172,31 +177,12 @@ export const Postulacion = ({ idUsuario }) => {
  
 
   useEffect(() => {
-    /* async function fetchCampoAmplios() {
-      try {
-        const response = await axios.get("http://localhost:5000/campo_amplio");
-        const data = response.data;
-        setCampo_amplios(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-      }
+    const storedValue = localStorage.getItem("applicationAccepted");
+    if (storedValue === "true") {
+      setIsApplicationAccepted(true);
+    } else {
+      setIsApplicationAccepted(false); // Asegurarse de que se restablezca a false
     }
-
-    // Obtener los datos de los campos específicos desde el servidor
-    async function fetchCampoEspecificos() {
-      try {
-        const response = await axios.get("http://localhost:5000/campo_especifico");
-        const data = response.data;
-        setCampo_especificos(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    } */
-
-    //fetchCampoAmplios();
-    //fetchCampoEspecificos();
     fetchData();
     obtenerDatosTabla();
   }, []);
@@ -364,28 +350,35 @@ export const Postulacion = ({ idUsuario }) => {
   const candidato_id = localStorage.getItem("id_candidato");
 
   return (
-
     <Container>
-      <h1>Postulación </h1>
-      <Form>
-        <div>
-          <label htmlFor="postulacion">Postulación: </label>
-          <select
-            id="postulacion"
-            value={postulacion}
-            onChange={(e) => setPostulacion(e.target.value)}
-          >
-            <option value="" disabled>Seleccionar</option>
-            {!isLoading &&
-              postulaciones.map((postulacion) => (
-                <option key={postulacion.id} value={postulacion.id}>
-                  {postulacion.post_periodo}
-                </option>
-              ))}
-          </select>
-        </div>
+      <h1>Postulación</h1>
+      {console.log("isApplicationAccepted:", isApplicationAccepted)} 
 
+      {isApplicationAccepted ? (
+        
+    <h2>¡Tu postulación ha sido procesada con éxito!</h2>
+        
+      ) : (
+        <React.Fragment>
+        <Form>
         <div>
+            <label htmlFor="postulacion">Postulación: </label>
+            <select
+              id="postulacion"
+              value={postulacion}
+              onChange={(e) => setPostulacion(e.target.value)}
+            >
+              <option value="" disabled>Seleccionar</option>
+              {!isLoading &&
+                postulaciones.map((postulacion) => (
+                  <option key={postulacion.id} value={postulacion.id}>
+                    {postulacion.post_periodo}
+                  </option>
+                ))}
+            </select>
+          </div>
+  
+          <div>
           <label htmlFor="sede">Sede:</label>
           <select id="sede" value={sede} onChange={(e) => setSede(e.target.value)}>
             <option value="" disabled>Seleccionar</option>
@@ -469,139 +462,140 @@ export const Postulacion = ({ idUsuario }) => {
           </select>
         </div>
 
+  
+          <button onClick={(e) => { e.preventDefault(); obtenerDatosTabla(); }}>
+            Enviar
+          </button>
+        </Form>
 
-
-        <button onClick={(e) => { e.preventDefault(); obtenerDatosTabla(); }}>Enviar</button>
-
-
-
-      </Form>
-
-      <Container2>
-        {/* Tabla */}
+        {/* Container2 */}
+        <Container2>
+          {/* Tabla */}
         {tablaCargada && (
 
 
-          <table>
-            <thead>
-              <tr>
-                <th rowSpan="2">Vacantes</th>
-                <th rowSpan="2">Horas</th>
-                <th colSpan="3">Actividad</th>
-                <th rowSpan="2">Escoger</th>
-              </tr>
+<table>
+  <thead>
+    <tr>
+      <th rowSpan="2">Vacantes</th>
+      <th rowSpan="2">Horas</th>
+      <th colSpan="3">Actividad</th>
+      <th rowSpan="2">Escoger</th>
+    </tr>
 
-            </thead>
-            <tbody>
-              {tablaData.length === 0 ? (
-                <tr>
-                  <td colSpan="6">No hay datos disponibles</td>
-                </tr>
-              ) : (
-                tablaData.map((dato, index) => {
-                  const isDocencia = getActivityNames(dato.act_id).includes("Docencia");
-                  const isInvestigacion = getActivityNames(dato.act_id).includes("Investigación");
-                  const isVinculacion = getActivityNames(dato.act_id).includes("Vinculación");
+  </thead>
+  <tbody>
+    {tablaData.length === 0 ? (
+      <tr>
+        <td colSpan="6">No hay datos disponibles</td>
+      </tr>
+    ) : (
+      tablaData.map((dato, index) => {
+        const isDocencia = getActivityNames(dato.act_id).includes("Docencia");
+        const isInvestigacion = getActivityNames(dato.act_id).includes("Investigación");
+        const isVinculacion = getActivityNames(dato.act_id).includes("Vinculación");
 
-                  return (
-                    <tr
-                      key={index}
-                      className={selectedRow === index ? "selected-row" : ""}
-                      onClick={() => handleRowClick(index)}
-                    >
-                      <td>{dato.ofe_vacantes}</td>
-                      <td>{dato.ofe_horas}</td>
-                      <td className={isDocencia ? "selected docencia" : ""}>Docencia</td>
-                      <td className={isInvestigacion ? "selected investigacion" : ""}>Investigación</td>
-                      <td className={isVinculacion ? "selected vinculacion" : ""}>Vinculación</td>
-                      <td>
-                        <div style={{ textAlign: 'center' }}>
-                          <CircleButton
-                            selected={selectedRow === index}
-                            onClick={() => handleRowClick(index)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        )}
-        {tablaCargada && tablaData.length > 0 && showConfirmButton && (
-          <button onClick={() => {
-            setShowConfirmModal(true);
-            handleConfirmClick();
-          }}>Confirmar</button>
-        )}
-
-        {/* ReactModal para mostrar el popup */}
-
-
-        <ReactModal
-          isOpen={showConfirmModal}
-          onRequestClose={() => setShowConfirmModal(false)}
-          className="mm-popup" // Aquí aplicamos la clase mm-popup directamente
-          overlayClassName="mm-popup__overlay" // Si también deseas aplicar la clase al overlay
-          
-        >
-          <div className="mm-popup__box">
-            <div className="mm-popup__box__header">
-              <h2>Verifique los datos antes de enviar</h2>
-            </div>
-            <div className="mm-popup__box__body">
-              <p>Postulación: {confirmationDetails.postulacion}</p>
-              <p>Sede: {confirmationDetails.sede}</p>
-              <p>Departamento: {confirmationDetails.departamento}</p>
-              <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
-              <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
-              <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
-              <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
-            </div>
-            <div className="mm-popup__box__footer">
-              <div className="mm-popup__box__footer__right-space">
-                <div className="mm-popup__btn--success">
-                  <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
-                  <button onClick={handleModalAcceptClick}>Aceptar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ReactModal>
-        <ReactModal
-        isOpen={showSuccessModal}
-        onRequestClose={() => setShowSuccessModal(false)}
-        className="mm-popup__box"
-        overlayClassName="mm-popup__overlay"
-        
-      >
-        <div className="mm-popup__box__header">
-          <h2 className="mm-popup__box__header__title">Datos Subidos Correctamente</h2>
-          
-        </div>
-        <div className="mm-popup__box__body">
-          <p>Tus datos se han subido correctamente. ¡Gracias por completar el proceso!</p>
-        </div>
-        <div className="mm-popup__box__footer">
-          <div className="mm-popup__box__footer__right-space">
-          <button
-            className="mm-popup__btn"
-            onClick={() => {
-              
-              navigate("/home"); // Navegar a la ruta "/home" usando useNavigate
-            }}
+        return (
+          <tr
+            key={index}
+            className={selectedRow === index ? "selected-row" : ""}
+            onClick={() => handleRowClick(index)}
           >
-            Salir
-          </button>
-          </div>
-        </div>
-      </ReactModal>
-      </Container2>
-    </Container>
+            <td>{dato.ofe_vacantes}</td>
+            <td>{dato.ofe_horas}</td>
+            <td className={isDocencia ? "selected docencia" : ""}>Docencia</td>
+            <td className={isInvestigacion ? "selected investigacion" : ""}>Investigación</td>
+            <td className={isVinculacion ? "selected vinculacion" : ""}>Vinculación</td>
+            <td>
+              <div style={{ textAlign: 'center' }}>
+                <CircleButton
+                  selected={selectedRow === index}
+                  onClick={() => handleRowClick(index)}
+                />
+              </div>
+            </td>
+          </tr>
+        );
+      })
+    )}
+  </tbody>
+</table>
+)}
+{tablaCargada && tablaData.length > 0 && showConfirmButton && (
+<button onClick={() => {
+  setShowConfirmModal(true);
+  handleConfirmClick();
+}}>Confirmar</button>
+)}
 
+{/* ReactModal para mostrar el popup */}
+
+
+<ReactModal
+isOpen={showConfirmModal}
+onRequestClose={() => setShowConfirmModal(false)}
+className="mm-popup" // Aquí aplicamos la clase mm-popup directamente
+overlayClassName="mm-popup__overlay" // Si también deseas aplicar la clase al overlay
+
+>
+<div className="mm-popup__box">
+  <div className="mm-popup__box__header">
+    <h2>Verifique los datos antes de enviar</h2>
+  </div>
+  <div className="mm-popup__box__body">
+    <p>Postulación: {confirmationDetails.postulacion}</p>
+    <p>Sede: {confirmationDetails.sede}</p>
+    <p>Departamento: {confirmationDetails.departamento}</p>
+    <p>Campo Amplio: {confirmationDetails.campoAmplio}</p>
+    <p>Campo Especifico: {confirmationDetails.campoEspecifico}</p>
+    <p>Tipo de Contratación: {confirmationDetails.contratacion}</p>
+    <p>Tipo de Personal Académico: {confirmationDetails.personalAcademico}</p>
+  </div>
+  <div className="mm-popup__box__footer">
+    <div className="mm-popup__box__footer__right-space">
+      <div className="mm-popup__btn--success">
+        <button onClick={() => setShowConfirmModal(false)}>Cancelar</button>
+        <button onClick={handleModalAcceptClick}>Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</ReactModal>
+<ReactModal
+isOpen={showSuccessModal}
+onRequestClose={() => setShowSuccessModal(false)}
+className="mm-popup__box"
+overlayClassName="mm-popup__overlay"
+
+>
+<div className="mm-popup__box__header">
+<h2 className="mm-popup__box__header__title">Datos Subidos Correctamente</h2>
+
+</div>
+<div className="mm-popup__box__body">
+<p>Tus datos se han subido correctamente. ¡Gracias por completar el proceso!</p>
+</div>
+<div className="mm-popup__box__footer">
+<div className="mm-popup__box__footer__right-space">
+<button
+  className="mm-popup__btn"
+  onClick={() => {
+    
+    navigate("/home"); // Navegar a la ruta "/home" usando useNavigate
+  }}
+>
+  Salir
+</button>
+</div>
+</div>
+</ReactModal>
+        </Container2>
+      </React.Fragment>
+      )}
+    </Container>
   );
 };
+
 
 const Container = styled.div`
   height: 100%;

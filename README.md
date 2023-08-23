@@ -17,16 +17,16 @@ El código fuente del Sistema de Postulación se encuentra alojado en el reposit
 
 Para ejecutar el sistema, sigue los siguientes pasos:
 
-Clona el repositorio utilizando GitHub Desktop o mediante la línea de comandos.
-Abre Visual Studio Code y navega a la carpeta "api". Abre un terminal integrado en esta carpeta.
-Ejecuta el comando yarn install para instalar las dependencias necesarias.
-Ejecuta el comando yarn start para conectarte a las bases de datos de Postgres y Mongo.
+1. Clona el repositorio utilizando GitHub Desktop o mediante la línea de comandos.
+2. Abre Visual Studio Code y navega a la carpeta "api". Abre un terminal integrado en esta carpeta.
+3. Ejecuta el comando yarn install para instalar las dependencias necesarias.
+4. Ejecuta el comando yarn start para conectarte a las bases de datos de Postgres y Mongo.
 Luego:
-
-Navega a la carpeta "client" en Visual Studio Code. Abre un terminal integrado aquí.
-Ejecuta el comando yarn install para instalar las dependencias necesarias.
-Ejecuta el comando yarn dev para ejecutar el sistema y acceder a él desde el navegador.
-Manual de Usuario
+5. Navega a la carpeta "client" en Visual Studio Code. Abre un terminal integrado aquí.
+6. Ejecuta el comando yarn install para instalar las dependencias necesarias.
+7. Ejecuta el comando yarn dev para ejecutar el sistema y acceder a él desde el navegador.
+   
+                 Manual de Usuario
 Actor 1: Postulante
 Pantalla Inicial
 Ingresa a la página inicial del "Concurso de méritos y oposición ESPE 2023" para comenzar el proceso de postulación.

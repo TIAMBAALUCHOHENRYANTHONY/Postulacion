@@ -28,24 +28,24 @@ Luego:
    
                  Manual de Usuario
 Actor 1: Postulante
-Pantalla Inicial
+   Pantalla Inicial
 Ingresa a la página inicial del "Concurso de méritos y oposición ESPE 2023" para comenzar el proceso de postulación.
 
-Página Principal
 
-Inicio de Sesión
+
+   Inicio de Sesión
 Si ya tienes una cuenta, haz clic en "Iniciar Sesión" en la esquina superior derecha. Ingresa tu cédula y contraseña para acceder al sistema.
 
-Inicio de Sesión
 
-Registro
+
+   Registro
 Si eres nuevo, haz clic en "Registrarse" y sigue los pasos. Ingresa tu cédula y completa la prueba de Captcha para verificar que no eres un robot.
 
-Registro
+
 
 Completa tus datos personales y acepta los términos y condiciones para continuar.
 
-Datos Personales
+   Datos Personales
 
 Al aceptar, podrás acceder al sistema de postulación.
 
@@ -54,15 +54,15 @@ En el menú lateral, selecciona "Postulación" y elige las opciones requeridas. 
 
 Postulación
 
-Documentos del Postulante
+   Documentos del Postulante
 Selecciona "Sus Documentos" en el menú lateral y carga los archivos solicitados, como hoja de vida y copia de cédula.
 
-Documentos
 
-Información y Formatos
+   
+   Información y Formatos
 Consulta los lineamientos para el proceso de contratación docente en la sección "Información y Formatos".
 
-Información y Formatos
+   Información y Formatos
 
 Actor 2: Encargado de Recursos Humanos
 Lista de Postulantes

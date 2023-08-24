@@ -65,7 +65,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Configuración de PostgreSQL
 const pool = new Pool({
   user: "postgres",
-  host: "db",
+  host: "localhost",
   database: "SistemaPostulacion",
   password: "admin",
   port: 5432,

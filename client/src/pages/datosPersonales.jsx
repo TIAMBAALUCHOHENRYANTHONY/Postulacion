@@ -94,11 +94,11 @@ export function DatosPersonales({ handleAuthentication }) {
         }
       );
       if (response.status === 200) {
-        alert("Email successfully sent, check your inbox.");
+        //alert("Email successfully sent, check your inbox.");
         navigate("/home");
       } else {
         console.log("Error sending email:", response.text);
-        alert("Failed to send the email. Please try again later.");
+        //alert("Failed to send the email. Please try again later.");
       }
     } catch (error) {
       console.log("Error sending email:", error);

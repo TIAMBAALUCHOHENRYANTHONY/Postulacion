@@ -15,7 +15,7 @@ services:
   api:
     build: ./api
     volumes:
-      - ./server:/usr/app
+      - ./api:/usr/app
       - /usr/app/node_modules
     ports:
       - 5000:5000

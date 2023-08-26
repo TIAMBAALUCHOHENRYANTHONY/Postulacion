@@ -6,6 +6,7 @@ import {
   AiOutlineHome,
   AiOutlineApartment,
   AiOutlineSetting,
+  AiOutlineAccountBook,
 } from "react-icons/ai";
 import { MdOutlineAnalytics, MdLogout } from "react-icons/md";
 import { NavLink, useNavigate, Link } from "react-router-dom";
@@ -33,6 +34,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
     localStorage.removeItem("cand_num_identificacion");
     localStorage.removeItem("id_candidato");
     localStorage.removeItem("Tipo");
+    localStorage.removeItem("email");
     navigate("/");
   };
 
@@ -118,6 +120,11 @@ const linksArray = [
     label: "Postulación",
     icon: <MdOutlineAnalytics />,
     to: "/postulacion",
+  },
+  {
+    label: "Estado Postulacion",
+    icon: <AiOutlineAccountBook />,
+    to: "/estado",
   },
   {
     label: "Sus Documentos",

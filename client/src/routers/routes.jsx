@@ -5,6 +5,7 @@ import { Inicio } from "../pages/Inicio";
 import { Cedula } from "../pages/Cedula";
 import { Documentos } from "../pages/Documentos";
 import { Info } from "../pages/Informacion";
+import { Estado } from "../pages/Estado";
 import { Postulacion } from "../pages/Postulacion";
 import { DatosPersonales} from "../pages/DatosPersonales";
 import { Home } from "../pages/Home";
@@ -54,6 +55,7 @@ export function MyRoutes({ handleAuthentication }) {
         <Route path="/home" element={<Home/>} />
         <Route path="/pdf1" element={<Pdf1/>} />
         <Route path="/recursosHumanos" element={<RecursosHumanos/>} />
+        <Route path="/estado" element={<Estado/>} />
       </Routes>
     
   );

@@ -45,6 +45,7 @@ function Inicio({ handleAuthentication }) {
             localStorage.setItem("id_candidato", candidato.cand_id);
             localStorage.setItem("nombre_candidato", candidato.cand_nombre1);
             localStorage.setItem("apellido_candidato", candidato.cand_apellido1);
+            localStorage.setItem("email", candidato.cand_correo);
             handleAuthentication(true);
             navigate("/home", { state: { candidato } });
           } else {

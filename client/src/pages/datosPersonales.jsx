@@ -12,6 +12,7 @@ import Axios from "axios";
 
 export function DatosPersonales({ handleAuthentication }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showCodigoModal, setShowCodigomModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const cedula = location?.state?.cedula || '';
@@ -34,6 +35,19 @@ export function DatosPersonales({ handleAuthentication }) {
   const [nombre2Reg, setNombre2Reg] = useState();
   const [apellido1Reg, setApellido1Reg] = useState();
   const [apellido2Reg, setApellido2Reg] = useState();
+  const [userConfirmationCode, setUserConfirmationCode] = useState('');
+
+  const generateConfirmationCode = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters.charAt(randomIndex);
+    }
+    return code;
+  };
+
+  const confirmationCode = generateConfirmationCode();
 
   const handleNombreCompletoChange = (e) => {
     const value = e.target.value;
@@ -74,6 +88,10 @@ export function DatosPersonales({ handleAuthentication }) {
     setShowConfirmModal(true);
   };
 
+  const handleCodigoClick = () => {
+    // Show the confirmation modal
+    setShowCodigomModal(true);
+  };
   // Lógica de Correos
   useEffect(() => emailjs.init("v9ol_j_QrnHrLw2MK"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
 
@@ -91,6 +109,7 @@ export function DatosPersonales({ handleAuthentication }) {
           recipient: nameRef.current.value,
           cedula: cedula,
           titulo: tituloRef.current.value,
+          confirmationCode: confirmationCode,
         }
       );
       if (response.status === 200) {
@@ -109,9 +128,18 @@ export function DatosPersonales({ handleAuthentication }) {
   };
 
   const handleAcceptClick = () => {
-    register(); // Llama a la función register
+    handleCodigoClick(); // Llama a la función Codigo
     handleSubmit(); // Llama a la función handleSubmit
   };
+
+  const handleAcceptCodigoClick = () => {
+    if (userConfirmationCode === confirmationCode) {
+      register();
+    } else {
+      alert("Código de confirmación incorrecto. Por favor, verifique.");
+    }
+  };
+  
 
   return (
     <Container>
@@ -228,13 +256,11 @@ export function DatosPersonales({ handleAuthentication }) {
           <h2>Política de Privacidad</h2>
           <p>La Universidad de las Fuerzas Armadas ESPE garantiza la confidencialidad de los datos personales de los candidatos y se compromete a no divulgar ni compartir esta información con terceros sin el consentimiento expreso de los interesados, excepto en los casos requeridos por la ley.</p>
 
-
           <h3>Cambios en la Política de Privacidad:</h3>
           <p>La política de protección de datos de la Universidad de las Fuerzas Armadas ESPE podrá ser modificada en el futuro. En caso de que se realicen cambios significativos, se notificará a los candidatos y se solicitará nuevamente su consentimiento, si es necesario.</p>
 
 
           <p>Al participar en el proceso de postulación y contratación de personal docente en la Universidad de las Fuerzas Armadas ESPE, los candidatos aceptan y se comprometen a cumplir con estos términos y condiciones en relación con la protección de sus datos personales.</p>
-
         </div>
         <div className="mm-popup__box__footer">
           <div className="mm-popup__box__footer__right-space">
@@ -242,6 +268,59 @@ export function DatosPersonales({ handleAuthentication }) {
               Cancelar
             </button>
             <button className="mm-popup__btn mm-popup__btn--success" onClick={handleAcceptClick}>
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </ReactModal>
+
+      <ReactModal
+        isOpen={showCodigoModal}
+        onRequestClose={() => setShowCodigomModal(false)}
+        className="mm-popup__box"
+        overlayClassName="mm-popup__overlay"
+        style={{
+          content: {
+            width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
+            top: "15%", // Posición vertical, 5% desde la parte superior
+            left: "40%", // Posición horizontal, 5% desde la izquierda
+            right: "50%", // Margen derecho, 5% desde la derecha
+            bottom: "25%", // Margen inferior, 5% desde la parte inferior
+            padding: "50px", // Agrega espacio interno de 20px
+            borderRadius: "10px", // Añade bordes redondeados
+            backgroundColor: "#fff", // Fondo del popup en blanco
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <div className="mm-popup__box__header">
+          <h2 className="mm-popup__box__header__title">Verificacion de Codigo</h2>
+          <button
+            className="mm-popup__close"
+            onClick={() => setShowCodigomModal(false)}
+            aria-label="Cerrar"
+          >
+            X
+          </button>
+        </div>
+        <div className="mm-popup__box__body">
+        <h2>Ingrese el código enviado a su correo electrónico:</h2>
+          <input
+           className="form-datos"
+            type="text"
+            value={userConfirmationCode}
+            onChange={(e) => setUserConfirmationCode(e.target.value)}
+          />
+        </div>
+        <div className="mm-popup__box__footer">
+          <div className="mm-popup__box__footer__right-space">
+            <button className="mm-popup__btn" onClick={() => setShowCodigomModal(false)}>
+              Cancelar
+            </button>
+            <button className="mm-popup__btn mm-popup__btn--success" onClick={handleAcceptCodigoClick}>
               Aceptar
             </button>
           </div>

@@ -16,7 +16,7 @@ const pdfSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-  },
+  }, 
   tipoDocumento: {
     type: String,
     required: true,

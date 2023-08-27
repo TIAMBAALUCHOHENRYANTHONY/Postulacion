@@ -12,6 +12,7 @@ import Axios from "axios";
 
 export function DatosPersonales({ handleAuthentication }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showCorreoModal, setShowCorreoModal] = useState(false);
   const [showCodigoModal, setShowCodigomModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,7 +60,7 @@ export function DatosPersonales({ handleAuthentication }) {
     setApellido2Reg(nombresArray[3] || '');
   };
 
-  const register = () => {      
+  const register = () => {
     try {
       const response = Axios.post("http://localhost:5000/api/candidatos", {
         cand_tipo_identificacion: tipoIdentifReg,
@@ -84,6 +85,17 @@ export function DatosPersonales({ handleAuthentication }) {
   };
 
   const handleConfirmClick = () => {
+    //Validacion de correo 
+    const enteredEmail = emailRef.current.value;
+    const allowedDomains = ["hotmail.com", "gmail.com", "outlook.com"];
+    const enteredDomain = enteredEmail.split('@')[1];
+
+    if (!allowedDomains.includes(enteredDomain)) {
+      //alert("Por favor, ingrese una dirección de correo válida (hotmail, gmail, outlook).");
+      setShowCorreoModal(true);
+      return;
+    }
+
     // Show the confirmation modal
     setShowConfirmModal(true);
   };
@@ -92,6 +104,9 @@ export function DatosPersonales({ handleAuthentication }) {
     // Show the confirmation modal
     setShowCodigomModal(true);
   };
+
+
+
   // Lógica de Correos
   useEffect(() => emailjs.init("v9ol_j_QrnHrLw2MK"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
 
@@ -139,7 +154,7 @@ export function DatosPersonales({ handleAuthentication }) {
       alert("Código de confirmación incorrecto. Por favor, verifique.");
     }
   };
-  
+
 
   return (
     <Container>
@@ -158,7 +173,7 @@ export function DatosPersonales({ handleAuthentication }) {
               <label>
                 Nombres Completos:
                 <input ref={nameRef} type="text"
-                onChange={handleNombreCompletoChange}/>
+                  onChange={handleNombreCompletoChange} />
               </label>
               <label>
                 Tipo de Identificación:
@@ -184,34 +199,34 @@ export function DatosPersonales({ handleAuthentication }) {
               </label>
               <div>
                 <p>Sexo:</p>
-                  <label>
-                    Masculino
-                    <input type="radio" name="sexo" value="M" 
+                <label>
+                  Masculino
+                  <input type="radio" name="sexo" value="M"
                     onChange={(e) => {
                       setSexoReg(e.target.value);
-                    }}/>
-                  </label>
-                  <label>
-                    Femenino
-                    <input type="radio" name="sexo" value="F" 
+                    }} />
+                </label>
+                <label>
+                  Femenino
+                  <input type="radio" name="sexo" value="F"
                     onChange={(e) => {
                       setSexoReg(e.target.value);
-                    }}/>
-                  </label>
+                    }} />
+                </label>
               </div>
               <label>
                 Email:
-                <input ref={emailRef} type="email" 
-                onChange={(e) => {
-                  setCorreoReg(e.target.value);
-                }}/>
+                <input ref={emailRef} type="email"
+                  onChange={(e) => {
+                    setCorreoReg(e.target.value);
+                  }} />
               </label>
               <label>
                 Contraseña:
-                <input type="password" 
-                onChange={(e) => {
-                  setPasswordReg(e.target.value);
-                }}/>
+                <input type="password"
+                  onChange={(e) => {
+                    setPasswordReg(e.target.value);
+                  }} />
               </label>
               <div className="submit-button">
                 <button type="button" onClick={handleConfirmClick}>Enviar</button>
@@ -220,6 +235,50 @@ export function DatosPersonales({ handleAuthentication }) {
           </div>
         </div>
       </div>
+
+      <ReactModal
+        isOpen={showCorreoModal}
+        onRequestClose={() => setShowCorreoModal(false)}
+        className="mm-popup__box"
+        overlayClassName="mm-popup__overlay"
+        style={{
+          content: {
+            top: "50%", // Center the modal vertically
+            left: "50%", // Center the modal horizontally
+            transform: "translate(-50%, -50%)", // Center the modal both vertically and horizontally
+            padding: "20px", // Add some padding
+            borderRadius: "10px", // Rounded corners
+            backgroundColor: "#fff", // White background
+            maxWidth: "80%", // Limit the width
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <div className="mm-popup__box__header">
+          <h2 className="mm-popup__box__header__title">Validación de Correo </h2>
+          <button
+            className="mm-popup__close"
+            onClick={() => setShowCorreoModal(false)}
+            aria-label="Cerrar"
+          >
+            X
+          </button>
+        </div>
+        <div className="mm-popup__box__body">
+          <p>Correo Ingresado no válido, ingrese un correo dentro del dominio de Gamil, Hotmail, Outolook.</p>
+        </div>
+        <div className="mm-popup__box__footer">
+          <div className="mm-popup__box__footer__right-space">
+            <button className="mm-popup__btn mm-popup__btn--success" onClick={() => setShowCorreoModal(false)}>
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </ReactModal>
+
       <ReactModal
         isOpen={showConfirmModal}
         onRequestClose={() => setShowConfirmModal(false)}
@@ -227,14 +286,14 @@ export function DatosPersonales({ handleAuthentication }) {
         overlayClassName="mm-popup__overlay"
         style={{
           content: {
-            width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
-            top: "15%", // Posición vertical, 5% desde la parte superior
-            left: "40%", // Posición horizontal, 5% desde la izquierda
-            right: "50%", // Margen derecho, 5% desde la derecha
-            bottom: "25%", // Margen inferior, 5% desde la parte inferior
-            padding: "50px", // Agrega espacio interno de 20px
-            borderRadius: "10px", // Añade bordes redondeados
-            backgroundColor: "#fff", // Fondo del popup en blanco
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            padding: "20px", // Reduce the padding for responsiveness
+            borderRadius: "10px",
+            backgroundColor: "#fff",
+            maxWidth: "90%", // Adjust to a higher percentage for responsiveness
+            width: "auto", // Set width to auto to adjust to content
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -307,9 +366,9 @@ export function DatosPersonales({ handleAuthentication }) {
           </button>
         </div>
         <div className="mm-popup__box__body">
-        <h2>Ingrese el código enviado a su correo electrónico:</h2>
+          <h2>Ingrese el código enviado a su correo electrónico:</h2>
           <input
-           className="form-datos"
+            className="form-datos"
             type="text"
             value={userConfirmationCode}
             onChange={(e) => setUserConfirmationCode(e.target.value)}

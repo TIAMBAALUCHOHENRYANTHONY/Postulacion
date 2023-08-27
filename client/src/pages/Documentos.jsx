@@ -23,6 +23,7 @@ export const  Documentos= ({ handleDocsApplication}) => {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [isDocsAccepted, setIsDocsAccepted] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -53,7 +54,7 @@ export const  Documentos= ({ handleDocsApplication}) => {
       setShowConfirmModal(true);
     } else {
       // Display an error message if any document is missing
-      alert("Por favor, suba todos los documentos requeridos antes de enviar.");
+      setShowErrorModal(true);
     }
   };
 
@@ -216,6 +217,33 @@ export const  Documentos= ({ handleDocsApplication}) => {
             </button>
           </div>
         </div>
+      </ReactModal>
+      <ReactModal
+        isOpen={showErrorModal}
+        onRequestClose={() => setShowErrorModal(false)}
+        contentLabel="Error Modal"
+        className="mm-popup__box"
+        overlayClassName="mm-popup__overlay"
+        style={{
+          content: {
+            width: "40%", // Cambia el tamaño del popup a un 90% del ancho de la pantalla
+            top: "15%", // Posición vertical, 5% desde la parte superior
+            left: "40%", // Posición horizontal, 5% desde la izquierda
+            right: "50%", // Margen derecho, 5% desde la derecha
+            bottom: "50%", // Margen inferior, 5% desde la parte inferior
+            padding: "50px", // Agrega espacio interno de 20px
+            borderRadius: "10px", // Añade bordes redondeados
+            backgroundColor: "#fff", // Fondo del popup en blanco
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <h2>Error</h2>
+        <p>Por favor, suba todos los documentos requeridos antes de enviar.</p>
+        <button onClick={() => setShowErrorModal(false)}>Cerrar</button>
       </ReactModal>
     </Container>
   );

@@ -269,7 +269,7 @@ export function DatosPersonales({ handleAuthentication }) {
           </button>
         </div>
         <div className="mm-popup__box__body">
-          <p>Correo Ingresado no válido, ingrese un correo dentro del dominio de Gamil, Hotmail, Outolook.</p>
+          <p>Correo Ingresado no válido, ingrese un correo dentro del dominio de Gmail, Hotmail, Outlook.</p>
         </div>
         <div className="mm-popup__box__footer">
           <div className="mm-popup__box__footer__right-space">

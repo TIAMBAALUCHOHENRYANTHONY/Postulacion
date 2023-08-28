@@ -67,7 +67,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "SistemaPostulacion",
-  password: "admin",
+  password: "root",
   port: 5432,
 });
 
@@ -480,4 +480,31 @@ app.put('/solicitudes/:id/rechazar', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
+});
+
+
+
+app.get('/solicitudes/:cand_id', async (req, res) => {
+  try {
+    const candId = req.params.cand_id; // Obtener el ID de candidato de los parámetros de la URL
+
+    const query = `
+      SELECT s.sol_id, s.sol_aprobacion, s.ofe_id,
+             c.cand_tipo_identificacion, c.cand_num_identificacion, c.cand_sexo,
+             c.cand_titulo, c.cand_fecha_nacimiento, c.cand_id,
+             c.cand_correo, c.cand_nombre1, c.cand_nombre2,
+             c.cand_apellido1, c.cand_apellido2
+      FROM public.solicitud s
+      JOIN public.candidato c ON s.cand_id = c.cand_id
+      WHERE s.cand_id = $1;`; // Filtrar las solicitudes por el ID de candidato
+
+    const client = await pool.connect();
+    const result = await client.query(query, [candId]);
+    client.release();
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred');
+  }
 });

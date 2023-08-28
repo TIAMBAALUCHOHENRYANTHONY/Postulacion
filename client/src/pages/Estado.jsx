@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const CardContainer = styled.div`
@@ -37,6 +37,32 @@ const Value = styled.div`
 `;
 
 export function Estado() {
+  const [estado, setEstado] = useState("Pendiente");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [cedula, setCedula] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const id = localStorage.getItem("id_candidato");
+    
+    // Hacer la llamada a la API para obtener el estado de la solicitud
+    fetch(`http://localhost:5000/solicitudes/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data && data[0]) {
+          setEstado(data[0].sol_aprobacion);
+          setNombre(data[0].cand_nombre1);
+          setApellido(data[0].cand_apellido1);
+          setCedula(data[0].cand_num_identificacion);
+          setEmail(data[0].cand_correo);
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <Container>
       <h2>Estado de Postulación</h2>
@@ -59,7 +85,7 @@ export function Estado() {
         <RightColumn>
           <Field>
             <Label>Estado de Postulación:</Label>
-            <Value>Aprobado</Value> {/* Puedes cambiar esto según el estado real */}
+            <Value>{estado ? "Aprobado" : "Pendiente"}</Value>{/* Puedes cambiar esto según el estado real */}
           </Field>
         </RightColumn>
       </CardContainer>

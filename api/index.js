@@ -67,7 +67,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "SistemaPostulacion",
-  password: "root",
+  password: "admin",
   port: 5432,
 });
 
@@ -508,3 +508,16 @@ app.get('/solicitudes/:cand_id', async (req, res) => {
     res.status(500).send('An error occurred');
   }
 });
+
+app.get('/documentos/:cand_id/:tipoDoc', async (req, res) => {
+  try {
+    const { cand_id, tipoDoc } = req.params;
+    const documents = await PDF.find({id_candidato: cand_id, tipoDocumento: tipoDoc}).exec();
+    res.json(documents);
+    console.log(documents);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+

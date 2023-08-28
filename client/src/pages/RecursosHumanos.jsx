@@ -14,7 +14,7 @@ import '../styles/estilos.css';
 import { Sidebar } from "../components/SidebarRH";
 import { Typography } from '@mui/material';
 
-function  RecursosHumanos({ handleAuthentication }) {
+function RecursosHumanos({ handleAuthentication }) {
 
   const [solicitudes, setSolicitudes] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -31,7 +31,7 @@ function  RecursosHumanos({ handleAuthentication }) {
         console.error('Error al obtener solicitudes:', error);
       });
 
-   
+
   }, []);
 
   const handleAcceptClick = (id) => {
@@ -52,7 +52,7 @@ function  RecursosHumanos({ handleAuthentication }) {
         console.error('Error al aprobar la solicitud:', error);
       });
   };
-  
+
   const handleRejectClick = (id) => {
     // Llamar al endpoint para rechazar la solicitud
     axios.put(`http://localhost:5000/solicitudes/${id}/rechazar`)
@@ -73,19 +73,20 @@ function  RecursosHumanos({ handleAuthentication }) {
   };
 
 
-  
+
 
   const handleViewClick = (id) => {
     const selected = solicitudes.find(solicitud => solicitud.sol_id === id);
     setSelectedSolicitud(selected);
     setIsModalOpen(true);
+    console.log(id);
   };
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
   };
 
-  
+
 
   const filteredSolicitudes = solicitudes.filter(solicitud => {
     const searchTextLower = searchText.toLowerCase();
@@ -97,29 +98,41 @@ function  RecursosHumanos({ handleAuthentication }) {
       return false;
     });
   });
-//de aqui va la logica de los bonotes de descarga 
-const handleDocumentDownload = (documentLink) => {
-  // Implement your download logic here using the provided documentLink
-  // For example, you can use window.location.href or other methods to trigger the download.
-  // Replace the following alert with your actual download logic.
-  alert(`Downloading document from link: ${documentLink}`);
-};
-  
+  //de aqui va la logica de los bonotes de descarga 
+  const handleDocumentDownload = (cand_id, tipoDoc) => {
+    axios.get(`http://localhost:5000/documentos/${cand_id}/${tipoDoc}`)
+      .then(response => {
+        //console.log(response.data[0].pdfPath)
+        const archivo = response.data[0].pdfPath;
+        const pdfPath = archivo.split('\\');
+        const pdfName = 'http://localhost:5000/uploads/' + pdfPath[pdfPath.length - 1];
+        console.log(pdfName);
+        //const blob = new Blob([response.data[0].pdfPath], { type: 'application/pdf' });
+        //const url = window.URL.createObjectURL(blob);
+        //console.log(url);
+        //setPdfs([...pdfs, url]);
+        window.open(pdfName, '_blank');
+      })
+      .catch(error => {
+        console.error('Error al descargar el documento:', error);
+      });
+  };
+
   const columns = [
     { field: 'checkboxSelection', headerName: '', width: 50, headerClassName: 'green-header', cellClassName: 'green-cell' },
-    { field: 'cand_id', headerName: 'Candidato ID', width: 150 , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'sol_id', headerName: 'Solicitud ID', width: 120 , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    
+    { field: 'cand_id', headerName: 'Candidato ID', width: 150, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'sol_id', headerName: 'Solicitud ID', width: 120, headerClassName: 'green-header', cellClassName: 'green-cell' },
+
     { field: 'sol_aprobacion', headerName: 'Aprobación', width: 150, valueGetter: params => params.row.sol_aprobacion ? 'Aprobada' : 'No aprobada', headerClassName: 'green-header', cellClassName: 'green-cell' },
-    { field: 'ofe_id', headerName: 'Oferta ID', width: 150 , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'cand_nombre1', headerName: 'Nombre', width: 100 , headerClassName: 'green-header', cellClassName: 'green-cell' },
-    { field: 'cand_tipo_identificacion', headerName: 'Identificación', width: 150  , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'cand_num_identificacion', headerName: 'Cedula', width: 150  , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'cand_titulo', headerName: 'Título', width: 150  , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'cand_fecha_nacimiento', headerName: 'Fecha de Nacimiento', width: 200  , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'cand_sexo', headerName: 'Sexo', width: 100  , headerClassName: 'green-header', cellClassName: 'green-cell'},
-    { field: 'cand_correo', headerName: 'Correo Electrónico', width: 250  , headerClassName: 'green-header', cellClassName: 'green-cell' },
-    
+    { field: 'ofe_id', headerName: 'Oferta ID', width: 150, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_nombre1', headerName: 'Nombre', width: 100, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_tipo_identificacion', headerName: 'Identificación', width: 150, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_num_identificacion', headerName: 'Cedula', width: 150, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_titulo', headerName: 'Título', width: 150, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_fecha_nacimiento', headerName: 'Fecha de Nacimiento', width: 200, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_sexo', headerName: 'Sexo', width: 100, headerClassName: 'green-header', cellClassName: 'green-cell' },
+    { field: 'cand_correo', headerName: 'Correo Electrónico', width: 250, headerClassName: 'green-header', cellClassName: 'green-cell' },
+
     {
       field: 'Acciones',
       headerName: 'Acciones',
@@ -127,43 +140,43 @@ const handleDocumentDownload = (documentLink) => {
       headerClassName: 'green-header',
       cellClassName: 'green-cell',
       renderCell: (params) => (
-       
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleAcceptClick(params.row.sol_id)}
-              style={{ backgroundColor: '#009688', color: 'white' }}
-            >
-              Aceptar
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleRejectClick(params.row.sol_id)}
-              style={{ backgroundColor: '#4caf50', color: 'white' }}
-            >
-              Rechazar
-            </Button>
-            <Button
+
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleAcceptClick(params.row.sol_id)}
+            style={{ backgroundColor: '#009688', color: 'white' }}
+          >
+            Aceptar
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleRejectClick(params.row.sol_id)}
+            style={{ backgroundColor: '#4caf50', color: 'white' }}
+          >
+            Rechazar
+          </Button>
+          <Button
             variant="contained"
             onClick={() => handleViewClick(params.row.sol_id)}
             style={{ backgroundColor: '#8bc34a', color: 'white' }}
           >
             Ver Información
           </Button>
-           
-          </div>
+
+        </div>
       ),
     },
   ];
-  
+
   const handleCloseModal = () => {
     setSelectedSolicitud(null);
     setIsModalOpen(false);
   };
-  
-  
+
+
 
   return (
     <div className='app-container' style={{ height: 600, width: '100%' }}>
@@ -201,162 +214,162 @@ const handleDocumentDownload = (documentLink) => {
               <h2>Documentos </h2>
               <List style={{ width: '100%' }}>
                 <ListItem >
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Hoja de vida 
-                    </Typography>
-                  }
-                />
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Hoja de vida
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Hoja de vida formato ESPE')}
                   >
-                    
+
                   </Button>
                 </ListItem>
                 <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Copia de cédula
-                    </Typography>
-                  }
-                />
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Copia de cédula
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Copia de cédula')}
                   >
-                    
+
                   </Button>
                 </ListItem>
                 <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Certificado de votación
-                    </Typography>
-                  }
-                />
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Certificado de votación
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Certificado de votación')}
                   >
-                    
+
                   </Button>
                 </ListItem>
                 <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Certificado de registro de titulo 
-                    </Typography>
-                  }
-                />
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Certificado de registro de titulo
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Certificado de registro de título')}
                   >
-                  
+
                   </Button>
                 </ListItem>
                 <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Experiencia laboral
-                    </Typography>
-                  }
-                />
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Experiencia laboral
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Experiencia profesional')}
                   >
-                    
-                  </Button>
-                </ListItem>
-               
-                <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Experiencia de docente
-                    </Typography>
-                  }
-                />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
-                  >
-                   
+
                   </Button>
                 </ListItem>
 
-                
                 <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                     Certificado de no tener impedimento de ejercer cargo público
-                    </Typography>
-                  }
-                />
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Experiencia de docente
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Experiencia de docente')}
                   >
-                  
+
                   </Button>
                 </ListItem>
+
+
                 <ListItem>
-                <ListItemText
-                  primary={
-                    <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
-                      Certificado de no tener responsabilidades administrativas
-                    </Typography>
-                  }
-                />
-                  
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Certificado de no tener impedimento de ejercer cargo público
+                      </Typography>
+                    }
+                  />
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SimCardDownloadIcon />}
-                    onClick={() => handleDocumentDownload('link_to_hoja_de_vida')}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Certificado de no tener impedimento de ejercer cargo público')}
                   >
-                    
+
                   </Button>
                 </ListItem>
-               
-               
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1" style={{ fontFamily: 'Century Gothic', fontSize: '16px' }}>
+                        Certificado de no tener responsabilidades administrativas
+                      </Typography>
+                    }
+                  />
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SimCardDownloadIcon />}
+                    onClick={() => handleDocumentDownload(selectedSolicitud.cand_id, 'Certificado de no tener responsabilidades administrativas')}
+                  >
+
+                  </Button>
+                </ListItem>
+
+
               </List>
-             
-            
+
+
               <Button variant="contained" onClick={handleCloseModal}
                 style={{ backgroundColor: '#009688', color: 'white', marginTop: '16px', marginLeft: '150px', fontFamily: 'Berlin Sans FB' }}
               >
-            
+
                 Cerrar
               </Button>
-              
+
             </div>
           )}
-          
+
         </Box>
-        
+
       </Modal>
     </div>
   );

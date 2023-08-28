@@ -105,8 +105,6 @@ export function DatosPersonales({ handleAuthentication }) {
     setShowCodigomModal(true);
   };
 
-
-
   // Lógica de Correos
   useEffect(() => emailjs.init("v9ol_j_QrnHrLw2MK"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
 

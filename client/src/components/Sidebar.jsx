@@ -35,6 +35,8 @@ export function Sidebar({ sidebarOpen, setSidebarOpen, handleAuthentication}) {
     localStorage.removeItem("id_candidato");
     localStorage.removeItem("Tipo");
     localStorage.removeItem("email");
+    localStorage.removeItem("nombre_candidato");
+    localStorage.removeItem("apellido_candidato");
     navigate("/");
   };
 

@@ -37,6 +37,7 @@ export function DatosPersonales({ handleAuthentication }) {
   const [apellido1Reg, setApellido1Reg] = useState();
   const [apellido2Reg, setApellido2Reg] = useState();
   const [userConfirmationCode, setUserConfirmationCode] = useState('');
+  const [confirmationCode, setConfirmationCode] = useState('');
 
   const generateConfirmationCode = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -47,8 +48,6 @@ export function DatosPersonales({ handleAuthentication }) {
     }
     return code;
   };
-
-  const confirmationCode = generateConfirmationCode();
 
   const handleNombreCompletoChange = (e) => {
     const value = e.target.value;
@@ -76,6 +75,8 @@ export function DatosPersonales({ handleAuthentication }) {
         cand_apellido2: apellido2Reg,
       });
       localStorage.setItem("auth", "yes");
+      localStorage.setItem("nombre_candidato", nombre1Reg);
+      localStorage.setItem("apellido_candidato", apellido1Reg);
       navigate("/home")
       handleAuthentication(true);
       console.log(response);
@@ -114,6 +115,8 @@ export function DatosPersonales({ handleAuthentication }) {
     const templateId = "template_3hhh20g"; // Replace with your actual template ID
     try {
       setLoading(true);
+      const newConfirmationCode = generateConfirmationCode();
+      setConfirmationCode(newConfirmationCode);
       const response = await emailjs.send(
         serviceId,
         templateId,
@@ -122,12 +125,11 @@ export function DatosPersonales({ handleAuthentication }) {
           recipient: nameRef.current.value,
           cedula: cedula,
           titulo: tituloRef.current.value,
-          confirmationCode: confirmationCode,
+          CodigoConfirmacion: newConfirmationCode,
         }
       );
       if (response.status === 200) {
         //alert("Email successfully sent, check your inbox.");
-        navigate("/home");
       } else {
         console.log("Error sending email:", response.text);
         //alert("Failed to send the email. Please try again later.");
@@ -143,6 +145,7 @@ export function DatosPersonales({ handleAuthentication }) {
   const handleAcceptClick = () => {
     handleCodigoClick(); // Llama a la función Codigo
     handleSubmit(); // Llama a la función handleSubmit
+    setShowConfirmModal(false)
   };
 
   const handleAcceptCodigoClick = () => {
@@ -368,7 +371,6 @@ export function DatosPersonales({ handleAuthentication }) {
           <input
             className="form-datos"
             type="text"
-            value={userConfirmationCode}
             onChange={(e) => setUserConfirmationCode(e.target.value)}
           />
         </div>

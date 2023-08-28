@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import '../styles/estilos.css';
 import { Sidebar } from "../components/SidebarRH";
 import { Typography } from '@mui/material';
+import emailjs from "@emailjs/browser";
 
 function RecursosHumanos({ handleAuthentication }) {
 
@@ -30,9 +31,38 @@ function RecursosHumanos({ handleAuthentication }) {
       .catch(error => {
         console.error('Error al obtener solicitudes:', error);
       });
-
-
   }, []);
+  
+
+  // Lógica de Correos
+  useEffect(() => emailjs.init("v9ol_j_QrnHrLw2MK"), []); // Replace "user_your_emailjs_user_id" with your actual EmailJS user ID
+
+  const handleSubmit = async (nombre, cedula, correo) => {
+    const serviceId = "service_hkqiwpk"; // Replace with your actual service ID
+    const templateId = "template_d5w84w4"; // Replace with your actual template ID
+    try {
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          to_name: correo,
+          recipient: nombre,
+          cedula: cedula
+        }
+      );
+      if (response.status === 200) {
+        console.log('Correo Enviado!')
+        //alert("Email successfully sent, check your inbox.");
+      } else {
+        console.log("Error sending email:", response.text);
+        //alert("Failed to send the email. Please try again later.");
+      }
+    } catch (error) {
+      console.log("Error sending email:", error);
+      //alert("Failed to send the email. Please try again later.");
+    } finally {
+    }
+  };
 
   const handleAcceptClick = (id) => {
     // Llamar al endpoint para aprobar la solicitud
@@ -145,7 +175,7 @@ function RecursosHumanos({ handleAuthentication }) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => handleAcceptClick(params.row.sol_id)}
+            onClick={() => {handleAcceptClick(params.row.sol_id);handleSubmit(params.row.cand_nombre1, params.row.cand_num_identificacion, params.row.cand_correo)}}
             style={{ backgroundColor: '#009688', color: 'white' }}
           >
             Aceptar

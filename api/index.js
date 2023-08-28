@@ -303,6 +303,23 @@ app.get("/candidatos", async (req, res) => {
   }
 });
 
+app.get("/candidatos/:cand_id", async (req, res) => {
+  const { cand_id } = req.params;
+  try {
+    // Realiza la consulta para obtener todos los candidatos de la base de datos
+    const query = "SELECT cand_correo FROM public.candidato where cand_id = $1;";
+    const values = [cand_id];
+    const result = await pool.query(query, values);
+    const candidatos = result.rows;
+
+    return res.status(200).json(candidatos);
+  } catch (error) {
+    console.error("Error al obtener candidatos:", error);
+    return res.status(500).json({ message: "Error al obtener candidatos" });
+  }
+});
+
+
 app.post("/api/candidatos", (req, res) => {
   const cand_tipo_identificacion = req.body.cand_tipo_identificacion;
   const cand_num_identificacion = req.body.cand_num_identificacion;
@@ -521,3 +538,18 @@ app.get('/documentos/:cand_id/:tipoDoc', async (req, res) => {
   }
 });
 
+app.get("/ofertas/:oferta_id", async (req, res) => {
+  const { oferta_id } = req.params;
+  try {
+    // Realiza la consulta para obtener todos los candidatos de la base de datos
+    const query = "SELECT cand_correo FROM public.candidato where cand_id = $1;";
+    const values = [cand_id];
+    const result = await pool.query(query, values);
+    const candidatos = result.rows;
+
+    return res.status(200).json(candidatos);
+  } catch (error) {
+    console.error("Error al obtener candidatos:", error);
+    return res.status(500).json({ message: "Error al obtener candidatos" });
+  }
+});
